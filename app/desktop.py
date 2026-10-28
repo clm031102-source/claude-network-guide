@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 import secrets
 import socket
+import ssl
 import sys
 import tempfile
 import threading
@@ -181,6 +182,11 @@ def self_test() -> dict:
     for name in ("index.html", "app.js", "style.css"):
         if not (web_root() / name).is_file():
             raise RuntimeError("missing bundled UI resource")
+    # Validate TLS runtime data without making any network request. Some Python
+    # distributions include additional certificate policy files beside ssl.py.
+    tls_context = ssl.create_default_context()
+    if tls_context.verify_mode != ssl.CERT_REQUIRED or not tls_context.check_hostname:
+        raise RuntimeError("default TLS verification is not enabled")
     renderer_libraries = None
     if getattr(sys, "frozen", False) and sys.platform == "win32":
         # Load managed assemblies only: no native window, user profile or scan.
@@ -208,7 +214,8 @@ def self_test() -> dict:
                 raise RuntimeError("owned listener was not released")
     return {"ok": True, "resources": True, "loopback_api": True,
             "server_stopped": True, "network_scan": False, "claude_launched": False,
-            "webview2_available": webview2_installed(), "renderer_libraries": renderer_libraries}
+            "webview2_available": webview2_installed(), "renderer_libraries": renderer_libraries,
+            "tls_context": True, "certificate_validation": True, "hostname_validation": True}
 
 
 def scan_report(path: Path, config_path: Path | None = None):

@@ -26,6 +26,14 @@ class DesktopTests(unittest.TestCase):
         self.assertTrue(result["server_stopped"])
         self.assertFalse(result["network_scan"])
         self.assertFalse(result["claude_launched"])
+        self.assertTrue(result["tls_context"])
+        self.assertTrue(result["certificate_validation"])
+        self.assertTrue(result["hostname_validation"])
+
+    def test_self_test_catches_missing_tls_runtime_data(self):
+        with patch.object(desktop.ssl, "create_default_context", side_effect=FileNotFoundError("policy")):
+            with self.assertRaises(FileNotFoundError):
+                desktop.self_test()
 
     def test_native_navigation_cancels_before_external_open(self):
         guard = desktop.NavigationGuard(None, "http://127.0.0.1:12345")

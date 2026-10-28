@@ -36,6 +36,13 @@ $buildArgs = @(
     "--exclude-module", "cefpython3", "--exclude-module", "tkinter",
     (Join-Path $repoRoot "desktop_entry.py")
 )
+# The bundled Codex Python carries a public CA rejection policy that its ssl.py
+# loads on every SSLContext construction. Preserve that policy when present;
+# official CPython (including setup-python CI) does not require this extra file.
+$tlsPolicy = & $venvPython -c "import pathlib,ssl; print(pathlib.Path(ssl.__file__).with_name('codex-rejected-cas.pem'))"
+if (Test-Path -LiteralPath $tlsPolicy) {
+    $buildArgs += @("--add-data", ($tlsPolicy + ";."))
+}
 Push-Location $repoRoot
 try {
     & $venvPython @buildArgs
