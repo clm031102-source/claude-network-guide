@@ -27,7 +27,9 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          $word = (Get-ChildItem -LiteralPath docs/downloads -Filter *.docx).FullName
+          $wordSource = (Get-ChildItem -LiteralPath docs/downloads -Filter *.docx).FullName
+          $word = Join-Path $PWD 'dist/Claude-Network-Guide.docx'
+          Copy-Item -LiteralPath $wordSource -Destination $word
           gh release view $env:GITHUB_REF_NAME --json tagName *> $null
           if ($LASTEXITCODE -eq 0) {
             gh release upload $env:GITHUB_REF_NAME dist/ClaudeNetworkGuide-Windows-x64.zip dist/SHA256SUMS.txt $word --clobber
