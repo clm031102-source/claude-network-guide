@@ -1,0 +1,66 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: apple-id
+time: About 15 minutes
+for: iPhone and iPad users
+step: 4
+description: Create an Apple ID whose country or region is not mainland China, to download Shadowrocket.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## Why you need it
+
+Shadowrocket isn't in the China App Store. To download it you need an Apple ID set to the US (or another region) and buy it in that region's App Store.
+
+<Callout type="warn" title="Only sign in to the App Store">
+Use the non-China Apple ID **only in the App Store (Media & Purchases)** — **not** in iCloud. Keep your usual account in iCloud; photos and contacts are unaffected.
+</Callout>
+
+## 1. Create the new Apple ID
+
+1. Open [account.apple.com](https://account.apple.com) in a browser and choose to create an Apple Account.
+2. Set "Country or Region" to **United States** (or the region you need).
+3. Use an **email that has never been an Apple ID**, such as your new Gmail.
+4. You can use your own phone number (+86) for verification codes.
+5. Verify the email and phone number as prompted.
+
+<Shot src="apple-account.webp" w={562} h={644} alt="The Create Your Apple Account form" caption="Create Your Apple Account: set Country/Region in the red box to United States." />
+
+## 2. Get a payment method
+
+Shadowrocket is paid (a one-off purchase of about US$3 on the US store). The payment method must match the account's region:
+
+- a bank card from that region, if you have one;
+- otherwise, top up the account balance with an **App Store gift card** for that region — the most reliable way; see [Top up a US Apple ID with a gift card](/en/howto/apple-gift-card/);
+- or try PayPal: [Open PayPal and link it to a US Apple ID](/en/howto/apple-paypal/) (doesn't always work).
+
+## 3. Switch the App Store account on iPhone
+
+1. Open Settings and tap your name at the top.
+2. Go to "Media & Purchases" and choose "Sign Out". **This only signs out of the App Store, not iCloud.**
+3. Open the App Store, tap your avatar at the top right and sign in with the new Apple ID.
+4. Search for **Shadowrocket**, check the developer is Shadow Launch Technology Limited, and buy it.
+
+You can switch back to your usual account afterwards. Updating Shadowrocket later may ask for the non-China Apple ID's password.
+
+<Callout type="ok">
+Shadowrocket is installed, and iCloud still shows your usual account.
+</Callout>
+
+## Stuck?
+
+<Q q="It says this email is already an Apple ID?">
+One email, one Apple ID — use a different email.
+</Q>
+<Q q="Shadowrocket doesn't show up in the App Store?">
+Make sure the App Store shows the non-China account, switched under Media & Purchases — not in iCloud.
+</Q>
+<Q q="Can I borrow someone's non-China Apple ID?">
+Not recommended. The owner can change its password or lock it — and if signed in to iCloud by mistake, it could even be used to lock your device.
+</Q>

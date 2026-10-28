@@ -1,0 +1,10 @@
+---
+// 术语：虚线下划线，悬停或键盘聚焦时出一句话解释；点一下进对应的 Wiki 条目
+import { GLOSSARY, wikiHref, langOf } from "../data/nav.js";
+interface Props { k: string; text?: string }
+const { k, text } = Astro.props;
+const g = GLOSSARY[k];
+if (!g) throw new Error(`GLOSSARY 里没有「${k}」`);
+const lang = langOf(Astro.url.pathname);
+---
+<a class="term" href={wikiHref(g.wiki, lang)} data-tooltip={lang === "en" ? g.en : g.tip}>{text ?? k}</a>

@@ -1,0 +1,174 @@
+---
+layout: ../../layouts/Guide.astro
+step: 3
+need: 服务器 IP、root 密码、SSH 端口；打开的终端
+description: 让 AI 按方案配置服务器，或者自己照着敲命令。完成后桌面上会多一个登录信息文件。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Q from "../../components/Q.astro";
+import Tabs from "../../components/Tabs.astro";
+import Copy from "../../components/Copy.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 这一步做什么
+
+把第 1 步买的服务器配置好：装节点、申请<Term k="证书" />、装 AI 接口、加固安全。两条路线做的事情完全一样，只是谁来敲命令的区别。
+
+做完以后：
+
+- 输入 `ssh 你起的名字` 就能免密登录服务器（用的是<Term k="密钥" />，不再用密码）；
+- 桌面上多一个文件 `我的服务器-你起的名字-订阅和账号.md`，里面有订阅地址、面板和 AI 接口的账号。
+
+**先想好一个名字**，比如 `bwg`、`la1`。只能用英文字母、数字、点和连字符，必须以字母开头。以后就用 `ssh bwg` 登录。
+
+<Tabs id="route" label="选路线" items={[["ai", "让 AI 来配"], ["manual", "自己照着敲"]]}>
+<div slot="ai">
+
+### 1. 把这段话发给 AI
+
+在终端里打开 `claude` 或 `codex`，复制下面这段，**改好 IP 和名字**后发给它：
+
+<Copy id="prompt" title="复制给 AI 的话" code={`请按「Claude 网络指南」方案配置我新买的服务器。
+
+方案地址：https://github.com/clm031102-source/claude-network-guide
+请先把这个项目下载到本机，完整阅读 modules/vps/skills/claude-network-guide/SKILL.md，
+严格按里面的步骤和规则，用项目里的脚本完成部署和验收。
+
+我的服务器：
+- IP：
+- 登录方式：初始密码（请让我在终端里自己输入）
+- SSH 用户名和端口：默认
+- 以后想用这个名字登录：bwg`} />
+
+要改的地方：
+
+- **IP**：填第 1 步记下的服务器 IP。
+- **登录方式**：商家给的是密钥文件的话，改成 `密钥文件：文件路径`（zip 也行）。
+- **用户名和端口**：不是 root 和 22 的，把「默认」改成实际的值。
+- **名字**：`bwg` 换成你想好的名字。
+
+### 2. 按 AI 的提示输入一次密码
+
+AI 会请你在终端里**自己输入**服务器的 root 密码（输入时屏幕不显示，是正常的）。
+
+<Callout type="tip" title="看到以 ! 开头的命令">
+在 Claude Code 里，AI 可能让你输入一条以 `!` 开头的命令。直接把整行粘贴到 Claude Code 的输入框，回车，它会在终端里提示你输入密码。`!` 的意思是「这条命令由你亲自运行」，密码因此不会经过 AI。
+</Callout>
+
+<Callout type="no">
+不要把密码直接发在聊天框里。AI 会给你一条命令，让你自己在终端里输入密码，这样密码不会进入聊天记录。
+</Callout>
+
+### 3. 等它跑完
+
+一般 10 分钟左右。AI 会一个阶段一个阶段地做，每做完一个告诉你进度：基础设置 → 证书 → 节点 → 订阅 → AI 接口 → 自动维护 → 验收。
+
+中间遇到问题，AI 会按方案的排错说明自己修，修好后重跑那一个阶段。你只需要回答它的问题。
+
+AI 下载不了项目的话，可以手动 [下载 ZIP](https://github.com/clm031102-source/claude-network-guide/archive/refs/heads/main.zip) 解压，然后在那段话里加一句「项目已经在：文件夹路径」。
+
+</div>
+<div slot="manual">
+
+下面每一段都是：复制 → 粘贴到终端 → 回车 → 等它结束，再做下一段。**把命令里的 `你的IP` 和 `bwg` 换成你自己的。**
+
+<Callout type="warn" title="全程用同一个终端窗口">
+后面的命令要在「下载方案」进入的那个目录里运行，还用到了 `R=…` 这个变量。中途关了终端的话，重新打开后先运行 <Cmd c="cd claude-network-guide/modules/vps/skills/claude-network-guide" /> 和 <Cmd c="R=scripts/local/remote.sh" />，再接着做。
+</Callout>
+
+### 1. 下载方案
+
+<Copy id="m-clone" lang="bash" title="下载方案并进入目录" code={`git clone https://github.com/clm031102-source/claude-network-guide.git
+cd claude-network-guide/modules/vps/skills/claude-network-guide`} />
+
+Mac 第一次用 `git` 可能会弹窗让你安装「命令行开发者工具」，点安装，装完再运行一次。
+
+### 2. 建立免密登录
+
+<Copy id="m-connect" lang="bash" title="建立免密登录（会让你输入一次 root 密码）" code="bash scripts/local/connect.sh --alias bwg --host 你的IP --port 22 --user root --password-prompt" />
+
+SSH 端口不是 22 的，把 `--port 22` 改成实际端口。看到 `完成：以后用 ssh bwg 登录` 就成功了。
+
+### 3. 选时区
+
+按服务器所在城市选，下一段要用：
+
+| 机房 | 时区 |
+|---|---|
+| 洛杉矶、圣何塞等美国西部 | `America/Los_Angeles` |
+| 纽约等美国东部 | `America/New_York` |
+| 香港 | `Asia/Hong_Kong` |
+| 东京 | `Asia/Tokyo` |
+| 新加坡 | `Asia/Singapore` |
+| 判断不了 | `Etc/UTC` |
+
+### 4. 依次运行配置
+
+<Copy id="m-deploy" lang="bash" title="一段一段运行（也可以整段粘贴）" code={`R=scripts/local/remote.sh
+bash $R bwg upload
+bash $R bwg init --ip 你的IP --alias bwg --timezone America/Los_Angeles
+bash $R bwg base
+bash $R bwg cert
+bash $R bwg xui
+bash $R bwg sub
+bash $R bwg cliproxy
+bash $R bwg maint`} />
+
+每一段跑完会显示 `xxx 完成`，比如 `cert 完成`。客户端默认按每月 1000G 显示流量（正好是推荐的搬瓦工套餐的流量），重置日按开通日自动推算。和你的套餐不一样的话，在 `init` 那一行末尾加上 `--quota-gb 额度 --reset-day 几号`（比如 `--quota-gb 500 --reset-day 1`）。
+
+<Callout type="warn" title="看到「停止：」怎么办">
+某一段停下来时，会显示 `停止：` 和原因。按原因修好后，**重新运行同一段**就行，每一段都可以重复运行。常见原因和修法见 [排错说明](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/skills/claude-network-guide/references/troubleshooting.md)。
+</Callout>
+
+### 5. 验收并保存登录信息
+
+<Copy id="m-verify" lang="bash" title="验收 + 保存登录信息" code={`bash $R bwg verify --full
+bash $R bwg save --lang zh`} />
+
+</div>
+</Tabs>
+
+## 怎么算成功
+
+<Callout type="ok">
+最后显示 `验收：34/34 通过`（每一项都是 PASS），并且出现 `登录信息已保存：…登录信息.md`。
+</Callout>
+
+登录信息文件的位置：
+
+- **Mac**：桌面上的 `我的服务器-名字-订阅和账号.md`。
+- **Windows（WSL）**：WSL 里没有桌面，文件在 Ubuntu 的主目录里。在终端输入 `explorer.exe .` 就能用文件管理器打开这个文件夹。
+
+文件里有：Clash 订阅地址、Shadowrocket 订阅地址、3x-ui 面板账号、CLIProxyAPI 的地址和 Key。**下一步就要用到订阅地址。**
+
+**怎么打开这个文件**：它是一个纯文本文件。Mac 上右键 →「打开方式」→「文本编辑」；Windows 上右键 →「打开方式」→「记事本」。订阅地址是一长串以 `https://` 开头的网址，复制时要整行复制完整。
+
+<Callout type="no">
+这个文件包含全部密码和 Key，只保存在你自己的电脑上，不要发群、截图或上传。
+</Callout>
+
+## 卡住了？
+
+<Q q="证书那一步失败了？">
+最常见的原因是商家的「安全组」或防火墙没有放行 80 端口。到商家后台把 TCP 80 放行，再重跑 `cert`。方案绝不会用自签名证书凑合。
+</Q>
+<Q q="提示系统不支持？">
+只支持 Ubuntu 22.04 以上和 Debian 12 以上。到商家后台重装成 Ubuntu 24.04，见 [后台重装系统为 Ubuntu](/howto/reinstall-os/)。重装后密码会变，用新密码从「建立免密登录」重新开始。
+</Q>
+<Q q="密码明明是对的，密钥登录却失败？">
+有的商家镜像默认关掉了 SSH 密钥登录。新版脚本会自动打开它；用的是旧版的话，更新一下方案再试。
+</Q>
+<Q q="验收有一两项 FAIL？">
+看 FAIL 那一行后面的说明，按说明修好后重跑对应的阶段，再跑一次 `verify --full`。走 AI 路线的，直接让 AI 处理。
+</Q>
+<Q q="重装过系统，ssh 名字连不上了？">
+重装会换掉服务器的身份指纹，有时端口也会变。见 [排错说明](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/skills/claude-network-guide/references/troubleshooting.md) 里「服务商后台重装系统后」那一条。
+</Q>
+
+<Checkpoint id="step3" items={[
+  "验收显示 34/34 通过",
+  "输入 ssh 我起的名字，能直接登录服务器",
+  "我找到了登录信息文件，里面有 Clash 订阅和 Shadowrocket 订阅地址",
+]} />

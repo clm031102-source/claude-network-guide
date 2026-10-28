@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: shadowrocket
+time: About 10 minutes
+for: iPhone and iPad users
+step: 4
+description: Install Shadowrocket, import the Shadowrocket subscription and connect.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## 1. Install
+
+Shadowrocket isn't in the China App Store. Buy it with a non-China Apple ID in another region's App Store (for example the US) — a one-off purchase of about US$3 (check the store page). Make sure the developer is **Shadow Launch Technology Limited**. No such Apple ID? See [Create a non-China Apple ID](/en/howto/apple-id/).
+
+## 2. Import the subscription
+
+1. Open Shadowrocket and tap **+** at the top right.
+2. Set **Type** to **Subscribe**.
+3. Paste the **Shadowrocket subscription URL** from the login-info file (not the Clash one) into **URL**; put your server's name in **Remark** if you like; tap **Done**.
+4. `name-Reality` and `name-TLS` appear; tap `name-Reality` to select it.
+
+## 3. Connect
+
+1. Keep **Global Routing** on the home screen set to **Config** (rule-based) — not "Proxy", which sends every site abroad.
+2. Turn on the connection switch at the top. The first time it asks to add a VPN configuration — tap "Allow" and confirm with Face ID or your passcode.
+
+<Callout type="ok">
+A VPN icon appears in the status bar; ip.net.coffee/claude/ in Safari shows your server's IP.
+</Callout>
+
+## Tips
+
+- Tap the latency number next to a node to test it; pick one with normal latency.
+- In the subscription settings you can turn on automatic updates (such as "update on open") so subscription changes sync automatically.
+
+## Stuck?
+
+<Q q="Nodes time out after importing?">
+First check your network can reach the server: switch to mobile data or another Wi-Fi. Then try the other node (`name-TLS`).
+</Q>
+<Q q="I added the Clash subscription URL by mistake?">
+Delete it and add the one labelled "Shadowrocket (iPhone)" in the login-info file.
+</Q>

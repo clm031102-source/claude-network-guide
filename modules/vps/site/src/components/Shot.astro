@@ -1,0 +1,12 @@
+---
+// 配图：截图或 GIF，带说明和截图日期。图在 public/img/。截图里的 IP、账号信息都已打码或换成示例地址。
+import { link, langOf } from "../data/nav.js";
+interface Props { src: string; alt: string; caption?: string; w: number; h: number; date?: string }
+const { src, alt, caption, w, h, date = "2026-10" } = Astro.props;
+const en = langOf(Astro.url.pathname) === "en";
+const stamp = en ? `Screenshot ${date}; the interface may have changed since.` : `截图于 ${date}，界面以实际为准。`;
+---
+<figure class="shot">
+  <img src={link(`/img/${src}`)} alt={alt} width={w} height={h} loading="lazy" decoding="async" />
+  <figcaption>{caption && <span>{caption}</span>} <span class="shot__stamp">{stamp}</span></figcaption>
+</figure>

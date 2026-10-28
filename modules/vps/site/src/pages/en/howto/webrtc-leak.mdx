@@ -1,0 +1,48 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: webrtc-leak
+time: 5 minutes
+for: Windows and Mac users
+step: 5
+description: Check whether the browser’s WebRTC exposes your real IP. The fix is Tun Mode — not disabling WebRTC.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## How to test
+
+1. Open [browserleaks.com/webrtc](https://browserleaks.com/webrtc).
+2. "RTCPeerConnection" should show ✔ — WebRTC works normally.
+3. "Public IP Address" should be your server's IP.
+
+<Shot src="browserleaks-webrtc.webp" w={931} h={139} alt="Example browserleaks WebRTC result" caption="Two parts of browserleaks: RTCPeerConnection shows ✔, and Public IP Address is the server IP (replaced with an example here)." />
+
+The "WebRTC UDP leak test" on [ip.net.coffee/claude/](https://ip.net.coffee/claude/) works too.
+
+| You see | Meaning |
+|---|---|
+| ✔ and the public IP is your server | No leak, and WebRTC works |
+| ✔ but the public IP is Chinese | A leak — most likely only System Proxy is on |
+| ✘, or no IP detected | WebRTC is disabled or restricted — **not fixed** |
+
+## A leak: turn on Tun Mode
+
+Follow [Turn on TUN mode](/en/howto/clash-verge-tun/), then **fully quit the browser** and test again.
+
+## WebRTC is disabled: restore it
+
+Undo any earlier "anti-leak" extensions or settings:
+
+- **Chrome / Edge**: open `chrome://extensions` (Edge: `edge://extensions`) and remove extensions with WebRTC in the name; with uBlock Origin, untick "Prevent WebRTC from leaking local IP addresses" in its settings.
+- **Firefox**: open `about:config`, search `media.peerconnection` and click "Reset" on each bold (modified) entry.
+
+<Callout type="no">
+Don't "fix" leaks with extensions or settings that disable WebRTC. That breaks video meetings and voice calls on web pages.
+</Callout>
+
+The full troubleshooting guide an AI assistant can follow (with test commands and a fault table): [Clash Verge WebRTC leak fix guide](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/docs/Clash-Verge-WebRTC泄露修复手册.md) (in Chinese).

@@ -1,0 +1,6 @@
+---
+import V from "../../views/WikiEntry.astro";
+import { WIKI } from "../../data/wiki.js";
+export function getStaticPaths() { return WIKI.map((w) => ({ params: { slug: w.slug } })); }
+---
+<V slug={Astro.params.slug} />

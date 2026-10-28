@@ -1,0 +1,17 @@
+---
+// 标签页：按设备或路线切换同一处内容。用法：
+// <Tabs id="os" items={[["win","Windows"],["mac","Mac"]]}><div slot="win">…</div><div slot="mac">…</div></Tabs>
+interface Props { id: string; items: [string, string][]; label?: string }
+const { id, items, label = "选择" } = Astro.props;
+const html = await Promise.all(items.map(([key]) => Astro.slots.render(key)));
+---
+<div class="tabs-block">
+  <div class="xxd-tabs" role="tablist" aria-label={label} data-xxd-tabs>
+    {items.map(([key, text], i) => (
+      <button role="tab" id={`${id}-t-${key}`} aria-controls={`${id}-p-${key}`} aria-selected={i === 0 ? "true" : "false"}>{text}</button>
+    ))}
+  </div>
+  {items.map(([key], i) => (
+    <div class="xxd-tabpanel tabs-block__panel" role="tabpanel" id={`${id}-p-${key}`} aria-labelledby={`${id}-t-${key}`} hidden={i !== 0} set:html={html[i]} />
+  ))}
+</div>

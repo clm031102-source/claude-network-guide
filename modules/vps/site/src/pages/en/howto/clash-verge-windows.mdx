@@ -1,0 +1,67 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: clash-verge-windows
+time: About 10 minutes
+for: Windows users
+step: 4
+description: Install Clash Verge Rev on Windows, import the Clash subscription and turn on Tun Mode.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## 1. Which installer to download
+
+Open the official releases page [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases) and, under the latest version's files, look for:
+
+| Your computer | Download |
+|---|---|
+| Most Windows PCs (Intel or AMD processors) | The file ending in `_x64-setup.exe` |
+| Windows PCs with ARM processors (e.g. Snapdragon) | The file ending in `_arm64-setup.exe` |
+| Installed but won't open, complaining about WebView2 | The version with `fixed_webview2` in its name |
+
+Not sure which you have: Settings → System → About, see "System type".
+
+<Shot src="clash-verge-download.webp" w={1214} h={367} alt="The download section of the Clash Verge Rev release notes" caption="The release notes' download section (下载地址): on Windows click 64位(常用) — 64-bit, common." />
+
+## 2. Install
+
+Double-click the downloaded file and click through "Next". If Windows shows a security warning, choose "Run anyway".
+
+## 3. Import the subscription
+
+1. Open Clash Verge and click **Profiles** on the left.
+2. Paste the **Clash subscription URL** from the login-info file into the "Profile URL" box and click **Import**.
+3. Click the new profile card so it becomes selected.
+
+## 4. Choose Rule mode
+
+Click **Proxies** on the left and choose **Rule** at the top. Both nodes, `name-Reality` and `name-TLS`, are listed here.
+
+## 5. Turn on Tun Mode
+
+1. Click **Settings** on the left and turn on **Tun Mode**. When it says the service is required, click **Install Service** and click "Yes" in the administrator prompt.
+2. Click the gear next to Tun Mode, turn on **Strict Route** and save.
+3. In the Clash settings, keep **DNS Overwrite** off; set **IPv6** by whether your network has IPv6 — see [IPv6 on or off](/en/howto/clash-verge-tun/#ipv6-on-or-off).
+
+Why, and more details: [Turn on TUN mode](/en/howto/clash-verge-tun/).
+
+<Callout type="ok">
+Home shows "TUN Mode Enabled"; ip.net.coffee/claude/ in your browser shows your server's IP.
+</Callout>
+
+## Stuck?
+
+<Q q="Importing the subscription fails?">
+Check you pasted the Clash subscription URL (not the Shadowrocket one), complete. Still failing? Open the URL in a browser — if it opens, the server is fine.
+</Q>
+<Q q="Installing the service fails?">
+Right-click Clash Verge, choose "Run as administrator", then turn on Tun Mode (no service needed this way).
+</Q>
+<Q q="With Tun Mode on, no site loads?">
+Quit other VPNs and game boosters; allow Clash Verge if Windows Firewall asks; still failing, turn off Strict Route and try again.
+</Q>

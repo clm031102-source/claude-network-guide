@@ -1,0 +1,85 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: apple-paypal
+time: 约 20 分钟
+for: 想用 PayPal 给美区 Apple ID 付款的人
+description: 从注册 PayPal 个人账户、绑卡、实名，到在 iPhone 上把 PayPal 添加为美区 Apple ID 的付款方式；不一定成功，失败就改用礼品卡。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 先说清楚：这条路不一定能走通
+
+用**在中国大陆注册的 PayPal**（绑国内银行卡）给**美区 Apple ID** 付款，社区里有人成功，也有人添加或付款时报错。苹果和 PayPal 都没有公开说明这种组合是否支持，规则也可能随时变。
+
+所以建议：
+
+- 先准备好 [礼品卡](/howto/apple-gift-card/) 这条稳妥的路；
+- PayPal 当作补充，试一次，不行就换回礼品卡，**不要反复尝试**，以免触发 PayPal 或苹果的风控。
+
+<Callout type="warn" title="如实填写资料">
+PayPal 要实名，注册资料要和身份证、银行卡一致；Apple ID 的账单信息也请按页面要求如实填写。用假信息注册，账号随时可能被限制，里面的钱也可能被冻结。
+</Callout>
+
+## 1. 注册 PayPal 个人账户
+
+1. 打开 [paypal.com](https://www.paypal.com)，地区是中国时会进入 PayPal 中国的页面。点「注册」，选「**个人账户**」。
+2. 填邮箱（建议用常用的邮箱，比如 Gmail）、设置密码。
+3. 填**真实姓名**（和身份证一致，用汉字）、手机号（+86）、地址。
+4. 按提示验证邮箱、手机号。
+
+<Callout type="ok">
+能登录 PayPal，账户首页没有「请验证邮箱」之类的提示。
+</Callout>
+
+## 2. 绑定银行卡
+
+1. 登录 PayPal，进入「**钱包**」→「**关联卡**」（添加借记卡或信用卡）。
+2. 填卡号、有效期、安全码和账单地址（和银行预留的一致）。
+3. 按提示完成验证：可能是短信验证码，也可能是一笔小额扣款，要你填写金额或代码来确认。
+
+- 很多用户反馈**银联卡可以绑**；带 Visa、Mastercard 标志的信用卡更通用。
+- 卡要开通**网上支付**和**境外支付**，不然验证或付款会被银行拦截。
+
+## 3. 完成实名认证
+
+PayPal 中国支持用**身份证**完成个人实名认证。在账户里看到认证提示时按步骤上传，完成后账户受限的概率更低。
+
+## 4. 在 iPhone 上把 PayPal 加到美区 Apple ID
+
+1. 确认 App Store 登录的是**美区 Apple ID**（还没有就看 [注册境外 Apple ID](/howto/apple-id/)）。
+2. 打开「设置」→ 点最上面你的名字 →「**付款与配送**」（Payment & Shipping）。只在 App Store 登录美区账号时，入口在「设置 → 你的名字 → 媒体与购买项目 → 查看账户 → 管理付款方式」。
+3. 点「**添加付款方式**」→ 选 **PayPal** → 跳转后登录你的 PayPal 并同意授权。
+4. 回到页面，PayPal 出现在付款方式列表里。
+
+<Callout type="ok">
+付款方式列表里显示 PayPal 和你的 PayPal 邮箱。
+</Callout>
+
+## 5. 买一个东西试试
+
+先买一个便宜的，比如 Shadowrocket（约 3 美元），确认 PayPal 能正常扣款。成功了，再去 [订阅 Claude](/howto/claude-app-store/) 之类的。
+
+账户里同时有礼品卡余额时，苹果会**先扣余额**，不够的部分再扣 PayPal。
+
+## 卡住了？
+
+<Q q="添加 PayPal 时报错，或者付款时提示「付款方式被拒绝」？">
+这就是开头说的不确定性：这种组合可能不被支持。不要反复尝试，删掉 PayPal，改用 [礼品卡](/howto/apple-gift-card/)。
+</Q>
+<Q q="PayPal 绑卡失败？">
+确认卡开通了网上支付和境外支付、账单地址和银行预留的一致；换一张 Visa 或 Mastercard 信用卡试试，或者打电话问发卡银行。
+</Q>
+<Q q="PayPal 账户被限制了？">
+登录 PayPal，在「消息中心」或账户首页查看原因，按要求补充资料（通常是实名、地址或交易说明）。资料要真实。
+</Q>
+<Q q="以后不想用 PayPal 了？">
+在「付款与配送」里删除 PayPal；还可以在 PayPal 的「设置 → 付款 → 自动付款」里取消对 Apple 的授权。
+</Q>
+
+<Checkpoint id="apple-paypal" items={[
+  "PayPal 注册好了，邮箱、手机号验证完，绑了卡",
+  "美区 Apple ID 的付款方式里出现了 PayPal",
+  "用 PayPal 成功买了一个小东西；或者失败后我改用了礼品卡",
+]} />

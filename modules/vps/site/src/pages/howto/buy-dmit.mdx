@@ -1,0 +1,38 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: buy-dmit
+time: 20–30 分钟
+for: 买服务器的人
+step: 1
+description: 在 DMIT 购买服务器。DMIT 经常缺货，买不到就选搬瓦工。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+DMIT 的线路也不错，但热门套餐经常缺货。**买不到不用等**，直接买 [搬瓦工](/howto/buy-bandwagonhost/)。
+
+## 1. 下单
+
+1. 打开 [DMIT](https://www.dmit.io/)（作者的邀请链接，佣金用于慈善相关工作；价格和库存以官网为准）。
+2. 选机房：一般选**洛杉矶**（LAX）。
+3. 选套餐和付款周期。下单页如果能选操作系统，选 **Ubuntu 24.04**。
+4. 注册账号、付款。
+
+## 2. 找到服务器信息
+
+1. 登录 DMIT 客户中心，进入「我的服务」（My Services）之类的列表，点开刚买的服务器。
+2. 在服务器详情页找到 **IP 地址**、**root 密码**（或「显示密码」按钮）。SSH 端口一般是 22。
+3. 同一页一般有重装系统（Reinstall）、重置密码、控制台（Console / VNC）等按钮，以后会用到。
+
+<Callout type="ok">
+服务器在运行，你已经记下了 IP、root 密码、SSH 端口，系统是 Ubuntu 22.04 以上或 Debian 12 以上。
+</Callout>
+
+## 卡住了？
+
+<Q q="页面显示缺货（Out of Stock）？">
+DMIT 补货时间不固定。不想等就换搬瓦工，这套方案在两家都测试过。
+</Q>

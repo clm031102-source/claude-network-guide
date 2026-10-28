@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- launchd 模板: 安装程序会替换 __HOME__ 后安装到 ~/Library/LaunchAgents(用户态运行,不再使用 root) -->
+<plist version="1.0"><dict>
+	<key>Label</key><string>local.claude-update</string>
+	<key>ProgramArguments</key><array><string>/bin/bash</string><string>__HOME__/.local/bin/claude-switch.sh</string><string>update</string><string>--auto</string></array>
+	<key>StartInterval</key><integer>43200</integer>
+	<key>RunAtLoad</key><false/>
+</dict></plist>

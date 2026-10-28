@@ -1,0 +1,150 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 4
+need: The subscription URLs from your login-info file
+description: Install an app on your computer, phone or router and import the subscription.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Shot from "../../../components/Shot.astro";
+
+## What this step is
+
+Install an app on each device you'll use and import the <Term k="订阅" text="subscription" /> URL. The app then picks up both <Term k="节点" text="nodes" /> and all the <Term k="分流" text="routing" /> rules.
+
+The login-info file has two subscription URLs — **don't mix them up**:
+
+| Subscription URL | For |
+|---|---|
+| The Clash Verge Rev / OpenClash / Mihomo row | Computers (Windows, Mac), Android, routers |
+| The Shadowrocket (iPhone) row | iPhone, iPad |
+
+<Tabs id="dev" label="Your device" items={[["pc", "Windows / Mac"], ["ios", "iPhone / iPad"], ["android", "Android"], ["router", "Router"]]}>
+<div slot="pc">
+
+### 1. Install Clash Verge Rev
+
+Download the latest version from the official releases page [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases), choosing the file for your system and chip. Which file: see the [Windows](/en/howto/clash-verge-windows/) and [Mac](/en/howto/clash-verge-mac/) how-tos.
+
+<Shot src="clash-verge-download-en.gif" w={924} h={606} alt="Four steps to find the installer on the Clash Verge Rev releases page" caption="Animation: finding the right installer on the official releases page." />
+
+<Callout type="warn">
+Make sure it's **Clash Verge Rev**. The old Clash for Windows is discontinued and can't open this subscription.
+</Callout>
+
+### 2. Import the subscription
+
+1. Open Clash Verge and click **Profiles** on the left.
+2. Paste the **Clash subscription URL** into the "Profile URL" box at the top and click **Import**.
+3. Click the new profile card so it becomes the selected one.
+
+### 3. Choose Rule mode and turn on Tun Mode
+
+1. Click **Proxies** on the left and choose **Rule** mode at the top.
+2. Click **Settings** on the left and turn on **<Term k="虚拟网卡" text="Tun Mode" />**. The first time it says the service is required — click **Install Service**; on Windows click "Yes", on Mac enter your login password.
+3. Windows only: click the gear next to Tun Mode, turn on **Strict Route** and save.
+
+Why Tun Mode, and more details: [Turn on TUN mode](/en/howto/clash-verge-tun/).
+
+<Callout type="tip">
+On a computer, **Clash Verge Rev is recommended**. If you already use v2rayN it works too, but it gets only the nodes, not this setup's routing rules — see [v2rayN (alternative)](/en/howto/v2rayn/).
+</Callout>
+
+<Callout type="ok">
+Home shows "TUN Mode Enabled", and Proxies lists both nodes: `name-Reality` and `name-TLS`.
+</Callout>
+
+<Callout type="tip" title="Using both Windows and Mac?">
+That's fine — import the same Clash subscription and use the same settings on both. But one computer being set up doesn't mean the other is, so **check each one carefully**:
+
+- both are in Rule mode, with Tun Mode on and the service installed;
+- **Windows only** has one extra step: Strict Route on;
+- DNS Overwrite is off on both;
+- set the IPv6 switch after checking **the network that computer is on right now** — the two may differ;
+- fully quit and reopen the browser on each, and test for leaks on each at [ip.net.coffee/claude](/en/howto/check-ip/).
+</Callout>
+
+</div>
+<div slot="ios">
+
+### 1. Install Shadowrocket
+
+Shadowrocket isn't in the China App Store. Buy it from another region's App Store (for example the US) with a **non-China Apple ID** — a one-off purchase of about US$3. No such Apple ID? See [Create a non-China Apple ID](/en/howto/apple-id/).
+
+<Callout type="warn">
+Check the developer is Shadow Launch Technology Limited — avoid look-alike copycat apps.
+</Callout>
+
+### 2. Import the subscription
+
+1. Open Shadowrocket and tap **+** at the top right.
+2. Set **Type** to **Subscribe**.
+3. Paste the **Shadowrocket subscription URL** from the login-info file into **URL** and tap **Done**.
+4. Two nodes appear; tap one (preferably `name-Reality`) to select it.
+
+### 3. Connect
+
+Turn on the connection switch at the top. The first time it asks to add a VPN configuration — tap "Allow".
+
+More: [Shadowrocket (iPhone, iPad)](/en/howto/shadowrocket/).
+
+<Callout type="ok">
+A VPN icon appears in the status bar, and the selected node in Shadowrocket shows a latency number.
+</Callout>
+
+</div>
+<div slot="android">
+
+### 1. Install an app
+
+We recommend **FlClash** or **Clash Meta for Android**, both open source. Download the APK from their official GitHub releases page — see [Android apps](/en/howto/android/).
+
+### 2. Import the subscription
+
+Find "Profiles" (or "Subscriptions") in the app, choose "Import from URL", paste the **Clash subscription URL** (the same one your computer uses), save and select it.
+
+### 3. Connect
+
+Go back to the home screen and turn it on. The first time it asks to create a VPN connection — tap "OK". Choose Rule mode.
+
+<Callout type="ok">
+A key or VPN icon appears in the status bar, and the app shows both nodes.
+</Callout>
+
+</div>
+<div slot="router">
+
+On a router, use **OpenClash** (the router must run OpenWrt), so every device at home is covered without installing apps. This is advanced — see [OpenClash on a router (advanced)](/en/howto/openclash/).
+
+It uses the same **Clash subscription URL**. Rule files are downloaded from your own server, so the router never needs GitHub.
+
+</div>
+</Tabs>
+
+<Callout type="no">
+Don't share your subscription URL or screenshots of it. The URL is the key to your line.
+</Callout>
+
+## Stuck?
+
+<Q q="Import fails, or no nodes appear?">
+Check you pasted the right URL (Clash subscription for computers, Shadowrocket subscription for iPhone), complete and without extra spaces. Still stuck? Open the URL in a browser: if a long block of text appears, the server is fine and the issue is in the app; if it doesn't open, your current network can't reach the server.
+</Q>
+<Q q="With Tun Mode on, no site loads?">
+Quit other VPNs, game boosters and company VPNs first — they fight over the same virtual network interface. Allow Clash Verge if Windows Firewall asks. Still failing? Turn off Strict Route and try again.
+</Q>
+<Q q="“TUN Mode Service Required”, but installing the service fails?">
+On Windows, right-click Clash Verge and "Run as administrator", then turn on Tun Mode. More cases: [Turn on TUN mode](/en/howto/clash-verge-tun/).
+</Q>
+<Q q="Can my phone and computer connect at the same time?">
+Yes. You and your family can use the same subscription on several devices at once.
+</Q>
+
+<Checkpoint id="step4" items={[
+  "Computer: Clash Verge Rev imported the Clash subscription, Rule mode chosen, Tun Mode on",
+  "Phone: Shadowrocket or an Android app imported the right subscription and is connected",
+  "The app shows two nodes: name-Reality and name-TLS",
+]} />

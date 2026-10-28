@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: claude-app-store
+time: 约 10 分钟
+for: 用 iPhone、iPad，想在 App 里订阅 Claude Pro / Max 的人
+description: 用境外 Apple ID 下载 Claude App，在 App 里订阅 Pro 或 Max，由 App Store 扣款；以及怎么管理和取消。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 准备
+
+- **境外 Apple ID**：Claude App 不在中国区 App Store 上架。没有的话先看 [注册境外 Apple ID](/howto/apple-id/)。
+- **这个 Apple ID 能付款**：在「设置 → 你的名字 → 付款与配送」里有可用的付款方式，或者账户里有余额（礼品卡充值）。
+- **Claude 账号**：可以在 App 里直接用邮箱或 Google 账号注册登录。
+
+<Callout type="tip" title="App 内订阅和网页订阅的区别">
+在手机 App 里订阅，钱由苹果收、订阅也由苹果管理；价格可能比在 claude.ai 网页上订阅贵（商店会抽成），以订阅页面显示的为准。已经在网页上订阅过的，不要在 App 里再订一次，会重复扣费。
+</Callout>
+
+Claude 只在 Anthropic 支持的国家和地区提供服务，订阅和使用请遵守它的使用条款。
+
+## 1. 下载并登录 Claude
+
+1. 用境外 Apple ID 登录 App Store，搜索「**Claude by Anthropic**」，开发者是 Anthropic，下载安装。
+2. 打开 App，用邮箱或「Continue with Google」登录你的 Claude 账号。
+
+## 2. 在 App 里订阅
+
+1. 点右上角你的**名字缩写**（头像），进入设置。
+2. 点「**Upgrade to Pro**」（或升级套餐的选项），选择套餐和按月或按年。
+3. 弹出 App Store 的付款窗口，核对价格和 Apple ID，用面容、指纹或密码确认。
+
+<Callout type="ok">
+设置页显示你的套餐是 Pro（或 Max）；Apple ID 邮箱收到 App Store 的收据。
+</Callout>
+
+## 3. 管理和取消
+
+两个入口都可以：
+
+- **Claude App**：点名字缩写 →「**Billing**」→「**Manage subscription**」。
+- **iPhone 设置**：设置 → 你的名字 →「**订阅**」→ 选 Claude。
+
+要知道：
+
+- **至少在下次扣费前 24 小时取消**，否则会自动续费；
+- 取消后，本期到期前仍然可以用；
+- App Store 里买的订阅**只能在苹果这边管理**，在 claude.ai 网页上改不了；退款也要找苹果（[reportaproblem.apple.com](https://reportaproblem.apple.com)）。
+
+## 卡住了？
+
+<Q q="App Store 里搜不到 Claude？">
+多半是当前登录的是中国区 Apple ID。在 App Store 右上角头像里退出，换境外 Apple ID 登录再搜。
+</Q>
+<Q q="付款时提示无法购买、付款方式无效？">
+检查这个 Apple ID 的「付款与配送」：付款方式要属于这个 Apple ID 的国家/地区，或者账户里有足够的余额。可以用该地区的 App Store 礼品卡充值。
+</Q>
+<Q q="我已经在网页上订阅了，App 里还显示要升级？">
+确认 App 里登录的是同一个 Claude 账号。网页订阅和 App 订阅互相独立，不要重复订阅。
+</Q>
+<Q q="想换成网页订阅（可能更便宜）？">
+先在苹果这边取消，等本期结束后，再到 claude.ai 网页上用卡订阅。
+</Q>
+
+<Checkpoint id="claude-ios" items={[
+  "App Store 登录的是境外 Apple ID，已经下载 Claude",
+  "App 设置页显示 Pro（或 Max）",
+  "我知道去哪里取消：App 里的 Billing，或 iPhone 设置里的「订阅」",
+]} />

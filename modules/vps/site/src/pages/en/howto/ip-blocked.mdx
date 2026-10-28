@@ -1,0 +1,103 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: ip-blocked
+time: 10 minutes (plus waiting for the provider)
+for: People whose server checks out fine but can't be reached from mainland China
+step: 7
+description: How to tell your server's IP is blocked in mainland China; how BandwagonHost and DMIT each change the IP (usually just pay; when it's free, and when a BandwagonHost refund-and-rebuy makes sense); and how to reconfigure afterwards.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+## First, confirm the IP is blocked
+
+What a blocked IP usually looks like:
+
+- Several networks (mobile data, other Wi-Fi, different carriers) all fail, on both nodes;
+- An AI health check says the server is fine, and you can log in to it from outside China (or over another VPN);
+- Most often **ping still works but every port times out** (only TCP is blocked); sometimes ping fails too.
+
+To check it yourself, open [itdog.cn TCPing](https://www.itdog.cn/tcping/), test `your-server-IP:443`, then `:22`. If most test points in mainland China time out while the health check passes, the IP is almost certainly blocked.
+
+<Callout type="warn">
+Before changing the IP, rule out your own side: other VPNs or game accelerators turned off, and the app using the latest subscription. If only one network fails and others work, it usually isn't a block.
+</Callout>
+
+## Getting a new IP
+
+<Tabs id="vendor" label="Provider" items={[["bwg", "BandwagonHost"], ["dmit", "DMIT"]]}>
+<div slot="bwg">
+
+### Recommended: just pay for an IP change
+
+In most cases, paying for a new IP is the least hassle.
+
+1. Sign in to BandwagonHost and open the [Request IP Change](https://bandwagonhost.com/ipchange.php) page (sign-in required).
+2. Pick the server and pay as the page asks. The price is whatever the page shows.
+3. Once it's done, the new IP appears on the KiwiVM control panel's main page.
+
+- **IP change fees aren't refunded**: the Terms of Service exclude them from refunds.
+- **Datacenter Migration won't work for now**: moving to another datacenter also gives a new IP, but the Terms say it can't be used while an IP is blacklisted, until it has been off every blacklist for 7 days in a row.
+
+### Exception: bought less than a month ago and barely used? Refund it and buy a new one
+
+A new server comes with a new IP, and you save the IP change fee. But it's only worth trying if you meet **all** of BandwagonHost's 30-day refund conditions; otherwise just pay for the IP change (see the [Terms of Service](https://bandwagonhost.com/terms-of-service.php)):
+
+- It's a new order (not a renewal), placed 30 or fewer days ago;
+- This month's traffic is **under 10% of the plan's quota** (100 GB on a 1 TB plan);
+- No overdue payments, no Terms violations, no disputes or chargebacks;
+- None of its IPs are on any blacklist or blocklist, and none were replaced because of blacklisting.
+
+Mind the last one: the Terms say a blacklisted IP means no refund, but don't say whether a China block counts, so **BandwagonHost support decides**. If you qualify and want to try, **ask for the refund first, and pay for an IP change only if it's refused**. Changing the IP first disqualifies you.
+
+The refund steps and emails you can copy are in [Refund a server and buy a new one](/en/howto/refund-rebuy/).
+
+</div>
+<div slot="dmit">
+
+DMIT's rules are in its [documentation](https://docs.dmit.io/guide/faq/ip) and depend on the plan series:
+
+- **The IP was already blocked when the server was activated**: open a ticket for a free change.
+- **Pro or EB series**: free if **all four** of these hold, otherwise 5 USD (at least 7 days between requests):
+  - at least 7 days old (from day 8);
+  - 15+ days since the last IP change;
+  - ICMP and every TCP port blocked. **If ping still works and only TCP is blocked, it doesn't count** and you pay;
+  - 7+ days of service left.
+- **T1 series**: paid only, 5 USD each. It must be 24+ hours old, with 3+ days since the last change and 3+ days of service left.
+
+How to request it:
+
+- Request it by **opening a ticket** in the DMIT client area, naming the server and asking for an IP change.
+- Once paid and done, it can't be reversed or refunded. The new IP is assigned at random.
+- Abusing the feature can get you banned from it.
+
+</div>
+</Tabs>
+
+<Callout type="warn">
+A new IP can be blocked again; nobody can promise otherwise. Don't share your subscription with outsiders: the more people and the more varied the traffic, the more likely trouble gets.
+</Callout>
+
+## After the IP changes
+
+The setup ties the certificate, subscription URLs and nodes to the IP. When the setup tool sees the server's IP has changed it stops rather than patching the old config, so a new IP means **setting up from scratch**:
+
+1. Test the new IP with TCPing as above to confirm it's reachable from China.
+2. Reinstall the OS in the provider's dashboard: see [Reinstall the OS as Ubuntu](/en/howto/reinstall-os/).
+3. Start again from [step 3 "Configure the server"](/en/guide/3-deploy/) with the new IP, and **choose a new ssh name** (the old one still points at the old IP, and the setup won't overwrite it).
+4. On every device, **delete the old subscription and import the new one** (the IP in the URL changed).
+5. Check everything as in [step 5](/en/guide/5-verify/), including the new IP's Claude AI trust score.
+6. On BandwagonHost, if you had KiwiVM usage display set up, connect it again as in [Check traffic](/en/howto/traffic-and-ip/).
+
+<Callout type="ok">
+The new IP is reachable from China, setup is done, every device has the new subscription, and the step 5 checks pass.
+</Callout>
+
+<Q q="Ping works, so why is it called blocked?">
+The usual block only stops TCP connections; ping uses ICMP and gets through. A working ping doesn't mean the server is usable: check whether the ports connect (test 443 with TCPing as above).
+</Q>
+
+<Q q="Will a block lift by itself after a few days?">
+Sometimes, but there's no telling when, and it may never lift. If you need it now, change the IP.
+</Q>

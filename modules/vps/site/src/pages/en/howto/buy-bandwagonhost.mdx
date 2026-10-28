@@ -1,0 +1,51 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: buy-bandwagonhost
+time: 20–30 minutes
+for: People buying a server
+step: 1
+description: Buy a server from BandwagonHost and find the IP, SSH port and root password in KiwiVM.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+BandwagonHost has two layers: the **client area** (ordering, paying, renewing) and the **KiwiVM control panel** (managing the server). Button names below follow the English interface and may change after redesigns.
+
+## 1. Order
+
+1. Open the [BandwagonHost order link](https://bandwagonhost.com/) (the author's referral link — see below).
+2. Confirm the plan (the one in the link has 1 TB of traffic a month) and Billing Cycle, and choose a **Los Angeles** option under Location.
+3. Add to cart, create an account at checkout (Gmail recommended) and pay — **Alipay** (支付宝) is one of the options.
+
+<Shot src="bwg-order.webp" w={999} h={311} alt="BandwagonHost order page with billing cycle and location" caption="Order page: the red boxes are Billing Cycle and Location. Prices as on the official site." />
+
+<Callout type="tip" title="About the link">
+This is the author's referral link. If you buy through it, the author may earn a commission, which goes to charitable work. Prices, stock and locations are as shown on the official site.
+</Callout>
+
+## 2. Open the KiwiVM control panel
+
+1. Log in to the BandwagonHost client area and go to Services → My Services; your new server is listed.
+2. Open it and find the entry to the **KiwiVM Control Panel**.
+
+## 3. Find the three things to write down
+
+- **IP address** and **SSH port**: shown on the KiwiVM home page (Main controls). BandwagonHost's SSH port **isn't always 22** — go by the page.
+- **root password**: in the server-ready email; if you can't find it, generate a new one in KiwiVM with "Root password modification" (shown once — copy it immediately).
+
+## 4. Check the OS
+
+The Operating system line on the KiwiVM home page shows the current OS. BandwagonHost servers come with a default OS, so you'll usually reinstall once: click **Stop** on the home page, then **Install new OS** in the left menu, pick Ubuntu 24.04, tick the agreement and click **Reload**. A few minutes later, copy the new root password and SSH port the page shows. Step-by-step details are in [Reinstall the OS as Ubuntu](/en/howto/reinstall-os/).
+
+<Callout type="ok">
+KiwiVM shows the server Running; you've written down the IP, SSH port and root password; the OS is Ubuntu 24.04.
+</Callout>
+
+<Callout type="warn">
+BandwagonHost servers may come with their own firewall or other settings. Ignore them — step 3's scripts reconfigure everything according to the setup.
+</Callout>

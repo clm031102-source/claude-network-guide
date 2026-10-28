@@ -1,0 +1,39 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: dns-leak
+time: 3 分钟
+for: 所有人
+step: 5
+description: 检查访问国外网站时，DNS 查询有没有被交给国内的 DNS。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 是什么
+
+<Term k="DNS 泄露" />：访问国外网站时，网站名先被交给国内的 DNS 去查了，测试网站由此能看出你在哪个省、用哪家运营商。
+
+这套方案的订阅已经处理好了：不在名单里的国外网站不会先在本地查，直接交给服务器去查。
+
+## 怎么测
+
+打开 [ip.net.coffee/claude/](https://ip.net.coffee/claude/)，看「DNS 泄露检测」：
+
+<Callout type="ok">
+DNS 出口不在中国（通常是 Cloudflare、Google 这类海外 DNS）。
+</Callout>
+
+## 测出中国 DNS 怎么办
+
+1. **更新订阅**：客户端里对订阅点一次「更新」，拿到最新规则（方案在 2026 年 10 月修复过这个问题）。
+2. **电脑打开虚拟网卡模式**，并确认 Clash Verge 的「DNS 覆写」是**关闭**的（它会替换掉订阅里的 DNS 设置）。
+3. **关掉其他代理**：设备上同时开着别的代理、加速器，会干扰测试结果。
+4. Windows 打开虚拟网卡模式后，再打开「严格路由」，可以防止 Windows 绕过 Clash 自己去查 DNS。
+
+<Callout type="tip">
+访问国内网站时用国内 DNS 是正常的，那是为了快。测试看的是访问国外网站时的情况。
+</Callout>

@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: v2rayn
+time: About 10 minutes
+for: Desktop users who already use v2rayN (Windows, Mac, Linux)
+step: 4
+description: Import this setup's subscription into v2rayN. It works, but Clash Verge Rev is the recommended desktop app.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+
+<Callout type="warn" title="On a computer, Clash Verge Rev is recommended">
+This setup is designed around Clash Verge Rev. The Clash subscription carries a full set of <Term k="分流" text="routing" /> rules: AI sites always go through your server, WeChat and other Chinese apps connect directly, the rules update daily from your own server, and the app shows this month's traffic.
+
+v2rayN only gets **the two nodes** — none of those rules — and routes with its own "bypass mainland China" preset. So: **if you haven't installed an app yet, follow [step 4](/en/guide/4-clients/) and install Clash Verge Rev.** Read on only if you're already used to v2rayN, or Clash Verge won't install on your computer.
+</Callout>
+
+## Does it work?
+
+Yes. Tested with the Xray core bundled in v2rayN 7.25.6: both the Reality and TLS nodes passed web access, UDP and exit-IP checks.
+
+## 1. Download
+
+Only from the official releases page: [github.com/2dust/v2rayN/releases](https://github.com/2dust/v2rayN/releases).
+
+| System | File |
+|---|---|
+| Windows | `v2rayN-windows-64.zip` — unzip and run `v2rayN.exe` |
+| Mac (Apple silicon, M1 and later) | `v2rayN-macos-arm64.dmg` |
+| Mac (Intel) | `v2rayN-macos-64.dmg` |
+| Linux (Debian / Ubuntu) | `v2rayN-linux-64.deb` |
+
+<Callout type="tip">
+The Mac build is unsigned, so macOS may say it is "damaged". After installing, run this in Terminal, then open it again:
+
+<Copy id="v2rayn-xattr" lang="bash" title="Run in Mac Terminal" code="xattr -cr /Applications/v2rayN.app" />
+</Callout>
+
+## 2. Import the subscription
+
+Use the subscription URL from the **"Shadowrocket (iPhone)" row** of your login-info file. The Clash row is for Clash-type apps and v2rayN can't read all of it.
+
+1. Menu "Subscription Group" → "Subscription group settings" → "Add".
+2. Put anything in "Remarks", such as the server's name; paste the subscription URL into the URL field and confirm.
+3. Menu "Subscription Group" → "Update subscriptions without proxy". Two nodes appear: `NAME-Reality` and `NAME-TLS`.
+4. Select `NAME-Reality`, right-click → "Set as active".
+
+## 3. Routing, system proxy and Tun
+
+At the bottom of the main window:
+
+1. "Routing": choose `V4-绕过大陆(Whitelist)` (the default) — mainland China connects directly, everything abroad (including AI sites) goes through your server.
+2. "System proxy": choose "Set system proxy".
+3. Turn on "Enable Tun". With the system proxy alone, the browser's WebRTC can reveal your real IP; Tun blocks that, just like Clash Verge's [TUN mode](/en/howto/clash-verge-tun/). On Windows run v2rayN as administrator; on Mac and Linux it asks for your system password in settings the first time.
+
+<Callout type="ok">
+Open ip.net.coffee/claude/ in a browser and it shows your server's IP. Then [check for WebRTC leaks](/en/howto/webrtc-leak/) — your home IP must not appear.
+</Callout>
+
+## How it differs from Clash Verge Rev
+
+| | Clash Verge Rev (recommended) | v2rayN |
+|---|---|---|
+| Subscription to use | The Clash row | The Shadowrocket (iPhone) row |
+| Nodes | Reality + TLS | Reality + TLS |
+| AI sites always via your server | Yes, built into the subscription | Via "bypass mainland China" — everything abroad is proxied |
+| WeChat and Chinese apps direct | Yes, matched precisely by WeChat's network | Via v2rayN's own China list |
+| Rule updates | Daily, from your own server | v2rayN downloads its own from GitHub |
+| This month's traffic | Shown | Depends on your version |
+
+## Stuck?
+
+<Q q="No nodes after updating, or 'invalid subscription content'?">
+You probably used the Clash row. Switch to the "Shadowrocket (iPhone)" row and update again.
+</Q>
+<Q q="No node connects?">
+First check in settings that VLESS uses the Xray core (the default). If it still fails, import the Clash subscription into Clash Verge Rev: if that works, the problem is in v2rayN's settings; if not, have AI [health-check the server](/en/howto/ai-health-check/).
+</Q>

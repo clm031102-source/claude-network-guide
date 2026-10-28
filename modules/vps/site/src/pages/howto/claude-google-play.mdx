@@ -1,0 +1,68 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: claude-google-play
+time: 约 10 分钟
+for: 用安卓手机，想在 App 里订阅 Claude Pro / Max 的人
+description: 从 Google Play 下载 Claude App，在 App 里订阅 Pro 或 Max，由 Google Play 扣款；以及怎么管理和取消。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 准备
+
+- **手机有 Google Play**：很多国内品牌的手机没有预装 Google 服务，要先装好 Play 商店并登录 Google 账号（没有账号看 [注册 Google 邮箱](/howto/gmail/)）。
+- **Google 账号绑了付款方式**：见 [给 Google 账号绑定付款卡](/howto/google-payment-card/)，或者用 Google Play 礼品卡充值余额。
+- **Claude 账号**：可以在 App 里直接用邮箱或 Google 账号注册登录。
+
+<Callout type="tip" title="App 内订阅和网页订阅的区别">
+在手机 App 里订阅，钱由Google Play收、订阅也由Google Play管理；价格可能比在 claude.ai 网页上订阅贵（商店会抽成），以订阅页面显示的为准。已经在网页上订阅过的，不要在 App 里再订一次，会重复扣费。
+</Callout>
+
+Claude 只在 Anthropic 支持的国家和地区提供服务，订阅和使用请遵守它的使用条款。
+
+## 1. 下载并登录 Claude
+
+1. 打开 Play 商店，搜索「**Claude by Anthropic**」，开发者是 Anthropic，安装。
+2. 打开 App，用邮箱或「Continue with Google」登录你的 Claude 账号。
+
+## 2. 在 App 里订阅
+
+1. 点右上角你的**名字缩写**（头像），进入设置。
+2. 点「**Upgrade to Pro**」（或升级套餐的选项），选择套餐和按月或按年。
+3. 弹出 Google Play 的付款窗口，核对价格、Google 账号和付款方式，点订阅确认。
+
+<Callout type="ok">
+设置页显示你的套餐是 Pro（或 Max）；Google 账号邮箱收到 Google Play 的收据。
+</Callout>
+
+## 3. 管理和取消
+
+两个入口都可以：
+
+- **Claude App**：点名字缩写 →「**Billing**」→「**Manage subscription**」。
+- **Play 商店**：点右上角头像 →「**付款和订阅**」→「**订阅**」→ 选 Claude。
+
+要知道：
+
+- **至少在下次扣费前 24 小时取消**，否则会自动续费；
+- 取消后，本期到期前仍然可以用；
+- Google Play 里买的订阅**只能在 Google 这边管理**，在 claude.ai 网页上改不了。
+
+## 卡住了？
+
+<Q q="Play 商店搜不到 Claude，或者显示「你所在的国家/地区不支持」？">
+Play 商店的地区跟着 Google 付款资料的国家/地区走。Claude 只在支持的地区上架；付款资料的国家/地区设好后不能直接改，见 [给 Google 账号绑定付款卡](/howto/google-payment-card/)。
+</Q>
+<Q q="付款被拒？">
+先确认卡种在 Google Play 支持列表里、开通了境外支付；还不行就联系发卡银行，或者改用 Google Play 礼品卡。
+</Q>
+<Q q="我已经在网页上订阅了，App 里还显示要升级？">
+确认 App 里登录的是同一个 Claude 账号。网页订阅和 App 订阅互相独立，不要重复订阅。
+</Q>
+
+<Checkpoint id="claude-android" items={[
+  "手机上有 Play 商店，Google 账号绑好了付款方式",
+  "App 设置页显示 Pro（或 Max）",
+  "我知道去哪里取消：App 里的 Billing，或 Play 商店的「付款和订阅」",
+]} />

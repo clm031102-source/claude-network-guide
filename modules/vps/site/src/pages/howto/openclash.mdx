@@ -1,0 +1,44 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: openclash
+time: 30 分钟以上
+for: 有 OpenWrt 路由器、愿意折腾的人
+step: 4
+description: 在 OpenWrt 路由器的 OpenClash 里使用 Clash 订阅，全家设备不用装客户端。进阶内容。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+<Callout type="warn" title="这是进阶内容">
+需要路由器已经刷了 OpenWrt 并装好了 OpenClash。路由器配置出错会影响全家上网。没有这方面经验的话，每台设备装客户端更简单、更可靠。
+</Callout>
+
+## 好处
+
+家里所有设备（电视、平板、游戏机）不用装客户端就能按规则分流。订阅里的规则文件从你自己的服务器下载，路由器不需要能访问 GitHub。
+
+## 步骤
+
+1. 在 OpenClash 的配置订阅页面添加一个订阅，地址填登录信息文件里的 **Clash 订阅地址**。**关闭「在线订阅转换」**，否则 Reality 节点的参数会丢失，所有节点都连不上。
+2. 更新订阅，在配置文件管理里选中它。内核选 **Meta**，老的 Clash 内核不支持 VLESS + Reality。
+3. 运行模式选 fake-ip（增强）模式，启动 OpenClash。
+4. 在一台设备上打开 ip.net.coffee/claude/，确认出口 IP 是你的服务器。
+
+<Callout type="tip" title="用订阅，别上传 yaml 文件">
+把订阅内容另存成 yaml 再上传也能用，但上传的文件不带订阅地址：OpenClash 显示不了流量用量进度条，规则和节点也不会自动更新。
+</Callout>
+
+OpenClash 的界面各版本差别较大，具体按钮以你的版本为准，可以参考 [OpenClash 项目](https://github.com/vernesong/OpenClash) 的说明。
+
+## 一个已知问题
+
+订阅给 AI 域名配了海外的加密 DNS，靠「DNS 查询也按规则走代理」生效。OpenClash 会强制关掉这个设置，这些 DNS 查询就变成直连海外，在部分网络下会超时，表现为 AI 网站很慢。
+
+遇到时，在 OpenClash 的配置覆写里删掉这些 AI 域名的 `nameserver-policy` 条目。详见方案的 [排错说明](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/skills/claude-network-guide/references/troubleshooting.md)。
+
+<Callout type="tip">
+修改路由器配置并重新加载时，正在走代理的连接会断开几秒，选家里没人用网的时候操作。
+</Callout>

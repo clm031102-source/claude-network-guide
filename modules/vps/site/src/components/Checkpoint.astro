@@ -1,0 +1,15 @@
+---
+// 检查点：做到这里应该满足的几条，可以打勾（打勾记在这个浏览器里，见 Site.astro）
+import { langOf } from "../data/nav.js";
+interface Props { id: string; items: string[]; done?: string }
+const lang = langOf(Astro.url.pathname);
+const T = { zh: ["做到这里，检查一下", "都勾上了，可以去下一步。"], en: ["Before moving on, check", "All ticked — on to the next step."] }[lang];
+const { id, items, done = T[1] } = Astro.props;
+---
+<div class="checkpoint" data-checkpoint={lang === "en" ? `en-${id}` : id}>
+  <p class="checkpoint__title"><i data-xxd-icon="ListChecks" data-size="16"></i>{T[0]}</p>
+  <ul>
+    {items.map((x) => <li><label><input type="checkbox" class="xxd-check" /><span set:html={x} /></label></li>)}
+  </ul>
+  <p class="checkpoint__done" hidden>✓ {done}</p>
+</div>

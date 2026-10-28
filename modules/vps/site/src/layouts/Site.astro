@@ -1,0 +1,264 @@
+---
+// 外壳：顶栏（搜索、主题、语言、GitHub）、左侧导航（主线 8 步 + 栏目）、正文、右侧目录。界面全部用 xxd-ui-kit：
+// 顶栏 xxd-topbar、标志 xxd-logo、左侧 xxd-sidebar（How-to 分组是子菜单）、目录 xxd-toc（跟着滚动高亮）。
+// 中文在根路径，英文在 /en/ 下；语言看路径（langOf），界面文字在下面的 UI 里。
+import { STEPS, stepHref, HOWTO, HOWTO_FLAT, howtoHref, wikiHref, link, langOf, counterpart, t } from "../data/nav.js";
+import { WIKI } from "../data/wiki.js";
+import { WIKI_EN } from "../data/wiki.en.js";
+import { FAQ } from "../data/faq.js";
+import { FAQ_EN } from "../data/faq.en.js";
+import { readFileSync } from "node:fs";
+import { createHash } from "node:crypto";
+import { join } from "node:path";
+
+interface Props {
+  title: string;
+  description?: string;
+  headings?: { slug: string; text: string; depth: number }[];
+  wide?: boolean;
+}
+const UI = {
+  zh: { html: "zh-CN", brand: "Claude 网络指南 教程", desc: "从买服务器到用上自己的线路和 AI 接口：一步一步、看得懂、照着做就会。", skip: "跳到正文", menu: "打开目录", search: "搜索教程",
+    searchPh: "搜步骤、How-to、名词、问题……", searchEmpty: "没找到，换个词试试", theme: "主题", light: "亮色", dark: "暗色", system: "跟随系统", accent: "主题色", look: "外观", repo: "GitHub 仓库",
+    navLabel: "网站目录", start: "开始", home: "首页：一张图看懂", main: "主线教程（按顺序做）", pending: "编写中", ref: "查资料", howto: "How-to：具体怎么做",
+    wiki: "Wiki：这是什么", faq: "常见问题", toc: "本页", tocLabel: "本页目录", hintMain: "主线教程", hintFaq: "常见问题", switchTo: "English", switchLabel: "Switch to English",
+    foot: '这套方案只给自己和家人用，请遵守当地法律和各网站、AI 工具的使用规定。内容开源（MIT），源码和问题反馈在 <a href="https://github.com/clm031102-source/claude-network-guide">GitHub</a>。' },
+  en: { html: "en", brand: "XXD VPS Guide", desc: "From buying a server to using your own line and AI API — step by step, easy to follow.", skip: "Skip to content", menu: "Open menu", search: "Search the guide",
+    searchPh: "Search steps, how-tos, terms, questions…", searchEmpty: "Nothing found — try another word", theme: "Theme", light: "Light", dark: "Dark", system: "System", accent: "Theme color", look: "Appearance", repo: "GitHub repository",
+    navLabel: "Site navigation", start: "Start", home: "Home: the big picture", main: "Main guide (in order)", pending: "In progress", ref: "Reference", howto: "How-to: how exactly",
+    wiki: "Wiki: what is it", faq: "FAQ", toc: "On this page", tocLabel: "On this page", hintMain: "Main guide", hintFaq: "FAQ", switchTo: "中文", switchLabel: "切换到中文",
+    foot: 'This setup is for you and your family only. Follow local laws and each site\'s and AI tool\'s terms of use. Open source (MIT) — code and feedback on <a href="https://github.com/clm031102-source/claude-network-guide">GitHub</a>.' },
+};
+const lang = langOf(Astro.url.pathname);
+const L = UI[lang];
+const { title, description = L.desc, headings = [], wide = false } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const cur = (href) => (href.replace(/\/$/, "") || "/") === path;
+const toc = headings.filter((h) => h.depth === 2); // 只列二级标题：标签页里的小标题不进目录
+// 语言切换：404 页没有对应页面，切到另一种语言的首页
+const other = /\/404\/?$/.test(Astro.url.pathname) ? link("/", lang === "en" ? "zh" : "en") : counterpart(Astro.url.pathname);
+const REPO = "https://github.com/clm031102-source/claude-network-guide";
+const wikiItems = WIKI.map((w) => (lang === "en" ? { ...w, ...WIKI_EN[w.slug] } : w));
+const faqGroups = lang === "en" ? FAQ_EN : FAQ;
+// 搜索：主线每一步、每篇 How-to、每个 Wiki 条目、每条常见问题（xxd 的命令面板，⌘K 打开）
+const searchIndex = JSON.stringify([
+  ...STEPS.map((x) => ({ label: `${x.n}. ${t(x, "title", lang)}`, hint: L.hintMain, keywords: t(x, "sum", lang), href: stepHref(x, lang) })),
+  ...HOWTO_FLAT.map((x) => ({ label: t(x, "title", lang), hint: `How-to · ${lang === "en" ? x.groupEn : x.group}`, keywords: lang === "en" ? x.groupEn : x.group, href: howtoHref(x.slug, lang) })),
+  ...wikiItems.map((x) => ({ label: x.title, hint: `Wiki · ${x.group}`, keywords: x.one, href: wikiHref(x.slug, lang) })),
+  ...faqGroups.flatMap((g) => g.items.map(([q, a], i) => ({ label: q, hint: `${L.hintFaq} · ${g.title}`, keywords: a, href: link(`/faq/#${g.id}-${i + 1}`, lang) }))),
+]);
+// 静态文件带内容指纹（?v=），改了就换地址：/xxd/* 缓存一天、site.css 一小时，不会出现新页面配旧样式
+const ver = (f) => { try { return createHash("sha256").update(readFileSync(join(process.cwd(), "public", f))).digest("hex").slice(0, 10); } catch { return "0"; } };
+const asset = (f) => `${link("/" + f)}?v=${ver(f)}`;
+const GITHUB_MARK = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>';
+---
+
+<!doctype html>
+<html lang={L.html}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title === L.brand ? title : `${title} · ${L.brand}`}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" hreflang={lang === "en" ? "zh-CN" : "en"} href={other} />
+    <link rel="icon" href={link("/favicon.svg")} type="image/svg+xml" />
+    <style is:inline>@layer theme, base, xxd, components, utilities, site;</style>
+    <script is:inline src={asset("xxd/boot.js")} data-key="xxd-vps-site" data-default-theme="system"></script>
+    <link rel="stylesheet" href={asset("xxd/xxd.css")} />
+    <link rel="stylesheet" href={asset("site.css")} />
+    <script is:inline src={asset("xxd/icons.js")}></script>
+    <script is:inline src={asset("xxd/xxd.js")}></script>
+  </head>
+  <body class="xxd-page">
+    <a class="xxd-sr-only-focusable" href="#main">{L.skip}</a>
+    <header class="xxd-topbar site-top">
+      <button class="xxd-btn site-menu" data-variant="ghost" data-icon-only aria-label={L.menu} id="site-menu" aria-controls="site-nav" aria-expanded="false"><i data-xxd-icon="Menu" data-size="18"></i></button>
+      <a class="xxd-logo site-brand" href={link("/", lang)}><span class="xxd-logo__mark" aria-hidden="true"></span><span class="site-brand__name">{L.brand}</span></a>
+      <span class="site-top__spacer"></span>
+      <!-- 右边一组工具：搜索 · 外观（主题 + 主题色）· 语言 · GitHub。宽屏窄屏同一个结构，不再按宽度搬来搬去 -->
+      <div class="site-tools">
+        <button class="site-search" id="site-search" type="button" aria-label={L.search}><i data-xxd-icon="Search" data-size="16"></i><span>{L.search}</span><kbd class="xxd-kbd">⌘K</kbd></button>
+        <button class="xxd-btn site-look" data-size="sm" data-variant="ghost" data-icon-only type="button" data-xxd-popover="site-look-pop" aria-label={L.look} data-tooltip={L.look} data-tooltip-placement="bottom">
+          <span class="site-look__icon" data-for="light"><i data-xxd-icon="Sun" data-size="16"></i></span>
+          <span class="site-look__icon" data-for="dark"><i data-xxd-icon="Moon" data-size="16"></i></span>
+          <span class="site-look__dot" id="site-look-dot" hidden></span>
+        </button>
+        <div class="xxd-popover site-look-pop" id="site-look-pop" popover>
+          <p class="xxd-popover__title">{L.theme}</p>
+          <div class="xxd-segmented site-look__seg" data-xxd-segmented data-name="theme" role="radiogroup" aria-label={L.theme}>
+            <button role="radio" data-value="light"><i data-xxd-icon="Sun" data-size="14"></i>{L.light}</button>
+            <button role="radio" data-value="dark"><i data-xxd-icon="Moon" data-size="14"></i>{L.dark}</button>
+            <button role="radio" data-value="system"><i data-xxd-icon="Contrast" data-size="14"></i>{L.system}</button>
+          </div>
+          <p class="xxd-popover__title site-look__label">{L.accent} · <span id="site-accent-name"></span></p>
+          <div class="xxd-swatches" role="radiogroup" data-xxd-segmented aria-label={L.accent} id="site-accent-swatches"></div>
+        </div>
+        <a class="xxd-btn site-lang" data-size="sm" data-variant="ghost" href={other} hreflang={lang === "en" ? "zh-CN" : "en"} aria-label={L.switchLabel}>{L.switchTo}</a>
+        <a class="xxd-btn" data-size="sm" data-variant="ghost" data-icon-only href={REPO} aria-label={L.repo} data-tooltip={L.repo} data-tooltip-placement="bottom-end" set:html={GITHUB_MARK} />
+      </div>
+    </header>
+
+    <div class="site-body">
+      <nav class="xxd-sidebar site-nav" id="site-nav" aria-label={L.navLabel}>
+        <div class="xxd-sidebar__body">
+          <section class="xxd-sidebar__group">
+            <h2 class="xxd-sidebar__label">{L.start}</h2>
+            <a class="xxd-sidebar__item" href={link("/", lang)} aria-current={cur(link("/", lang)) ? "page" : undefined}><span>{L.home}</span></a>
+          </section>
+          <section class="xxd-sidebar__group">
+            <h2 class="xxd-sidebar__label">{L.main}</h2>
+            {STEPS.map((s) => s.ready ? (
+              <a class="xxd-sidebar__item" href={stepHref(s, lang)} aria-current={cur(stepHref(s, lang)) ? "page" : undefined}>
+                <span class="site-nav__num">{s.n}</span><span>{t(s, "title", lang)}</span>
+              </a>
+            ) : (
+              <span class="xxd-sidebar__item is-pending"><span class="site-nav__num">{s.n}</span><span>{t(s, "title", lang)}</span><span class="xxd-badge">{L.pending}</span></span>
+            ))}
+          </section>
+          <section class="xxd-sidebar__group">
+            <h2 class="xxd-sidebar__label">{L.ref}</h2>
+            <a class="xxd-sidebar__item" href={link("/howto/", lang)} aria-current={cur(link("/howto/", lang)) ? "page" : undefined}><span>{L.howto}</span></a>
+            {HOWTO.map((g, i) => {
+              const open = g.items.some((it) => cur(howtoHref(it.slug, lang)));
+              return (
+                <>
+                  <button class="xxd-sidebar__item site-nav__sub" type="button" aria-expanded={String(open)} data-sidebar-sub={`site-nav-g${i}`}><span>{t(g, "group", lang)}</span></button>
+                  <div class="xxd-sidebar__sub" id={`site-nav-g${i}`} hidden={!open}>
+                    {g.items.map((it) => <a class="xxd-sidebar__item" href={howtoHref(it.slug, lang)} aria-current={cur(howtoHref(it.slug, lang)) ? "page" : undefined}><span>{t(it, "title", lang)}</span></a>)}
+                  </div>
+                </>
+              );
+            })}
+            <a class="xxd-sidebar__item" href={link("/wiki/", lang)} aria-current={cur(link("/wiki/", lang)) ? "page" : undefined}><span>{L.wiki}</span></a>
+            <a class="xxd-sidebar__item" href={link("/faq/", lang)} aria-current={cur(link("/faq/", lang)) ? "page" : undefined}><span>{L.faq}</span></a>
+          </section>
+        </div>
+      </nav>
+
+      <main id="main" class:list={["site-main", { "site-main--wide": wide }]}>
+        <slot />
+        <footer class="site-foot"><p set:html={L.foot} /></footer>
+      </main>
+
+      {toc.length > 1 && (
+        <nav class="site-toc" aria-label={L.tocLabel}>
+          <p class="xxd-toc__title">{L.toc}</p>
+          <ul class="xxd-toc" data-spy>{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ul>
+        </nav>
+      )}
+    </div>
+    <div class="site-nav-scrim" id="site-nav-scrim"></div>
+
+    <script type="application/json" id="site-search-index" data-opts={JSON.stringify({ placeholder: L.searchPh, empty: L.searchEmpty })} data-base={import.meta.env.BASE_URL} data-sections={`${import.meta.env.BASE_URL}${lang === "en" ? "en/" : ""}search-sections.json`} set:html={searchIndex} />
+    <script is:inline>
+      (() => {
+        const T = window.XxdTheme, X = window.Xxd;
+        if (!T || !X) return;
+        // 外观面板：主题 + 主题色。读当前设置，改了写回（boot.js 已在首帧前应用，下次打开首帧就是这个样子）
+        const segs = document.querySelectorAll('[data-xxd-segmented][data-name="theme"]');
+        const sync = () => {
+          const s = { ...T.DEFAULT_SETTINGS, ...T.read() };
+          for (const b of document.querySelectorAll('[data-name="theme"] > [role="radio"]')) {
+            const on = b.dataset.value === String(s.theme);
+            b.setAttribute("aria-checked", String(on));
+            b.tabIndex = on ? 0 : -1;
+          }
+        };
+        for (const seg of segs) seg.addEventListener("xxd:change", (e) => { T.set({ theme: e.detail.value }); sync(); });
+        // 主题色：用 xxd 的色块（ACCENT_PRESETS）
+        const sw = document.getElementById("site-accent-swatches");
+        const swName = document.getElementById("site-accent-name");
+        const en = document.documentElement.lang === "en";
+        const presets = T.ACCENT_PRESETS || [];
+        const nameOf = (id) => { const p = presets.find((x) => x.id === (id || "")) || presets[0]; return p ? (en ? p.name : p.zh || p.name) : ""; };
+        for (const p of presets) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "xxd-swatch";
+          b.setAttribute("role", "radio");
+          b.dataset.value = p.id;
+          b.setAttribute("aria-label", nameOf(p.id));
+          b.dataset.tooltip = nameOf(p.id);
+          if (p.id) b.style.setProperty("--swatch", p.id);
+          sw.append(b);
+        }
+        const syncAccent = () => {
+          const a = ({ ...T.DEFAULT_SETTINGS, ...T.read() }).accent || "";
+          for (const b of sw.children) {
+            const on = b.dataset.value === a;
+            b.setAttribute("aria-checked", String(on));
+            b.tabIndex = on ? 0 : -1;
+          }
+          swName.textContent = nameOf(a);
+          // 外观按钮右下角的小圆点：选了主题色才出现，就是那个颜色
+          const dot = document.getElementById("site-look-dot");
+          dot.hidden = !a;
+          if (a) dot.style.background = a;
+        };
+        sw.addEventListener("xxd:change", (e) => { T.set({ accent: e.detail.value }); syncAccent(); });
+        syncAccent();
+        X.init(document);
+        sync();
+
+        // 搜索：⌘K / 点按钮，用 xxd 的命令面板
+        const pages = JSON.parse(document.getElementById("site-search-index").textContent);
+        const items = pages.map((p) => ({ label: p.label, hint: p.hint, keywords: p.keywords, run: () => { location.href = p.href; } }));
+        const opts = JSON.parse(document.getElementById("site-search-index").dataset.opts);
+        const btn = document.getElementById("site-search");
+        btn.addEventListener("click", () => X.openCommandPalette({ items, ...opts }));
+        X.bindCommandPalette(items, opts);
+        // 全文：各篇正文按小节切好的搜索数据（构建时生成），空闲时或要搜索时加载一次，加进同一个列表
+        const idx = document.getElementById("site-search-index");
+        let sections = null;
+        const loadSections = () => {
+          if (sections) return;
+          sections = fetch(idx.dataset.sections).then((r) => (r.ok ? r.json() : [])).then((list) => {
+            const base = idx.dataset.base.replace(/\/$/, "");
+            for (const p of list) items.push({ label: p.label, hint: p.hint, keywords: p.keywords, run: () => { location.href = base + p.href; } });
+          }).catch(() => { sections = null; });
+        };
+        btn.addEventListener("pointerenter", loadSections);
+        btn.addEventListener("focus", loadSections);
+        addEventListener("keydown", (e) => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") loadSections(); }, true);
+        (window.requestIdleCallback || ((f) => setTimeout(f, 1500)))(loadSections);
+
+        // 常见问题：从搜索或链接跳到 #某个问题 时，自动展开它
+        const openHash = () => {
+          const el = location.hash && document.getElementById(decodeURIComponent(location.hash.slice(1)));
+          if (el && el.tagName === "DETAILS") { el.open = true; el.scrollIntoView({ block: "center" }); }
+        };
+        openHash();
+        addEventListener("hashchange", openHash);
+
+        // 窄屏目录抽屉
+        const nav = document.getElementById("site-nav"), scrim = document.getElementById("site-nav-scrim"), menu = document.getElementById("site-menu");
+        const toggle = (on) => {
+          nav.toggleAttribute("data-open", on); scrim.toggleAttribute("data-open", on);
+          menu.setAttribute("aria-expanded", String(on));
+          if (on) (nav.querySelector('[aria-current="page"]') || nav.querySelector("a"))?.focus();
+          else if (nav.contains(document.activeElement)) menu.focus();
+        };
+        menu.addEventListener("click", () => toggle(!nav.hasAttribute("data-open")));
+        scrim.addEventListener("click", () => toggle(false));
+        nav.addEventListener("keydown", (e) => { if (e.key === "Escape" && nav.hasAttribute("data-open")) { e.preventDefault(); toggle(false); } });
+
+        // 检查点：打勾只存在这个浏览器里；存不了（无痕、禁用存储）也照常能勾
+        for (const box of document.querySelectorAll("[data-checkpoint]")) {
+          const key = "xxd-vps-check:" + box.dataset.checkpoint;
+          const inputs = [...box.querySelectorAll("input[type=checkbox]")];
+          const done = box.querySelector(".checkpoint__done");
+          let saved = [];
+          try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch {}
+          inputs.forEach((el, i) => { el.checked = !!saved[i]; });
+          const update = () => {
+            const all = inputs.every((el) => el.checked);
+            if (done) done.hidden = !all;
+            try { localStorage.setItem(key, JSON.stringify(inputs.map((el) => el.checked))); } catch {}
+          };
+          inputs.forEach((el) => el.addEventListener("change", update));
+          update();
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: buy-dmit
+time: 20–30 minutes
+for: People buying a server
+step: 1
+description: Buy a server from DMIT. It is often out of stock — choose BandwagonHost if so.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+DMIT's routes are good too, but popular plans are often out of stock. **If you can't buy, don't wait** — go with [BandwagonHost](/en/howto/buy-bandwagonhost/).
+
+## 1. Order
+
+1. Open [DMIT](https://www.dmit.io/) (the author's referral link; commission goes to charitable work; prices and stock as shown on the official site).
+2. Choose a location — usually **Los Angeles** (LAX).
+3. Choose a plan and billing cycle. If the order page lets you pick an OS, choose **Ubuntu 24.04**.
+4. Create an account and pay.
+
+## 2. Find the server details
+
+1. Log in to the DMIT client area, open "My Services" (or similar) and click the new server.
+2. On the server page find the **IP address** and **root password** (or a "show password" button). The SSH port is usually 22.
+3. The same page usually has Reinstall, Reset Password and Console / VNC buttons you'll use later.
+
+<Callout type="ok">
+The server is running; you've written down the IP, root password and SSH port; the OS is Ubuntu 22.04+ or Debian 12+.
+</Callout>
+
+## Stuck?
+
+<Q q="It says Out of Stock?">
+DMIT restocks irregularly. Don't want to wait? Use BandwagonHost — this setup is tested on both.
+</Q>

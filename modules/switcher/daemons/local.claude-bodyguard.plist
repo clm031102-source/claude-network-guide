@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- launchd 模板: 安装到 /Library/LaunchDaemons;脚本在 root 所有的 /Library/Application Support/claude-switcher/ 下(用户态不可写,防提权) -->
+<plist version="1.0"><dict>
+	<key>Label</key><string>local.claude-bodyguard</string>
+	<key>ProgramArguments</key><array><string>/bin/bash</string><string>/Library/Application Support/claude-switcher/claude-bodyguard.sh</string></array>
+	<key>StartInterval</key><integer>10</integer>
+	<key>RunAtLoad</key><true/>
+</dict></plist>

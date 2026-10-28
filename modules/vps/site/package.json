@@ -1,0 +1,21 @@
+{
+  "name": "claude-network-guide-site",
+  "private": true,
+  "license": "MIT",
+  "description": "Claude 网络指南 教程站：把 claude-network-guide 方案讲给第一次接触的人。界面用 xxd-ui-kit。",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4410",
+    "build": "astro build && node scripts/search-sections.mjs && node scripts/base-links.mjs",
+    "preview": "astro preview --port 4410",
+    "sync-xxd": "node scripts/sync-xxd.mjs",
+    "release": "npm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "7.0.3",
+    "astro": "7.2.8"
+  },
+  "devDependencies": {
+    "wrangler": "4.127.1"
+  }
+}

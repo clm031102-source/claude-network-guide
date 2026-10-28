@@ -1,0 +1,8 @@
+---
+import { langOf } from '../data/nav.js';
+interface Props { page: string }
+const en = langOf(Astro.url.pathname) === 'en';
+const href = `https://github.com/clm031102-source/claude-network-guide/issues/new?title=${encodeURIComponent('[Guide feedback] '+Astro.props.page)}`;
+---
+<aside class="feedback"><span>{en ? 'Found an issue with this page?' : '这一页有需要修正的地方？'}</span>
+<a class="xxd-link" href={href} rel="noopener">{en ? 'Send feedback to this project' : '向本项目反馈'}</a></aside>

@@ -1,0 +1,94 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: refund-rebuy
+time: 10 分钟（等退款另算）
+for: IP 信任评分低于 70、或者买错了机房的人
+step: 1
+description: Claude AI 信任评分低于 70 或买错机房时，发邮件给搬瓦工退掉这台、重新买一台，再部署、再测分数。附三段可以直接复制的英文邮件。
+---
+import Callout from "../../components/Callout.astro";
+import Copy from "../../components/Copy.astro";
+
+## 什么时候用
+
+- 在 [ip.net.coffee/claude](/howto/check-ip/) 上，**泄露都没问题**，但「Claude AI 信任评分」**低于 70 分**；
+- 或者买的时候选错了机房、套餐；
+- 或者 IP 被墙了，而且买了不到一个月、流量也没怎么用（一般直接付费换 IP 更省事，见 [IP 被墙了怎么办](/howto/ip-blocked/)）。
+
+自己的服务器换不了一个「口碑更好」的 IP，最直接的办法是退掉这台、重新买一台，新机器会分到新的 IP。
+
+<Callout type="warn">
+搬瓦工有 30 天退款保证，所以**发现分数低就尽早退**，钱原路退回。按[服务条款](https://bandwagonhost.com/terms-of-service.php)，要同时满足：新订单（不是续费）、下单不超过 30 天、本月流量不到套餐额度的 10%、没有欠费和拒付、分到的 IP 不在黑名单上。退款后这台服务器会被删除，上面的东西都没了。
+</Callout>
+
+## 1. 发邮件申请退款
+
+登录搬瓦工客户中心，提交工单（Submit Ticket），或者发邮件给客服，把下面**和你实际情况相符**的一段复制过去。`[...]` 里换成你的服务器 IP 或订单号。
+
+### 评分低（最常用）
+
+<Copy id="refund-score" title="IP 评分低" code={`Dear BandwagonHost Support Team,
+
+I recently purchased a VPS (IP: [your server IP]). After setting it up, I found that the IP address assigned to it has a low reputation score, which doesn't work well for my use.
+
+I would like to request a refund for this order so that I can purchase a new VPS with a different IP address.
+
+I still intend to use your services and will place a new order after the refund is processed.
+
+Thank you for your understanding and support.
+
+Best regards`} />
+
+### 买错机房
+
+<Copy id="refund-location" title="买错机房" code={`Dear BandwagonHost Support Team,
+
+I recently purchased a VPS (IP: [your server IP]), but I accidentally selected the wrong server location during checkout.
+
+I would like to request a refund for this order so that I can purchase a new VPS in my preferred location.
+
+I still intend to use your services and will place a new order after the refund is processed.
+
+I would appreciate your assistance with this request.
+
+Thank you for your understanding and support.
+
+Best regards`} />
+
+### 简短版
+
+<Copy id="refund-short" title="简短版" code={`Hello,
+
+I purchased a VPS recently (IP: [your server IP]), and it doesn't fit my needs. As it's still within the 30-day money-back period, I'd like to request a full refund for this order.
+
+I plan to place a new order afterwards.
+
+Thank you!
+
+Best regards`} />
+
+## 2. 回复确认邮件
+
+提交后，搬瓦工的工作人员会发邮件跟你确认。直接回复这封邮件，再确认一次就行：
+
+<Copy id="refund-confirm" title="回复确认" code={`Hello,
+
+Yes, I confirm that I would like to cancel this VPS and receive a full refund to my original payment method.
+
+Thank you for your help.
+
+Best regards`} />
+
+二次确认后，退款会原路退回你付款时用的账户。
+
+## 3. 重新买一台
+
+退款处理好以后，照 [在搬瓦工买服务器](/howto/buy-bandwagonhost/) 重新买一台，同样记下 IP、root 密码和 SSH 端口。
+
+## 4. 部署后再测一次
+
+从[第 3 步「配置服务器」](/guide/3-deploy/)开始配置新机器，给它起一个新名字（旧的 `ssh 名字` 已经用不了了）。配好后再打开 [ip.net.coffee/claude](/howto/check-ip/) 看一次：泄露都没问题、评分到 70 分以上就行。
+
+<Callout type="ok">
+新服务器部署完成，没有泄露，Claude AI 信任评分在 70 分以上。
+</Callout>

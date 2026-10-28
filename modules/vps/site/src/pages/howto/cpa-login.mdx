@@ -1,0 +1,44 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: cpa-login
+time: 2 分钟
+for: 想用自己 AI 接口的人
+step: 6
+description: 用登录信息文件里的地址和 Key 登录 CLIProxyAPI 管理中心。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 需要的东西
+
+在登录信息文件的「CLIProxyAPI」那一节：
+
+- **管理中心**：形如 `https://你的IP:8318/management.html`；
+- **管理中心登录 Key**：一长串字母和数字。
+
+## 步骤
+
+1. 用浏览器打开「管理中心」那个地址。
+2. 在「管理密钥」一栏粘贴「管理中心登录 Key」，连接。
+3. 进入后能看到仪表盘、认证文件、OAuth 登录、AI 提供商、配置等页面（菜单名可能随版本略有变化）。
+
+<Callout type="ok">
+能进入管理中心，看到服务的版本号和连接状态。
+</Callout>
+
+<Callout type="warn">
+「管理中心登录 Key」只用来登录后台，「API Key」是给 AI 工具用的，两个不要混用。浏览器的「记住密码」只是简单混淆保存，公用电脑上不要勾选。
+</Callout>
+
+## 卡住了？
+
+<Q q="页面打不开？">
+确认是 `https://` 开头、端口 `8318`。先按第 5 步确认你的网络能连上服务器。
+</Q>
+<Q q="提示 Key 错误？">
+复制时不要带空格或换行。实在找不到，用 `ssh 你的名字` 能登录的话，让 AI 重新导出一份登录信息文件。
+</Q>

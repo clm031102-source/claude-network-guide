@@ -1,0 +1,42 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: speed-test
+time: 5 minutes
+for: People who find it slow or want to judge the route
+step: 7
+description: How to test like real use, and how to read the results.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## Before testing
+
+- **Speed tests use a lot of data**: one run can be several to tens of GB — don't test often.
+- **Test from where you are**: test on a phone or computer with the app connected — that's your real experience. Testing on the server itself (often several Gbps) only shows the server's exit is fast, not what you'll get.
+- **Only this proxy on**: turn off other proxies and boosters.
+
+## How
+
+1. Connect the app and pick a node.
+2. Open [fast.com](https://fast.com) and wait; click "Show more info" for latency and upload.
+3. Test once in the daytime and **again between 8 and 11 pm** to compare.
+
+## Reading the results
+
+| Metric | Meaning |
+|---|---|
+| Download speed | How fast video and downloads are. A few tens of Mbps is smooth for daily use |
+| Latency | From China to the US West Coast, 100–250 ms is normal — distance decides it |
+| Loaded latency | If latency jumps a lot while downloading, the route is congested |
+
+## Fast by day, slow at night
+
+Normal: routes from China abroad are most congested in the evening. BBR on the server helps a bit. If peak hours matter, choose a plan with a better route. See the Wiki: [Why it is slower in the evening](/en/wiki/peak-hours/).
+
+<Callout type="tip">
+Some test sites limit test length, and your router or Wi-Fi may be the bottleneck. Test over a cable for a more accurate result.
+</Callout>

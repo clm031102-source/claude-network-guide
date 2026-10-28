@@ -1,0 +1,79 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 0
+need: Nothing — just read it once
+description: Before you start — what you need, what it costs and how long it takes.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+
+## What this step is
+
+After reading this page you'll know what to prepare, roughly what it costs and how long it all takes. No hands-on work yet.
+
+## Three words to know first
+
+You only need these three to begin; you'll pick up the rest as you go.
+
+- **Server** (<Term k="VPS" />): a computer you rent in a data center abroad, running 24/7. You never see it; you control it remotely.
+- **<Term k="节点" text="Node" />**: the encrypted tunnel from your computer to that server. Websites see the server's IP, not yours.
+- **<Term k="订阅" text="Subscription" />**: a URL. Your app opens it to get the nodes and the rules for "which sites go through the server", and keeps them updated.
+
+## What you need
+
+| Item | Used for | If you don't have it |
+|---|---|---|
+| A computer (Windows or Mac) | Configuring the server, installing apps | Required. Windows needs WSL first — see [Install WSL on Windows](/en/howto/windows-wsl/) |
+| A way to pay on overseas websites | Buying the server | The recommended BandwagonHost accepts **Alipay** (支付宝); for other providers go by the checkout page — see [Paying on overseas websites](/en/howto/payment/) |
+| An email address that receives mail reliably | Provider account, server-ready email | Gmail is recommended — see [Create a Google account](/en/howto/gmail/) |
+| An AI coding assistant (optional) | Letting AI configure the server | Not required — in step 3 you can type the commands yourself |
+| A non-China Apple ID (iPhone only) | Downloading Shadowrocket | It's not in the China App Store — see [Create a non-China Apple ID](/en/howto/apple-id/) |
+
+## Roughly what it costs
+
+- **Server**: the only required cost, paid quarterly or yearly; check the provider's site for prices. 1 vCPU and 1 GB RAM are enough.
+- **Computer app**: Clash Verge Rev, free.
+- **iPhone app**: Shadowrocket, a one-off purchase of about US$3 on the US App Store (check the store page).
+- **AI tool** (optional): Claude Code needs a paid Claude plan; Codex needs a paid ChatGPT plan. Skip the AI route and you skip this cost.
+- **Certificate, rules, AI API software**: all free. No domain needed.
+
+## How long it takes
+
+About an hour the first time, mostly buying the server and installing apps. Letting AI configure the server takes around 10 minutes. A second server is much faster.
+
+<Callout type="warn" title="Finish before you leave">
+Many tools are hard to reach where the internet is restricted — AI tools, app download sites, sometimes even GitHub. Do the whole process before you travel, and test on both phone and computer.
+</Callout>
+
+## Two routes — pick one now
+
+- **Let AI do it (recommended)**: you can already use Claude Code or Codex. In step 3 you just paste one message to the AI.
+- **Type it yourself**: no AI tool yet. Step 3 lists every command — copy, paste, Enter.
+
+Both routes give exactly the same result; only who does step 3 differs.
+
+<Callout type="no">
+Never post your server's IP, passwords or subscription URL in group chats or screenshots. They're like house keys — whoever has them can use your line.
+</Callout>
+
+## Stuck?
+
+<Q q="I know nothing about command lines. Can I still do this?">
+Yes. On the AI route you copy one message and answer a few questions. On the manual route you copy commands, paste them and press Enter, and every step tells you what you should see.
+</Q>
+<Q q="How many people can use one server?">
+You and your family, on many devices at once. Don't share it with outsiders: your traffic runs out, what they do is attributed to your server, and the IP may get blocked.
+</Q>
+<Q q="Why not just buy a ready-made “airport” service?">
+Airports share a pool of servers among many people — cheap and easy. Your own server is used only by you, so strangers can't ruin its IP, and you get your own AI API too. Both are valid; this guide covers the second.
+</Q>
+
+<Checkpoint id="step0" items={[
+  "I have a Windows or Mac computer",
+  "I checked the provider's payment options and can pay",
+  "I have an email address that receives mail reliably",
+  "I've chosen a route: let AI do it, or type it myself",
+  "(iPhone users) I know I'll need a non-China Apple ID",
+]} />

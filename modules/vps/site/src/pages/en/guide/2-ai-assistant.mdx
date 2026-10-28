@@ -1,0 +1,111 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 2
+need: A computer; for the AI route, a paid Claude or ChatGPT plan
+description: Get a terminal ready and install Claude Code or Codex. No AI account? Take the manual route.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+
+## What this step is
+
+Prepare the tools for the next step: a <Term k="终端" text="terminal" /> to type commands into, and — on the AI route — an AI assistant that runs commands for you.
+
+Whichever route you take, **you need the terminal**: the AI works inside it too.
+
+## First: open a terminal
+
+<Tabs id="term" label="Your computer" items={[["mac", "Mac"], ["win", "Windows"]]}>
+<div slot="mac">
+
+Mac has Terminal built in: press <kbd class="xxd-kbd">⌘</kbd> + <kbd class="xxd-kbd">Space</kbd>, type "Terminal" and press Enter. A window appears with a line ending in `%` or `$` — that's the terminal.
+
+</div>
+<div slot="win">
+
+This setup's scripts run in Linux, so Windows first needs its built-in Linux environment, <Term k="WSL" />. About 10 minutes and one restart.
+
+Follow [Install WSL on Windows](/en/howto/windows-wsl/), then come back. **From now on, "terminal" on Windows means the Ubuntu window inside WSL.**
+
+</div>
+</Tabs>
+
+<Callout type="tip" title="Using the terminal">
+Paste a command, press Enter and wait. A fresh `$` or `%` line means the command has finished. When you paste or type a password, nothing appears on screen — that's normal.
+</Callout>
+
+## Manual route: you're done here
+
+If you won't use AI, the terminal is all you need. Go to the next step and choose "Type it yourself".
+
+## AI route: install an AI assistant
+
+Pick one — whichever you have an account for:
+
+| | Claude Code | Codex |
+|---|---|---|
+| From | Anthropic (Claude) | OpenAI (ChatGPT) |
+| Account needed | Claude Pro, Max, Team, Enterprise or Console (not the free plan) | A paid ChatGPT plan such as Plus, Pro, Business, Edu or Enterprise |
+
+<Callout type="warn">
+These AI services must be used in the countries and regions they support. If you can't use one yet, take the manual route now and install an AI assistant later.
+</Callout>
+
+<Tabs id="ai" label="Pick an AI assistant" items={[["claude", "Claude Code"], ["codex", "Codex"]]}>
+<div slot="claude">
+
+Paste this into the terminal and press Enter (same command on Mac and in WSL):
+
+<Copy id="cc-install" lang="bash" title="Install Claude Code" code="curl -fsSL https://claude.ai/install.sh | bash" />
+
+When it finishes, **close the terminal and open it again**, then check — a version number means it worked:
+
+<Copy id="cc-ver" lang="bash" title="Check" code="claude --version" />
+
+Then type `claude`, press Enter and log in to your Claude account in the browser when prompted. Details: [Install Claude Code](/en/howto/install-claude-code/).
+
+</div>
+<div slot="codex">
+
+Paste this into the terminal and press Enter (same command on Mac and in WSL):
+
+<Copy id="cx-install" lang="bash" title="Install Codex" code="curl -fsSL https://chatgpt.com/codex/install.sh | sh" />
+
+When it finishes, **close the terminal and open it again**, then check — a version number means it worked:
+
+<Copy id="cx-ver" lang="bash" title="Check" code="codex --version" />
+
+Then type `codex`, press Enter, choose "Sign in with ChatGPT" and log in in the browser. Details: [Install Codex](/en/howto/install-codex/).
+
+</div>
+</Tabs>
+
+<Callout type="ok">
+Typing `claude` or `codex` opens the AI assistant, you're logged in, and you can chat with it.
+</Callout>
+
+## Optional: install it as a skill
+
+If you'll set up servers often, install this setup as an AI skill; afterwards one sentence — "use claude-network-guide to set up my new server" — is enough. Not needed the first time: the message in the next step tells the AI to download the setup itself. See [Install the claude-network-guide skill](/en/howto/install-skill/).
+
+## Stuck?
+
+<Q q="It says command not found?">
+Close and reopen the terminal after installing so the new command is found. Still failing? See the matching how-to.
+</Q>
+<Q q="The browser didn't open for login?">
+The terminal prints a URL — copy it into a browser, log in, then return to the terminal.
+</Q>
+<Q q="Can I skip WSL on Windows and use PowerShell?">
+The AI assistants themselves run on Windows, but this setup's scripts need Linux tools like bash and ssh, which are easiest in WSL — so the guide uses WSL throughout.
+</Q>
+
+<Checkpoint id="step2" items={[
+  "I can open a terminal (Windows: Ubuntu in WSL)",
+  "(AI route) Typing claude or codex opens the assistant, and I'm logged in",
+  "(Manual route) I know to choose “Type it yourself” in the next step",
+]} />

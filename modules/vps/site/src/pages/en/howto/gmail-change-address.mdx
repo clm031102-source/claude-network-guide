@@ -1,0 +1,75 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: gmail-change-address
+time: About 5 minutes
+for: People who already have Gmail and want a different address
+description: Change an existing Google account to a new @gmail.com address without signing up again; the old address becomes an alias and keeps receiving mail.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## First: this changes the address — it doesn't add a mailbox
+
+Google now lets you **change an existing account to a new @gmail.com address**. Afterwards:
+
+- you still sign in to the **same** Google account — mail, Drive, photos and contacts are all there;
+- **the old address keeps working** as an alias, so mail sent to it still arrives;
+- you just get a nicer, easier-to-remember address — not a second, separate mailbox.
+
+<Callout type="tip" title="Change the address, or create a new account?">
+**Change it** if you simply dislike the current address, or it contains an old name or year.
+**Create a new account** if you need a **completely separate** mailbox — for example one used only for a non-China Apple ID or a BandwagonHost account, kept apart from your main account. See [Create a Google account](/en/howto/gmail/).
+</Callout>
+
+## Steps
+
+1. Open [myaccount.google.com/google-account-email](https://myaccount.google.com/google-account-email) in a browser and sign in. Or in your Google Account: Personal info → Email → Google Account email.
+2. If your account is eligible, there's an option to change the address — open it.
+3. Enter the new address (the part before @gmail.com); the page tells you whether it's taken. If so, try another.
+4. Confirm as prompted — you may need to enter your password or complete 2-Step Verification again.
+5. Afterwards, send yourself one email at the new address and one at the old address to check both arrive.
+
+<Callout type="ok">
+Your Google Account page shows the new address, and mail sent to both the new and old addresses lands in the same inbox.
+</Callout>
+
+## Limits
+
+| Rule | Details |
+|---|---|
+| How often | Once a year, at most three times in total |
+| Switching back | You can return to an address you used before |
+| Old address | Becomes an alias that keeps receiving mail; nobody else can take it |
+| Region | Launched in the US first in 2026, rolling out to other countries and regions |
+
+## Before you change
+
+<Callout type="warn" title="Sites that use your old address">
+The old address still receives mail, but some sites use it as your username. After changing, you may still need to sign in to them with the old address; to switch them to the new one, change it in each site's settings.
+</Callout>
+
+- **Server provider, Apple ID, GitHub and similar accounts**: their login doesn't change automatically. Update the email in each account's settings if you want.
+- **People who have your old address**: no need to tell them; it still receives mail. Share the new one when you like.
+- **Sites you sign in to with "Sign in with Google"**: usually unaffected — it's the same account.
+
+## Stuck?
+
+<Q q="No option to change the address?">
+Your account can't use the feature yet. Common reasons: not available in your region yet, a work or school account (controlled by an admin), already changed once this year, or already changed three times. Check again later, or just [create a new account](/en/howto/gmail/).
+</Q>
+<Q q="The address I want is taken?">
+Try another: add numbers, initials and so on. Dots don't matter in Gmail (a.b@gmail.com and ab@gmail.com are the same address), so adding a dot doesn't make a new one.
+</Q>
+<Q q="Can I still sign in with the old address?">
+Yes. Both addresses point to the same account; either works for sign-in.
+</Q>
+<Q q="Changed my mind?">
+You can switch back to a previous address, but it uses up one of your changes (once a year, three in total).
+</Q>
+
+<Checkpoint id="gmail-change" items={[
+  "My Google Account page shows the new address",
+  "I sent myself an email at both the new and old addresses, and both arrived",
+  "Sites that matter (server provider, Apple ID…) now use the new address, or I know to keep signing in with the old one",
+]} />

@@ -1,0 +1,57 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cpa-add-account
+time: 5 minutes
+for: People who want their own AI API
+step: 6
+description: Add your own AI accounts to CLIProxyAPI — by logging in (OAuth) or entering an API key.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+A fresh CLIProxyAPI has no accounts — add your own first. Two ways:
+
+## Option 1: log in with your account (OAuth)
+
+For people with a subscription such as ChatGPT (Codex).
+
+<Callout type="warn" title="Don't connect a Claude account">
+Anthropic's policy doesn't allow connecting a Claude account to tools like CLIProxyAPI. OpenAI has said ChatGPT accounts can be used this way — the author loves using it to make images. Using the Claude Code app as a client (backed by your ChatGPT account) is fine.
+</Callout>
+
+1. Log in to the management center and open the OAuth login section (under Auth files & OAuth).
+2. Choose the service (such as Codex) and start the login.
+3. The browser opens that service's authorization page — log in and approve.
+4. If the browser then lands on a `localhost` address that won't load, don't close it: follow the management center's prompt and paste the **full URL** from the address bar back into it.
+5. Back on the auth files list, the new entry appears.
+
+## Option 2: enter an API key
+
+For people with an API key from an AI service.
+
+1. Log in to the management center and open **AI providers**.
+2. Choose the service (or an OpenAI-compatible provider), add it, paste the API key and save.
+
+## Check
+
+Run in the terminal (with your API address and API key):
+
+<Copy id="models" lang="bash" title="List available models" code={`curl -s https://your-IP:8318/v1/models -H "Authorization: Bearer your-API-Key"`} />
+
+<Callout type="ok">
+Model names appear in the response — the account is added.
+</Callout>
+
+<Callout type="no">
+Add only your own accounts, never other people's, and don't share the API. Quota runs out fast and it may break the AI services' terms of use.
+</Callout>
+
+## Stuck?
+
+<Q q="After a while, calls fail saying authorization expired?">
+Subscription authorizations expire or get revoked. Check the status in the auth files list and run the OAuth login again if needed.
+</Q>

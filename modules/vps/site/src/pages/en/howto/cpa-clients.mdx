@@ -1,0 +1,81 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cpa-clients
+time: 5 minutes
+for: People who want their own AI API
+step: 6
+description: Connect your CLIProxyAPI to Cherry Studio, Claude Code, Codex and other tools.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## The general recipe
+
+Most AI tools support an "OpenAI-compatible API" and need only two things:
+
+| Name in the tool | What to enter |
+|---|---|
+| API address / Base URL / Endpoint | The "API address (Base URL)" from the login-info file: `https://your-IP:8318/v1` |
+| API Key | The "API Key" from the login-info file |
+| Model name | A model name listed by the curl command in [Add accounts](/en/howto/cpa-add-account/) |
+
+CLIProxyAPI is also compatible with Claude- and Gemini-style APIs.
+
+<Tabs id="tool" label="Pick a tool" items={[["cherry", "Cherry Studio"], ["claude", "Claude Code"], ["codex", "Codex"], ["curl", "Command-line test"]]}>
+<div slot="cherry">
+
+1. In Cherry Studio's settings, open the model services page, add a provider and set its type to **OpenAI**.
+2. Enter the API key; for the API address enter `https://your-IP:8318` (Cherry Studio adds `/v1` itself; if it won't connect, try the full `https://your-IP:8318/v1`).
+3. Click "Manage" or fetch the model list, add the models you want, then run the check.
+
+</div>
+<div slot="claude">
+
+Set two environment variables before starting Claude Code (address without `/v1`):
+
+<Copy id="cc-env" lang="bash" title="Point Claude Code at your API" code={`export ANTHROPIC_BASE_URL="https://your-IP:8318"
+export ANTHROPIC_AUTH_TOKEN="your-API-Key"
+claude`} />
+
+This needs an account in the management center that provides Claude models. For a one-off, set them in the same terminal; for regular use, put them in your shell's config file.
+
+</div>
+<div slot="codex">
+
+Add a custom provider to `~/.codex/config.toml` (create the file if it doesn't exist):
+
+<Copy id="cx-cfg" lang="bash" title="~/.codex/config.toml" code={`model_provider = "cpa"
+model = "a model name from the curl list"
+
+[model_providers.cpa]
+name = "CLIProxyAPI"
+base_url = "https://your-IP:8318/v1"
+env_key = "CPA_API_KEY"
+wire_api = "responses"`} />
+
+Then set the key in the terminal and start it: `export CPA_API_KEY="your-API-Key"`, then run `codex`.
+
+</div>
+<div slot="curl">
+
+<Copy id="chat" lang="bash" title="Send one message" code={`curl -s https://your-IP:8318/v1/chat/completions \\
+  -H "Authorization: Bearer your-API-Key" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"model-name","messages":[{"role":"user","content":"Hello"}]}'`} />
+
+A JSON reply containing the model's answer means the API works.
+
+</div>
+</Tabs>
+
+<Callout type="no">
+Never put the API key in code or config you upload to GitHub. Use environment variables or a local-only config file.
+</Callout>
+
+<Callout type="tip">
+Tool settings change between versions. Look for "custom provider", "OpenAI-compatible" or "Base URL".
+</Callout>

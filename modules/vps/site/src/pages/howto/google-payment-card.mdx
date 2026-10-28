@@ -1,0 +1,62 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: google-payment-card
+time: 约 5 分钟
+for: 要在 Google Play 买 App、订阅的人
+description: 在 Google 账号里添加信用卡或借记卡，用来在 Google Play 付款；也讲了哪些卡能用、绑不上怎么办。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 先看你的卡能不能用
+
+Google Play 接受的卡种以 [Google 的支持列表](https://support.google.com/googleplay/answer/2651410) 为准，常见的是：
+
+- **Visa、Mastercard、American Express、JCB、Discover** 的信用卡或借记卡；
+- 能用的卡种**按国家和地区不同**，以添加时页面显示的为准。
+
+<Callout type="warn" title="这些通常绑不上">
+虚拟信用卡（VCC）、银行转账、电汇都不支持。卡面上**只有银联**标志的卡也不在 Google 列出的卡种里；带 Visa 或 Mastercard 标志的双标卡可以试试。
+</Callout>
+
+没有能用的卡，也可以买 **Google Play 礼品卡**充值到余额，用余额付款和订阅。
+
+## 步骤（电脑或手机浏览器）
+
+1. 打开 [pay.google.com](https://pay.google.com)，登录你的 Google 账号。
+2. 点「**付款方式**」→「**添加付款方式**」→「**添加信用卡或借记卡**」。
+3. 填卡号、有效期、安全码（卡背面 3 位数）、持卡人姓名和账单地址。
+4. 保存。银行可能会发短信验证码，或者让你在银行 App 里确认。
+
+<Callout type="ok">
+「付款方式」列表里出现这张卡（显示卡种和后 4 位）。
+</Callout>
+
+## 也可以在手机的 Play 商店里加
+
+打开 Play 商店 → 点右上角头像 →「**付款和订阅**」→「**付款方式**」→「添加信用卡或借记卡」，填写的内容和上面一样。
+
+## 要知道的几件事
+
+- **会有一笔小额「待处理」扣款**：Google 用它验证卡是否有效，之后会自动消失，不会真的扣钱。
+- **付款资料的国家/地区**：第一次添加付款方式时会建立一份付款资料，里面的国家/地区决定 Play 商店是哪个区、能买哪些 App。建好以后不能直接改，要换只能新建一份付款资料，所以第一次就要选对。
+- **安全**：卡号、安全码只填在 Google 自己的页面上，不要发给任何人，也不要截图。账号本身记得做好 [Google 账号安全设置](/howto/google-account-security/)。
+
+## 卡住了？
+
+<Q q="提示「无法添加这张卡」或「付款被拒」？">
+先确认卡种在支持列表里、卡已开通境外（或网上）支付，账单地址和银行记录一致。还不行就打电话问发卡银行，很多时候是银行拦截了境外交易。也可以改用 Google Play 礼品卡。
+</Q>
+<Q q="看不到「添加信用卡」，只有别的付款方式？">
+你的付款资料所在国家/地区不支持这种付款方式。可用的方式按国家和地区不同。
+</Q>
+<Q q="安卓手机上没有 Play 商店？">
+很多国内品牌的手机没有预装 Google 服务。用电脑浏览器打开 pay.google.com 一样能添加付款方式。
+</Q>
+
+<Checkpoint id="google-card" items={[
+  "我确认了卡种在 Google Play 支持列表里",
+  "在 pay.google.com 的「付款方式」里能看到这张卡",
+  "付款资料的国家/地区是我想要的",
+]} />

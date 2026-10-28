@@ -1,0 +1,49 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: ai-health-check
+time: 3 minutes
+for: People who have finished setup
+step: 7
+description: Have AI check your server’s 34 items read-only, and fix problems only after you agree.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## When
+
+- Every month or two;
+- when it feels slow or won't connect;
+- before you travel.
+
+## Message for the AI
+
+Replace `bwg` with your server's name:
+
+<Copy id="hc" title="Message for the AI" code={`Please check my server with the "Claude Network Guide" setup: ssh bwg
+
+Setup: https://github.com/clm031102-source/claude-network-guide
+Download the project and read the "以后的复核和维护" (later checks and maintenance) part of modules/vps/skills/claude-network-guide/SKILL.md.
+Only check first, tell me which items failed and why, and fix them only after I agree.
+Don't show passwords, subscription URLs or keys in the chat. Please reply in English.`} />
+
+With the skill installed, "use claude-network-guide to check the server ssh bwg" works too.
+
+## What it checks
+
+34 items, including: services running, certificate valid and renewing automatically, ports listening, subscriptions served correctly, CLIProxyAPI responding, SSH key-only login, firewall on, configuration backups present. The check is **read-only** and changes nothing.
+
+<Callout type="ok">
+The AI reports `验收：34/34 通过` (34/34 passed).
+</Callout>
+
+## If something fails
+
+The AI tells you which item, why, and how it plans to fix it. It acts only after you agree, then checks again.
+
+<Callout type="tip">
+If you deliberately changed a setting (for example, kept password login), the matching check shows FAIL. That's your choice — tell the AI not to fix it.
+</Callout>

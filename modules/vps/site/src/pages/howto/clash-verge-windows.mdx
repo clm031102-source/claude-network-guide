@@ -1,0 +1,66 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: clash-verge-windows
+time: 约 10 分钟
+for: Windows 用户
+step: 4
+description: 在 Windows 上安装 Clash Verge Rev，导入 Clash 订阅，打开虚拟网卡模式。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+## 1. 下载哪个安装包
+
+打开官方发布页 [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases)，在最新版本下面的文件列表里找：
+
+| 你的电脑 | 下载 |
+|---|---|
+| 绝大多数 Windows 电脑（Intel、AMD 处理器） | 文件名以 `_x64-setup.exe` 结尾 |
+| 骁龙等 ARM 处理器的 Windows 电脑 | 以 `_arm64-setup.exe` 结尾 |
+| 安装后打不开、提示缺少 WebView2 | 换成名字里带 `fixed_webview2` 的版本 |
+
+不知道自己是哪种：设置 → 系统 → 系统信息，看「系统类型」。
+
+<Shot src="clash-verge-download.webp" w={1214} h={367} alt="Clash Verge Rev 发布说明里的下载地址" caption="发布说明里的「下载地址」：Windows 点「64位(常用)」，Mac 按芯片选。" />
+
+## 2. 安装
+
+双击下载的文件，一路「下一步」。Windows 弹出安全提示时选「仍要运行」。
+
+## 3. 导入订阅
+
+1. 打开 Clash Verge，点左侧「订阅」。
+2. 在「订阅文件链接」输入框里粘贴登录信息文件里的 **Clash 订阅地址**，点「导入」。
+3. 点一下新出现的订阅卡片，让它变成选中状态。
+
+## 4. 选规则模式
+
+点左侧「代理」，上方模式选「规则」。这里能看到 `名字-Reality` 和 `名字-TLS` 两个节点。
+
+## 5. 打开虚拟网卡模式
+
+1. 点左侧「设置」，打开「虚拟网卡模式」。提示需要服务模式时，点「安装服务」，在弹出的管理员确认里点「是」。
+2. 点「虚拟网卡模式」旁边的齿轮，打开「严格路由」，保存。
+3. 「Clash 设置」里的「DNS 覆写」保持关闭；「IPv6」先检测网络有没有 IPv6 再决定开关，方法见 [IPv6 开还是关](/howto/clash-verge-tun/#ipv6-开还是关)。
+
+原因和更多细节见 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/)。
+
+<Callout type="ok">
+首页显示「TUN 模式已启用」；浏览器打开 ip.net.coffee/claude/ 显示的是你服务器的 IP。
+</Callout>
+
+## 卡住了？
+
+<Q q="导入订阅失败？">
+确认粘贴的是 Clash 订阅地址（不是 Shadowrocket 那个），并且地址完整。还不行，在浏览器里打开这个地址，能打开就说明服务器正常。
+</Q>
+<Q q="安装服务失败？">
+右键 Clash Verge，选「以管理员身份运行」，再打开虚拟网卡模式（这种方式不需要安装服务）。
+</Q>
+<Q q="开了虚拟网卡模式，所有网站都打不开？">
+退出其他 VPN、游戏加速器；Windows 防火墙弹窗时点「允许」；还不行就关掉「严格路由」再试。
+</Q>

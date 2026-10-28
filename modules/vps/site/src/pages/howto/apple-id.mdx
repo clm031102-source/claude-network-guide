@@ -1,0 +1,65 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: apple-id
+time: 约 15 分钟
+for: 用 iPhone、iPad 的人
+step: 4
+description: 注册一个国家或地区不是中国大陆的 Apple ID，用来下载 Shadowrocket。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+## 为什么需要
+
+Shadowrocket 在中国区 App Store 没有上架。要下载它，得用一个国家或地区设为美国（或其他地区）的 Apple ID，在那个地区的 App Store 里购买。
+
+<Callout type="warn" title="只在 App Store 里登录">
+境外 Apple ID 只登录在 **App Store（媒体与购买项目）** 里，**不要**登录到 iCloud。iCloud 里继续用你原来的账号，照片、通讯录这些都不受影响。
+</Callout>
+
+## 1. 注册新的 Apple ID
+
+1. 在电脑或手机浏览器打开 [account.apple.com](https://account.apple.com)，选择创建 Apple 账户。
+2. 「国家或地区」选 **美国**（或者你需要的地区）。
+3. 用一个**还没注册过 Apple ID 的邮箱**，比如刚注册的 Gmail。
+4. 手机号可以用你自己的号码（+86），用来接收验证码。
+5. 按提示验证邮箱和手机号。
+
+<Shot src="apple-account.webp" w={562} h={644} alt="创建 Apple 账户的表单" caption="创建 Apple 账户：红框里的「Country/Region」（国家或地区）选 United States。" />
+
+## 2. 准备付款方式
+
+Shadowrocket 是付费 App（美区一次性付费，约 3 美元）。付款方式要和账号的地区一致：
+
+- 有那个地区的银行卡，可以直接绑定；
+- 没有的话，用那个地区的 **App Store 礼品卡**充值到账号余额，最稳妥，见 [用礼品卡给美区 Apple ID 充值](/howto/apple-gift-card/)；
+- 也可以试试 PayPal，见 [注册 PayPal 并绑定美区 Apple ID](/howto/apple-paypal/)（不一定成功）。
+
+## 3. 在 iPhone 上切换 App Store 账号
+
+1. 打开「设置」，点最上面你的名字。
+2. 进入「媒体与购买项目」，选「退出登录」。**这里只会退出 App Store，不影响 iCloud。**
+3. 打开 App Store，点右上角头像，用新的境外 Apple ID 登录。
+4. 搜索 **Shadowrocket**，认准开发者 Shadow Launch Technology Limited，购买下载。
+
+下载完可以切回原来的账号。以后更新 Shadowrocket 时，App Store 可能会要求输入境外 Apple ID 的密码。
+
+<Callout type="ok">
+iPhone 上装好了 Shadowrocket，iCloud 里仍然是你原来的账号。
+</Callout>
+
+## 卡住了？
+
+<Q q="提示这个邮箱已经是 Apple ID？">
+一个邮箱只能注册一个 Apple ID，换一个新邮箱。
+</Q>
+<Q q="App Store 里搜不到 Shadowrocket？">
+确认 App Store 右上角登录的是境外账号，而且是在购买页面（「媒体与购买项目」）切换的，不是在 iCloud 里。
+</Q>
+<Q q="能不能借别人的境外 Apple ID？">
+不建议。别人的账号可能被对方改密码、锁定，甚至被用来远程锁你的设备（如果误登录到 iCloud）。
+</Q>

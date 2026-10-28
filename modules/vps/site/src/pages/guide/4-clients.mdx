@@ -1,0 +1,150 @@
+---
+layout: ../../layouts/Guide.astro
+step: 4
+need: 登录信息文件里的订阅地址
+description: 在电脑、手机、路由器上装客户端，导入订阅。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Q from "../../components/Q.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+## 这一步做什么
+
+在你要用的每台设备上装一个客户端，把<Term k="订阅" />地址导进去。导入以后，客户端会自动拿到两个<Term k="节点" />和全部<Term k="分流" />规则。
+
+登录信息文件里有两个订阅地址，**别弄混**：
+
+| 订阅地址 | 给谁用 |
+|---|---|
+| Clash Verge Rev / OpenClash / Mihomo 那一行 | 电脑（Windows、Mac）、安卓、路由器 |
+| Shadowrocket（iPhone）那一行 | iPhone、iPad |
+
+<Tabs id="dev" label="你的设备" items={[["pc", "Windows / Mac"], ["ios", "iPhone / iPad"], ["android", "安卓"], ["router", "路由器"]]}>
+<div slot="pc">
+
+### 1. 安装 Clash Verge Rev
+
+到官方发布页 [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases) 下载最新版，按自己的系统和芯片选安装包。怎么选见 [Windows](/howto/clash-verge-windows/) 和 [Mac](/howto/clash-verge-mac/) 两篇 How-to。
+
+<Shot src="clash-verge-download-zh.gif" w={924} h={606} alt="在 Clash Verge Rev 发布页找到安装包的四个步骤" caption="动图：在官方发布页找到该下载的安装包。" />
+
+<Callout type="warn">
+认准 **Clash Verge Rev**。旧的 Clash for Windows 已经停更，打不开这份订阅。
+</Callout>
+
+### 2. 导入订阅
+
+1. 打开 Clash Verge，点左侧「订阅」。
+2. 在上方「订阅文件链接」输入框里，粘贴**Clash 订阅地址**，点「导入」。
+3. 导入后，点一下新出现的那张订阅卡片，让它变成选中状态。
+
+### 3. 选规则模式，打开虚拟网卡模式
+
+1. 点左侧「代理」，上方模式选「规则」。
+2. 点左侧「设置」，打开「<Term k="虚拟网卡" text="虚拟网卡模式" />」。第一次会提示需要服务模式，点「安装服务」，Windows 点「是」，Mac 输入开机密码。
+3. Windows 用户：点「虚拟网卡模式」旁边的齿轮，打开「严格路由」，保存。
+
+为什么要开虚拟网卡模式，以及更多细节，见 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/)。
+
+<Callout type="tip">
+电脑上**首推 Clash Verge Rev**。已经在用 v2rayN 的也能用，但只拿到节点、没有这套分流规则，见 [v2rayN（备选）](/howto/v2rayn/)。
+</Callout>
+
+<Callout type="ok">
+首页显示「TUN 模式已启用」，「代理」页面能看到两个节点：`名字-Reality` 和 `名字-TLS`。
+</Callout>
+
+<Callout type="tip" title="Windows 和 Mac 都要用？">
+可以，两台电脑导入同一个 Clash 订阅、用同样的设置就行。但一台配好了，不代表另一台也好了，**两台要各自仔细核对一遍**：
+
+- 都是「规则」模式，「虚拟网卡模式」打开，服务装好了；
+- **只有 Windows** 多一步：「严格路由」打开；
+- 「DNS 覆写」都是关闭的；
+- 「IPv6」开关按**这台电脑现在用的网络**检测后再定，两台的结果不一定一样；
+- 各自完全退出浏览器再打开，各自打开 [ip.net.coffee/claude](/howto/check-ip/) 测一次泄露。
+</Callout>
+
+</div>
+<div slot="ios">
+
+### 1. 安装 Shadowrocket
+
+Shadowrocket（小火箭）在中国区 App Store 没有上架，要用**境外 Apple ID**（比如美区）在 App Store 购买下载，一次性付费，大约 3 美元。没有境外 Apple ID 的，见 [注册境外 Apple ID](/howto/apple-id/)。
+
+<Callout type="warn">
+认准开发者是 Shadow Launch Technology Limited，别装成名字相似的山寨 App。
+</Callout>
+
+### 2. 导入订阅
+
+1. 打开 Shadowrocket，点右上角的「+」。
+2. 「类型」选 **Subscribe**（订阅）。
+3. 「URL」粘贴登录信息文件里的 **Shadowrocket 订阅地址**，点「完成」。
+4. 列表里出现两个节点，点一下其中一个（推荐 `名字-Reality`）选中它。
+
+### 3. 连接
+
+打开最上面的连接开关，第一次会请求添加 VPN 配置，点「允许」。
+
+更多细节见 [Shadowrocket（iPhone、iPad）](/howto/shadowrocket/)。
+
+<Callout type="ok">
+iPhone 右上角状态栏出现 VPN 标志，Shadowrocket 里选中的节点显示了延迟数字。
+</Callout>
+
+</div>
+<div slot="android">
+
+### 1. 安装客户端
+
+推荐 **FlClash** 或 **Clash Meta for Android**，都是开源的，从 GitHub 官方发布页下载 APK 安装，见 [安卓客户端](/howto/android/)。
+
+### 2. 导入订阅
+
+在客户端里找「配置」或「订阅」，选「从 URL 导入」，粘贴 **Clash 订阅地址**（和电脑用的是同一个），保存后选中这份配置。
+
+### 3. 连接
+
+回到首页打开连接开关，第一次会请求创建 VPN，点「确定」。模式选「规则」。
+
+<Callout type="ok">
+手机状态栏出现钥匙或 VPN 标志，客户端里能看到两个节点。
+</Callout>
+
+</div>
+<div slot="router">
+
+路由器上用 **OpenClash**（需要刷了 OpenWrt 系统的路由器），家里所有设备不用装客户端就能用。这是进阶内容，见 [OpenClash 路由器（进阶）](/howto/openclash/)。
+
+用的同样是 **Clash 订阅地址**。规则文件从你自己的服务器下载，路由器不需要能访问 GitHub。
+
+</div>
+</Tabs>
+
+<Callout type="no">
+不要把订阅地址发给别人，也不要截图分享。订阅地址就是你线路的钥匙。
+</Callout>
+
+## 卡住了？
+
+<Q q="导入时报错，或者导入后看不到节点？">
+先确认粘贴的是对的那个订阅地址（电脑用 Clash 订阅，iPhone 用 Shadowrocket 订阅）。再确认地址完整、没有多出空格。还不行，就在浏览器里打开这个地址看看：能打开、显示一大段文字，说明服务器没问题，问题在客户端；打不开，说明你当前的网络连不上服务器。
+</Q>
+<Q q="打开虚拟网卡模式后，所有网站都打不开了？">
+先退出电脑上其他的 VPN、游戏加速器、公司 VPN，它们会抢同一张虚拟网卡。Windows 防火墙弹窗时点「允许」。还不行就先关掉「严格路由」再试。
+</Q>
+<Q q="提示「TUN 模式需要服务模式」，但装服务失败？">
+Windows 可以右键 Clash Verge，选「以管理员身份运行」，再打开虚拟网卡模式。更多情况见 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/)。
+</Q>
+<Q q="手机和电脑能同时连吗？">
+能。你和家人的多台设备可以同时用同一个订阅。
+</Q>
+
+<Checkpoint id="step4" items={[
+  "电脑：Clash Verge Rev 导入了 Clash 订阅，选了「规则」模式，打开了虚拟网卡模式",
+  "手机：Shadowrocket 或安卓客户端导入了对应的订阅，并且已经连接",
+  "客户端里能看到两个节点：名字-Reality 和 名字-TLS",
+]} />

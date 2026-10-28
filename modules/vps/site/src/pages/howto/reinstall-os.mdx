@@ -1,0 +1,59 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: reinstall-os
+time: 10 分钟
+for: 系统不是 Ubuntu（包括搬瓦工的默认系统）、或想从头再来的人
+step: 1
+description: 在搬瓦工 KiwiVM 或其他商家后台把系统重装成 Ubuntu 24.04：关机、Install new OS、抄下新密码，以及重装后电脑这边要做的清理。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+<Callout type="warn">
+重装会**清空服务器上的一切**。刚买的机器没什么可丢的；已经在用的机器，重装后要从第 3 步重新配置，所有订阅地址都会变。
+</Callout>
+
+## 1. 在商家后台重装
+
+### 搬瓦工（KiwiVM）
+
+搬瓦工开通时装的是默认系统，往往不是 Ubuntu 24.04，需要自己重装一次，几分钟就好：
+
+1. 打开 KiwiVM 控制面板（客户中心 → Services → My Services → 点进服务器 → **KiwiVM Control Panel**）。首页的 Operating system 一栏就是当前系统。
+2. 在首页（Main controls）点 **Stop**，把服务器关机。
+3. 点左侧菜单的 **Install new OS**。
+4. 在系统列表里选 **Ubuntu 24.04**（64 位，名字里带 x86_64 的那一项）。
+5. 勾选「I agree that all existing data on my VPS will be lost」，点 **Reload**。
+6. 等几分钟。装好后页面会显示新的 **root 密码**（New Root password）和 **SSH 端口**（SSH Port），**只显示这一次**，马上抄下来。
+7. 回到 Main controls，看到状态是 **Running** 就好了；如果还是停止状态，点 **Start**。
+
+- **IP 不变**，只有 root 密码会变，SSH 端口也可能变，以第 6 步页面上显示的为准。
+- 密码没来得及抄：在左侧菜单的 Root password modification 里重新生成一个（服务器要开着）。
+
+### DMIT 和其他商家
+
+在服务器详情页找「重装系统」（Reinstall / Rebuild），选 Ubuntu 24.04。新的 root 密码一般会显示在页面上或发到邮箱。
+
+列表里没有 24.04 的话，选 Ubuntu 22.04 或 Debian 12 也可以。
+
+## 2. 电脑这边清理旧记录（之前连过这台服务器才需要）
+
+重装后服务器的「身份指纹」变了，电脑会以为有人冒充它，拒绝连接。先删掉旧记录（把 IP 换成你的）：
+
+<Copy id="rm-hostkey" lang="bash" title="删除旧的主机指纹" code={`ssh-keygen -R 你的IP
+ssh-keygen -R "[你的IP]:你的端口"`} />
+
+第二行只在 SSH 端口不是 22 时需要。
+
+**端口变了的话**：打开电脑上的 `~/.ssh/config`，找到你给这台服务器起的名字那一段，把 `Port` 改成新端口。
+
+## 3. 重新配置
+
+用新的 root 密码，从第 3 步「配置服务器」重新开始。
+
+<Callout type="ok">
+商家后台显示新系统是 Ubuntu 24.04、状态是运行中，你记下了新的 root 密码和 SSH 端口。
+</Callout>

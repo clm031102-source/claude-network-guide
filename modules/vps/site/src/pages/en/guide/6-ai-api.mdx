@@ -1,0 +1,98 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 6
+need: The login-info file; your own AI account
+description: What CLIProxyAPI is, logging in to its management center, adding accounts, and connecting AI tools.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## What this step is
+
+Your server already runs <Term k="CLIProxyAPI" />: it turns your own AI accounts (such as ChatGPT) into a standard API for all kinds of AI tools. It starts empty; this step adds your accounts.
+
+<Callout type="warn" title="Don't connect a Claude account">
+Anthropic's policy doesn't allow connecting a Claude account to tools like CLIProxyAPI. OpenAI has said ChatGPT accounts can be used this way — the author loves using it to make images. Using the Claude Code app as a client (backed by your ChatGPT account) is fine.
+</Callout>
+
+**This step is optional.** If you only want the line, skip ahead to step 7.
+
+<Callout type="tip" title="What it can and can't do">
+Can: let Cherry Studio, coding tools and your own programs all use your AI account through one address.
+Can't: create quota out of thin air. It still uses your account's own quota and costs.
+</Callout>
+
+## 1. Log in to the management center
+
+Open the login-info file and find the "CLIProxyAPI" section:
+
+| Item in the file | Used for |
+|---|---|
+| Management center | The admin page to open in a browser |
+| Management center login key | Logging in to the admin page |
+| API address (Base URL) | The API address you give AI tools |
+| API Key | The <Term k="API Key" text="key" /> you give AI tools |
+
+1. Open the "management center" address in a browser.
+2. Paste the "management center login key" into the **management key** field and connect.
+
+Details: [Log in to the CLIProxyAPI management center](/en/howto/cpa-login/).
+
+## 2. Add your AI account
+
+Two ways, depending on what you have:
+
+- **Log in with your account (OAuth)**: you have a subscription such as ChatGPT (Codex) (not a Claude account — see the warning above). Go to the OAuth login section, choose the service, and log in and authorize in the browser as prompted. A new entry then appears under auth files.
+- **Enter an API key**: you have an API key from an AI service. Go to **AI providers**, add the service and paste the key.
+
+<Callout type="warn">
+If, after authorizing, the browser lands on a `localhost` address that won't load, don't worry: follow the management center's prompt and paste the full URL from the address bar back into it. See [Add accounts to CLIProxyAPI](/en/howto/cpa-add-account/).
+</Callout>
+
+## 3. Check the API works
+
+Run this in the terminal (with your own API address and API key):
+
+<Copy id="cpa-test" lang="bash" title="List available models" code={`curl -s https://your-IP:8318/v1/models -H "Authorization: Bearer your-API-Key"`} />
+
+<Callout type="ok">
+You get back text containing model names (such as `gpt-…` or `claude-…`) — the account is added and the API works.
+</Callout>
+
+## 4. Connect AI tools
+
+Most AI tools support an "OpenAI-compatible API" and need just two things:
+
+- **API address / Base URL**: the "API address (Base URL)" from the login-info file, like `https://your-IP:8318/v1`;
+- **API Key**: the "API Key" from the login-info file.
+
+Exact settings for Cherry Studio, Claude Code, Codex and more: [Connect your AI API to tools](/en/howto/cpa-clients/).
+
+<Callout type="no">
+The API key and the management center login key are both access cards: don't post or screenshot them, and never put them in code you upload to GitHub. Don't share the API with others either — quota runs out fast and it may break the AI services' terms of use.
+</Callout>
+
+## It updates itself
+
+CLIProxyAPI checks for new versions every 30 minutes and only switches at an idle moment — about one second, without interrupting a response in progress. If an update fails it rolls back automatically. Nothing for you to do.
+
+## Stuck?
+
+<Q q="The management center won't open?">
+Check the address starts with `https://` and uses port `8318`, and that your network can reach the server (see step 5's exit IP check first).
+</Q>
+<Q q="The API returns 401?">
+The API key is wrong, or you used the management center login key as the API key. They're two different keys.
+</Q>
+<Q q="It connects, but no models are listed, or calls fail?">
+No account added yet, or the account's authorization has expired. Check its status under auth files and log in again if needed.
+</Q>
+
+<Checkpoint id="step6" items={[
+  "I can log in to the management center with its login key",
+  "I added at least one AI account",
+  "The curl test lists models",
+]} />

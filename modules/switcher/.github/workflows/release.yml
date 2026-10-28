@@ -1,0 +1,105 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: macos-15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version from tag
+        id: version
+        run: |
+          set -euo pipefail
+          VERSION="${GITHUB_REF_NAME#v}"
+          case "$VERSION" in
+            ''|*[!0-9A-Za-z._-]*)
+              echo "::error::tag must look like v1.2.3"
+              exit 1
+              ;;
+          esac
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Verify source checksums
+        run: shasum -a 256 -c SHA256SUMS
+
+      - name: Package macOS app and installer kit
+        run: |
+          bash -n scripts/package-macos.sh
+          bash scripts/package-macos.sh "$VERSION"
+
+      - name: Verify Info.plist version
+        run: |
+          set -euo pipefail
+          PLIST="build/Claude网络指南账号工具.app/Contents/Info.plist"
+          test "$(plutil -extract CFBundleShortVersionString raw "$PLIST")" = "$VERSION"
+          test "$(plutil -extract CFBundleVersion raw "$PLIST")" = "$VERSION"
+
+      - name: Package Windows and Linux scripts
+        run: |
+          set -euo pipefail
+          WORK="$(mktemp -d)"
+          trap 'rm -rf "$WORK"' EXIT
+
+          WIN_ROOT="$WORK/ClaudeSwitcher-${VERSION}-windows"
+          mkdir -p "$WIN_ROOT"
+          ditto windows "$WIN_ROOT/windows"
+          printf '%s\n' "$VERSION" > "$WIN_ROOT/VERSION"
+          cp README.md AGENTS.md SECURITY.md LICENSE "$WIN_ROOT/"
+          (cd "$WORK" && ditto -c -k --keepParent --norsrc --noextattr \
+            "ClaudeSwitcher-${VERSION}-windows" \
+            "$GITHUB_WORKSPACE/build/ClaudeSwitcher-${VERSION}-windows.zip")
+
+          LINUX_ROOT="$WORK/ClaudeSwitcher-${VERSION}-linux"
+          mkdir -p "$LINUX_ROOT"
+          ditto linux "$LINUX_ROOT/linux"
+          cp README.md AGENTS.md SECURITY.md LICENSE "$LINUX_ROOT/"
+          tar -C "$WORK" -czf \
+            "$GITHUB_WORKSPACE/build/ClaudeSwitcher-${VERSION}-linux.tar.gz" \
+            "ClaudeSwitcher-${VERSION}-linux"
+
+      - name: Generate release checksums
+        run: |
+          set -euo pipefail
+          cd build
+          shasum -a 256 \
+            "ClaudeSwitcher-${VERSION}-macos-arm64-app-only.zip" \
+            "ClaudeSwitcher-${VERSION}-macos-arm64-app-only.dmg" \
+            "ClaudeSwitcher-${VERSION}-installer-kit.zip" \
+            "ClaudeSwitcher-${VERSION}-windows.zip" \
+            "ClaudeSwitcher-${VERSION}-linux.tar.gz" \
+            > SHA256SUMS-release.txt
+          cat SHA256SUMS-release.txt
+
+      - name: Publish release
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          ASSETS=(
+            "build/ClaudeSwitcher-${VERSION}-macos-arm64-app-only.zip"
+            "build/ClaudeSwitcher-${VERSION}-macos-arm64-app-only.dmg"
+            "build/ClaudeSwitcher-${VERSION}-installer-kit.zip"
+            "build/ClaudeSwitcher-${VERSION}-windows.zip"
+            "build/ClaudeSwitcher-${VERSION}-linux.tar.gz"
+            "build/SHA256SUMS-release.txt"
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${ASSETS[@]}" --clobber
+          else
+            gh release create "$TAG" "${ASSETS[@]}" \
+              --generate-notes \
+              --title "Claude 网络指南 账号工具 ${VERSION}"
+          fi

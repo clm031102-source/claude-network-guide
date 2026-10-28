@@ -1,0 +1,57 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: cpa-add-account
+time: 5 分钟
+for: 想用自己 AI 接口的人
+step: 6
+description: 给 CLIProxyAPI 添加你自己的 AI 账号：用账号登录（OAuth），或者填 API Key。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+刚装好的 CLIProxyAPI 里没有任何账号，要先加你自己的。有两种方式：
+
+## 方式一：用账号登录（OAuth）
+
+适合有 ChatGPT（Codex）等订阅账号的人。
+
+<Callout type="warn" title="不要把 Claude 账号接进来">
+Anthropic 的政策不允许把 Claude 账号接进 CLIProxyAPI 这类工具使用。ChatGPT 之类的 OpenAI 官方表示可以，作者个人很喜欢用它来做图。用 Claude Code 这个工具连接口（背后是你的 ChatGPT 账号）不受影响。
+</Callout>
+
+1. 登录管理中心，进入「OAuth 登录」页面。
+2. 选择对应的服务（比如 Codex），点开始登录。
+3. 浏览器会打开那家服务的授权页，登录你的账号并同意授权。
+4. 授权完成后，如果浏览器跳到一个打不开的 `localhost` 网址，不要关：按管理中心页面上的提示，把地址栏里的**完整网址**复制回去提交。
+5. 回到「认证文件」页面，能看到新增的一项。
+
+## 方式二：填 API Key
+
+适合手上有某家 AI 服务 API Key 的人。
+
+1. 登录管理中心，进入「AI 提供商」页面。
+2. 选对应的服务（或者 OpenAI 兼容的服务商），添加，粘贴 API Key，保存。
+
+## 检查
+
+在终端里运行（换成你的 API 地址和 API Key）：
+
+<Copy id="models" lang="bash" title="列出可用模型" code={`curl -s https://你的IP:8318/v1/models -H "Authorization: Bearer 你的API Key"`} />
+
+<Callout type="ok">
+返回的内容里能看到模型名字，说明账号加好了。
+</Callout>
+
+<Callout type="no">
+只添加你自己的账号，不要把别人的账号放进来，也不要把接口分享给别人用。额度会很快用完，还可能违反 AI 服务的使用条款。
+</Callout>
+
+## 卡住了？
+
+<Q q="过了一段时间调用报错，提示授权失效？">
+订阅账号的授权会过期或被撤销。到「认证文件」看看状态，必要时重新走一遍 OAuth 登录。
+</Q>

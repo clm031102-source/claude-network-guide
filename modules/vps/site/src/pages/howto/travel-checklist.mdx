@@ -1,0 +1,42 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: travel-checklist
+time: 20 分钟
+for: 准备出差、出国的人
+step: 7
+description: 出发前逐项打勾。到了网络受限的地方再发现问题，就很难处理了。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+**最晚出发前一天做完。** 打勾会保存在这个浏览器里，可以分几次做。
+
+<Checkpoint id="travel" items={[
+  "让 AI 给服务器体检，显示 34/34 通过",
+  "商家后台确认服务器不会在旅途中到期（或已开自动续费）",
+  "本月剩余流量够用",
+  "电脑：Clash Verge Rev 是最新版，订阅已更新，规则模式 + 虚拟网卡模式",
+  "电脑：ip.net.coffee/claude 显示服务器 IP，DNS 和 WebRTC 都不在中国",
+  "手机：客户端已导入订阅，连接后出口 IP 是服务器",
+  "两个节点（Reality 和 TLS）都手动切换测过，都能连",
+  "用手机流量（不连 Wi-Fi）也测过一次",
+  "需要的 AI 工具、App 都已经下载并登录好",
+  "Google 账号有通行密钥或验证器，备用验证码带在身上（见「Google 账号安全设置」）",
+  "登录信息文件备份到了安全的地方（比如加密的 U 盘或密码管理器），没有发到聊天软件",
+  "电脑上的 ssh 名字能登录服务器（万一要修）",
+  "家人的设备也都配好、测过",
+]} done="都准备好了，一路顺利！" />
+
+## 到了以后连不上
+
+1. 先换网络：酒店 Wi-Fi、手机流量、换个运营商的电话卡。
+2. 在客户端里切换另一个节点。
+3. 都不行，多半是这个 IP 被墙了：联系商家换 IP，换完重装系统、重新配置（见 [IP 被墙了怎么办](/howto/ip-blocked/)）。
+
+<Callout type="tip">
+经常出差的话，可以准备第二台不同商家、不同机房的服务器作为备用，从主线第 1 步再走一遍就行。
+</Callout>

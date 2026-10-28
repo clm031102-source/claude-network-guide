@@ -1,0 +1,63 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: clash-verge-mac
+time: About 10 minutes
+for: Mac users
+step: 4
+description: Install Clash Verge Rev on a Mac, import the Clash subscription and turn on Tun Mode.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## 1. Which installer to download
+
+Open the official releases page [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases) and, under the latest version's files, look for:
+
+| Your Mac | Download |
+|---|---|
+| Apple silicon (M1, M2, M3, M4…) | The file ending in `_aarch64.dmg` |
+| Intel | The file ending in `_x64.dmg` |
+
+Not sure: Apple menu at the top left → "About This Mac", see "Chip" or "Processor".
+
+<Shot src="clash-verge-download.webp" w={1214} h={367} alt="The download section of the Clash Verge Rev release notes" caption="The release notes' download section (下载地址): on Mac pick Apple M芯片 (Apple silicon) or Intel芯片 (Intel)." />
+
+## 2. Install
+
+Double-click the dmg, drag Clash Verge into "Applications", then open it from "Applications".
+
+## 3. Import the subscription
+
+1. Open Clash Verge and click **Profiles** on the left.
+2. Paste the **Clash subscription URL** from the login-info file into the "Profile URL" box and click **Import**.
+3. Click the new profile card so it becomes selected.
+
+## 4. Choose Rule mode
+
+Click **Proxies** on the left and choose **Rule** at the top.
+
+## 5. Turn on Tun Mode
+
+1. Click **Settings** on the left and turn on **Tun Mode**. When it says the service is required, click **Install Service** and enter your Mac's login password.
+2. In the Clash settings, keep **DNS Overwrite** off; set **IPv6** by whether your network has IPv6 — see [IPv6 on or off](/en/howto/clash-verge-tun/#ipv6-on-or-off).
+
+Macs don't need Strict Route. More details: [Turn on TUN mode](/en/howto/clash-verge-tun/).
+
+<Callout type="ok">
+Home shows "TUN Mode Enabled"; ip.net.coffee/claude/ in your browser shows your server's IP.
+</Callout>
+
+## Stuck?
+
+<Q q="It says the app is damaged or the developer can't be verified?">
+Open System Settings → Privacy & Security, find the Clash Verge message near the bottom and click "Open Anyway". Still blocked? Run <Cmd c='sudo xattr -r -c "/Applications/Clash Verge.app"' /> in Terminal (enter your login password), then open it again.
+</Q>
+<Q q="Installing the service keeps failing?">
+Make sure you have the latest version. Uninstall the old one and install the latest from the releases page.
+</Q>

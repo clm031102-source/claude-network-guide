@@ -1,0 +1,50 @@
+# 教程站的备用地址：推送到 main 且改动了 site/ 时，构建并发布到 GitHub Pages
+# 主站 https://github.com/clm031102-source/claude-network-guide/tree/main/modules/vps/site/src/pages/ 由维护者在本机 `cd site && npm run release` 部署到 Cloudflare
+name: site (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+    paths: ["site/**", ".github/workflows/site-pages.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - run: npm ci --omit=dev
+      - run: npm run build
+        env:
+          SITE_URL: https://nevertoday.github.io
+          BASE_PATH: /claude-network-guide/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

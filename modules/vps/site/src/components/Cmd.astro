@@ -1,0 +1,9 @@
+---
+// 正文里一点就复制的命令（xxd 的 InlineCopy）。只给不用改就能运行的完整命令用；
+// 带「你的IP」「你的名字」这类占位符的、或者只是一个词的，仍然写成 `代码`。
+import { langOf } from "../data/nav.js";
+interface Props { c: string }
+const en = langOf(Astro.url.pathname) === "en";
+const { c } = Astro.props;
+---
+<button class="xxd-inline-copy cmd" type="button" data-copy={c} data-copy-done={en ? "Command copied" : "已复制命令"} aria-label={en ? `Copy command: ${c}` : `复制命令：${c}`}><code>{c}</code><i data-xxd-icon="Copy" data-size="12"></i></button>

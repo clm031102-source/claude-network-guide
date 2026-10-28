@@ -1,0 +1,13 @@
+---
+import { langOf } from '../data/nav.js';
+const en = langOf(Astro.url.pathname) === 'en';
+const issue = 'https://github.com/clm031102-source/claude-network-guide/issues/new';
+---
+<section class="xxd-layer contact" aria-labelledby="h-contact">
+  <div class="xxd-layer__primary contact__body"><div class="contact__text">
+    <h2 id="h-contact">{en ? 'Feedback' : '反馈与建议'}</h2>
+    <p>{en ? 'Describe the step, expected result and actual result.' : '请说明操作步骤、预期结果和实际结果。'}</p>
+    <a class="xxd-btn" href={issue} rel="noopener">{en ? 'Open an issue' : '在本项目提交问题'}</a>
+  </div></div>
+  <p class="xxd-layer__secondary contact__note">{en ? 'Redact addresses, subscription links and credentials before posting.' : '提交前请遮盖地址、订阅链接和登录凭据。'}</p>
+</section>

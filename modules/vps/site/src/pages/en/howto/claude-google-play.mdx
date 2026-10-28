@@ -1,0 +1,68 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-google-play
+time: About 10 minutes
+for: Android users who want to subscribe to Claude Pro / Max in the app
+description: Install the Claude app from Google Play, subscribe to Pro or Max in the app (billed by Google Play), and manage or cancel it.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## Before you start
+
+- **Google Play on your phone**: many phones sold in mainland China don't ship with Google services — install the Play Store and sign in to a Google account first (no account? see [Create a Google account](/en/howto/gmail/)).
+- **A payment method on your Google account**: see [Add a payment card to your Google account](/en/howto/google-payment-card/), or top up with a Google Play gift card.
+- **A Claude account**: you can sign up and log in right in the app with email or Google.
+
+<Callout type="tip" title="In-app vs. web subscriptions">
+Subscribe in the app and Google Play takes the payment and manages the subscription; the price may be higher than subscribing on claude.ai (the store takes a cut) — go by what the subscription screen shows. If you already subscribed on the web, don't subscribe again in the app, or you'll be charged twice.
+</Callout>
+
+Claude is only offered in countries and regions Anthropic supports; follow its terms when subscribing and using it.
+
+## 1. Install and sign in
+
+1. Open the Play Store, search for "**Claude by Anthropic**" (developer: Anthropic) and install it.
+2. Open the app and log in with email or "Continue with Google".
+
+## 2. Subscribe in the app
+
+1. Tap your **initials** (top right) to open settings.
+2. Tap "**Upgrade to Pro**" (or the upgrade option) and choose the plan and monthly or yearly.
+3. The Google Play payment sheet appears; check the price, Google account and payment method, then tap Subscribe.
+
+<Callout type="ok">
+Settings shows your plan as Pro (or Max), and your Google account email gets a Google Play receipt.
+</Callout>
+
+## 3. Manage and cancel
+
+Either works:
+
+- **Claude app**: tap your initials → "**Billing**" → "**Manage subscription**".
+- **Play Store**: tap your profile picture → "**Payments & subscriptions**" → "**Subscriptions**" → Claude.
+
+Know that:
+
+- **Cancel at least 24 hours before the next charge**, or it renews automatically;
+- after cancelling you can keep using it until the period ends;
+- a Google Play subscription is **managed only on Google's side** — you can't change it on claude.ai.
+
+## Stuck?
+
+<Q q="Can't find Claude in the Play Store, or &quot;not available in your country&quot;?">
+The Play Store region follows your Google payments profile's country/region. Claude is only listed in supported regions, and the payments profile country can't simply be changed — see [Add a payment card to your Google account](/en/howto/google-payment-card/).
+</Q>
+<Q q="Payment declined?">
+Check the card type is on Google Play's list and enabled for overseas payments; if it still fails, contact your card issuer or use a Google Play gift card.
+</Q>
+<Q q="I subscribed on the web but the app still says upgrade?">
+Make sure the app is logged in to the same Claude account. Web and app subscriptions are separate — don't subscribe twice.
+</Q>
+
+<Checkpoint id="claude-android" items={[
+  "The phone has the Play Store and my Google account has a payment method",
+  "App settings show Pro (or Max)",
+  "I know where to cancel: Billing in the app, or Payments & subscriptions in the Play Store",
+]} />

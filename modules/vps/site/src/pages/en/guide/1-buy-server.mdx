@@ -1,0 +1,96 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 1
+need: Email, a payment method
+description: Rent a server from a provider and get its IP, root password and SSH port.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Shot from "../../../components/Shot.astro";
+
+## What this step is
+
+Rent a server from a provider. When you're done you'll have three things: **the server IP, the root password and the SSH port**. The next steps use them to log in.
+
+## Which provider
+
+We recommend **BandwagonHost** (搬瓦工). Its routes are stable, the author uses it, and this setup has been tested on it again and again. The plan in the link below includes **1 TB of traffic per month** — plenty for you and your family.
+
+<p><a class="xxd-btn" data-variant="primary" href="https://bandwagonhost.com/" rel="noopener">Buy from BandwagonHost<i data-xxd-icon="ExternalLink" data-size="14"></i></a></p>
+
+[DMIT](https://www.dmit.io/) is good too, but often out of stock — don't wait for it.
+
+<Callout type="tip" title="About these links">
+Both are the author's referral links. If you buy through them, the author may earn a commission, which goes to charitable work. Prices and stock are as shown on the official sites.
+</Callout>
+
+## Which options to choose
+
+Provider pages show lots of options; only these matter:
+
+| Option | Choose | Why |
+|---|---|---|
+| Operating system | **Ubuntu 24.04** | Only <Term k="Ubuntu" /> 22.04+ and Debian 12+ are supported. Wrong choice? Reinstall from the dashboard |
+| Location | Los Angeles, US | Relatively close to China; all major AI services support the US |
+| Memory | 1 GB is enough | Nodes and the AI API run well on 1 GB in testing |
+| Virtualization | <Term k="KVM" /> | A full system. BandwagonHost uses it by default |
+| IP | A dedicated <Term k="公网 IP" text="public IP" /> (IPv4) | Not a <Term k="NAT" /> machine — those only get a few ports, and the certificate and nodes won't install |
+| Traffic | A few hundred GB to 1 TB per month | Plenty for you and your family; the recommended BandwagonHost plan has 1 TB a month |
+
+<Callout type="warn" title="Get the OS right">
+The most common mistake is choosing CentOS or another old system. This setup won't install on it; you'll have to "reinstall OS" from the dashboard as Ubuntu 24.04. The root password usually changes after reinstalling — use the new one.
+</Callout>
+
+## Ordering
+
+1. Click the link above and choose a plan and billing cycle (quarterly or yearly).
+2. Choose Los Angeles and Ubuntu 24.04 (some providers let you pick the OS after the server is ready).
+3. Sign up with your email and pay as the checkout page allows. BandwagonHost accepts **Alipay** (支付宝).
+4. Within minutes to tens of minutes you'll get a "server ready" email, and the server appears in your service list.
+
+<Shot src="bwg-order.webp" w={999} h={311} alt="BandwagonHost order page with billing cycle and location" caption="Order page: the red boxes are Billing Cycle and Location. Prices as on the official site." />
+
+More detail in the how-tos: [Buy from BandwagonHost](/en/howto/buy-bandwagonhost/), [Buy from DMIT](/en/howto/buy-dmit/). Picked the wrong OS? See [Reinstall the OS as Ubuntu](/en/howto/reinstall-os/).
+
+## Write down three things
+
+Find these in the email or the provider's dashboard and keep them somewhere only you can see:
+
+| Note | Looks like | Notes |
+|---|---|---|
+| Server IP | Four groups of numbers, e.g. `203.0.113.10` | The server's address |
+| <Term k="root" /> password | A string of letters and numbers | The admin password. Some providers give a key file instead — note where it is |
+| <Term k="SSH" /> <Term k="端口" text="port" /> | Usually `22`, sometimes another number | The "room number" for remote login |
+
+<Callout type="ok">
+The server shows as "Running" in the provider's dashboard, and you've written down its IP, root password and SSH port.
+</Callout>
+
+<Callout type="no">
+Don't post these three in group chats, send them to strangers or share screenshots. After the next steps, the server will only accept your computer's key, and the password will no longer work for remote login.
+</Callout>
+
+## Stuck?
+
+<Q q="Payment failed. What now?">
+Try another payment method offered at checkout. Still failing? Open a ticket with the provider, or try another provider.
+</Q>
+<Q q="Paid, but no “server ready” email?">
+Check spam first. Then log in to the provider and look for "My Services" — the IP and login details are usually there too. New accounts are sometimes reviewed manually; wait a little or open a ticket.
+</Q>
+<Q q="Wrong OS, or not sure which I picked?">
+Find "Reinstall OS" in the provider's dashboard and choose Ubuntu 24.04. Reinstalling wipes the server — nothing to lose on a new machine. Use the new root password afterwards.
+</Q>
+<Q q="My SSH port isn't 22. Does it matter?">
+No. Note it down and tell the AI (or put it in the command) in the next steps.
+</Q>
+
+<Checkpoint id="step1" items={[
+  "The provider's dashboard shows the server running",
+  "The OS is Ubuntu 22.04+ or Debian 12+",
+  "I wrote down the server IP",
+  "I wrote down the root password (or where the key file is)",
+  "I wrote down the SSH port",
+]} />

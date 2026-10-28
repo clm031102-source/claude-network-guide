@@ -1,0 +1,60 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: reinstall-os
+time: 10 minutes
+for: People whose server isn’t running Ubuntu (including BandwagonHost’s default OS) or who want a fresh start
+step: 1
+description: Reinstall the OS as Ubuntu 24.04 in BandwagonHost’s KiwiVM or another provider’s dashboard — stop, Install new OS, copy the new password — and clean up on your computer afterwards.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+<Callout type="warn">
+Reinstalling **wipes everything on the server**. Nothing to lose on a new machine; on a server already in use, you'll need to reconfigure from step 3, and every subscription URL changes.
+</Callout>
+
+## 1. Reinstall in the provider's dashboard
+
+### BandwagonHost (KiwiVM)
+
+BandwagonHost servers come with a default OS that often isn't Ubuntu 24.04, so you reinstall once. It takes a few minutes:
+
+1. Open the KiwiVM control panel (client area → Services → My Services → open the server → **KiwiVM Control Panel**). The Operating system line on the home page shows the current OS.
+2. On the home page (Main controls), click **Stop** to shut the server down.
+3. Click **Install new OS** in the left menu.
+4. Pick **Ubuntu 24.04** from the list (64-bit, the entry with x86_64 in its name).
+5. Tick "I agree that all existing data on my VPS will be lost" and click **Reload**.
+6. Wait a few minutes. The page then shows the new **root password** (New Root password) and **SSH port** (SSH Port). **They're shown only once** — copy them right away.
+7. Go back to Main controls. When the status says **Running**, you're done; if it's still stopped, click **Start**.
+
+- **The IP stays the same.** The root password changes, and the SSH port may too — use what step 6 shows.
+- Missed the password? Generate a new one under Root password modification in the left menu (the server must be running).
+
+### DMIT and others
+
+Find "Reinstall" / "Rebuild" on the server page and choose Ubuntu 24.04. The new root password is usually shown on the page or emailed.
+
+No 24.04 in the list? Ubuntu 22.04 or Debian 12 work too.
+
+## 2. Clean up on your computer (only if you connected to this server before)
+
+After reinstalling, the server's identity fingerprint changes, and your computer will think something is impersonating it and refuse to connect. Delete the old record first (replace the IP with yours):
+
+<Copy id="rm-hostkey" lang="bash" title="Remove the old host fingerprint" code={`ssh-keygen -R your-IP
+ssh-keygen -R "[your-IP]:your-port"`} />
+
+The second line is only needed if the SSH port isn't 22.
+
+**If the port changed**: open `~/.ssh/config` on your computer, find the block for your server's name and change `Port` to the new port.
+
+## 3. Configure again
+
+With the new root password, start again from step 3, "Configure the server".
+
+<Callout type="ok">
+The dashboard shows the new OS as Ubuntu 24.04 and the server is running, and you've noted the new root password and SSH port.
+</Callout>

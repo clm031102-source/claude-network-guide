@@ -1,0 +1,61 @@
+name: checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Shell, tests, Swift, sums
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Shell syntax
+        run: |
+          set -euo pipefail
+          bash -n core/claude-switch.sh
+          for file in daemons/*.sh; do
+            bash -n "$file"
+          done
+          bash -n "installer/安装.command"
+          bash -n "installer/卸载.command"
+          for file in linux/*.sh; do
+            bash -n "$file"
+          done
+
+      - name: Python tests
+        run: python3 -B -m unittest discover -s tests -v
+
+      - name: Swift strict build
+        run: |
+          swiftc -O -parse-as-library -warnings-as-errors \
+            -target "$(uname -m)-apple-macos13.0" \
+            app/main.swift -o /tmp/ClaudeSwitcher \
+            -framework SwiftUI -framework AppKit
+
+      - name: Verify checksums
+        run: shasum -a 256 -c SHA256SUMS
+
+      - name: JavaScript syntax
+        run: node --check docs/app.js

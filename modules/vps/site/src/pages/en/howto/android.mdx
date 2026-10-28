@@ -1,0 +1,58 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: android
+time: About 10 minutes
+for: Android users
+step: 4
+description: Install FlClash or Clash Meta for Android on your phone and import the Clash subscription.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## Which app
+
+Both are open source and free — pick one:
+
+| App | Releases page | Which file |
+|---|---|---|
+| **FlClash** (newer interface) | [github.com/chen08209/FlClash/releases](https://github.com/chen08209/FlClash/releases) | The apk with `android-arm64-v8a` in its name |
+| **Clash Meta for Android** | [github.com/MetaCubeX/ClashMetaForAndroid/releases](https://github.com/MetaCubeX/ClashMetaForAndroid/releases) | The apk with `universal` in its name (works everywhere) |
+
+Phones from recent years are almost all arm64-v8a. Download only from the official releases pages above.
+
+<Shot src="flclash-download.webp" w={1182} h={183} alt="FlClash release assets for Android" caption="FlClash's release files: most phones need the arm64-v8a build in the red box." />
+
+## 1. Install
+
+Open the downloaded apk to install. If the phone blocks "apps from unknown sources", allow it this once as prompted.
+
+## 2. Import the subscription
+
+Find the "Profiles" page in the app, tap add, choose "URL" (or "Import from link"), paste the **Clash subscription URL** (the same one as on your computer), save, then select it in the list.
+
+## 3. Connect
+
+Go back to the home screen and turn it on. The first time it asks to create a VPN connection — tap "OK". Choose Rule mode.
+
+<Callout type="ok">
+A key or VPN icon appears in the status bar; ip.net.coffee/claude/ in the browser shows your server's IP.
+</Callout>
+
+<Callout type="tip">
+Button positions vary between versions — look for "Profiles", "Subscription" or "URL".
+</Callout>
+
+## Stuck?
+
+<Q q="Google Play apps stay on 'Pending', or updates fail?">
+On China-market phones (Xiaomi, OPPO, vivo and others running the Chinese system with built-in Google services), Play downloads apps from Google cache servers in Beijing, Shanghai and Guangzhou. Those servers only work over a direct connection inside China; routed abroad through your server, they can't be reached. The subscription now connects to them directly, while the rest of Play still goes through your server.
+
+1. Update the subscription once on the app's "Profiles" page and try again.
+2. Still stuck: if your server was set up before October 22, 2026, ask the AI to "update the server's subscription rules to the latest" (manual route: `remote.sh NAME upload`, then `remote.sh NAME sub`. Only the subscription service reloads; nodes in use stay connected), then go back to step 1.
+3. Don't switch to Global mode: Global sends those China servers abroad too, which makes it worse.
+</Q>

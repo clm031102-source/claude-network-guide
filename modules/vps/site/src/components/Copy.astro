@@ -1,0 +1,11 @@
+---
+// 一段要复制的话或命令：带标题和复制按钮的代码块
+import { langOf } from "../data/nav.js";
+interface Props { title?: string; id: string; lang?: string; code: string }
+const en = langOf(Astro.url.pathname) === "en";
+const { title = en ? "Copy this" : "复制下面这段", id, lang = "text", code } = Astro.props;
+---
+<div class="xxd-code-block copy-block">
+  <div class="xxd-code__head">{title}<button class="xxd-btn" data-variant="ghost" data-size="xs" data-copy-target={`#${id} code`} aria-label={en ? "Copy" : "复制"}><i data-xxd-icon="Copy" data-size="14"></i>{en ? "Copy" : "复制"}</button></div>
+  <pre class="xxd-code" id={id} tabindex="0"><code data-lang={lang}>{code}</code></pre>
+</div>

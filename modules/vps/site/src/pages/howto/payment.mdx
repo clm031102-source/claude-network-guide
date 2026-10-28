@@ -1,0 +1,50 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: payment
+time: 约 5 分钟
+for: 买服务器的人
+step: 1
+description: 在国外的服务器商家网站付款要注意什么。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+## 用什么付
+
+付款方式**以商家结账页显示的为准**，下单前先在结账页看一眼有哪些选项。国外网站常见的有：
+
+- **信用卡**（Visa、Mastercard 等）：需要卡片开通了境外支付；
+- **PayPal**：先在 PayPal 绑定银行卡；
+- **支付宝**（结账页上写作 Alipay）：推荐的搬瓦工支持，选它、扫码付款即可；其他商家以结账页为准。
+
+价格一般是美元，扣款时会按当天汇率换算。
+
+## 注意事项
+
+1. **只在商家官网付款**。不要通过私人转账、聊天软件里的链接付款。
+2. 第一次买，选按季付比较稳妥，用一段时间觉得好再按年买。
+3. 信用卡付款失败，常见原因是没开境外支付，或者银行风控拦截了，打银行客服电话说明一下就行。
+4. 保存好付款邮件和订单号，以后续费、退款、开工单都要用。
+5. 买之前看一下商家的退款政策，很多商家只在购买后的短时间内可以退款。
+
+<Callout type="no">
+不要把银行卡号、PayPal 密码发给任何人，包括自称「帮你代付」的人，也不要发给 AI。
+</Callout>
+
+## 相关
+
+- [给 Google 账号绑定付款卡](/howto/google-payment-card/)
+- [在 iPhone 上订阅 Claude（App Store）](/howto/claude-app-store/)
+- [在安卓上订阅 Claude（Google Play）](/howto/claude-google-play/)
+
+## 卡住了？
+
+<Q q="付款成功了，但订单显示待处理？">
+有的商家会人工审核新订单，一般几分钟到几小时。超过一天没动静，就开工单问。
+</Q>
+<Q q="结账页没有我能用的付款方式？">
+换一家商家，或者换一种付款方式（比如先注册 PayPal）。
+</Q>

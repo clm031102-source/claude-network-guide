@@ -1,0 +1,36 @@
+---
+import Site from "../layouts/Site.astro";
+import { WIKI, WIKI_GROUPS } from "../data/wiki.js";
+import { WIKI_EN, WIKI_GROUPS_EN } from "../data/wiki.en.js";
+import { wikiHref, langOf } from "../data/nav.js";
+const lang = langOf(Astro.url.pathname);
+const en = lang === "en";
+const items = WIKI.map((w) => (en ? { ...w, ...WIKI_EN[w.slug], groupKey: w.group } : { ...w, groupKey: w.group }));
+const headings = WIKI_GROUPS.map((g, i) => ({ slug: `g${i}`, text: en ? WIKI_GROUPS_EN[g] : g, depth: 2 }));
+---
+<Site title={en ? "Wiki: what is it" : "Wiki：这是什么"} headings={headings}>
+  <article class="xxd-prose">
+    <h1>{en ? "Wiki: what is it" : "Wiki：这是什么"}</h1>
+    {en ? (
+      <>
+        <p>Explains every concept that appears in the guide. Each entry has the same structure: one-line explanation → an analogy → where it sits in this setup → common misconceptions.</p>
+        <p>Short on time? In the guide, hover over any dotted-underlined word for a one-line explanation, and click it to land here.</p>
+      </>
+    ) : (
+      <>
+        <p>讲清楚教程里出现的每个概念。每篇都是同样的结构：一句话解释 → 打个比方 → 在这套方案里 → 常见误区。</p>
+        <p>不想看完整文章的话：教程正文里带虚线的词，鼠标停在上面就能看到一句话解释，点一下进到这里。</p>
+      </>
+    )}
+    {WIKI_GROUPS.map((g, i) => (
+      <>
+        <h2 id={`g${i}`}>{en ? WIKI_GROUPS_EN[g] : g}</h2>
+        <ul class="xxd-list" data-interactive>
+          {items.filter((w) => w.groupKey === g).map((w) => (
+            <li class="xxd-list__item"><a class="xxd-list__main list-link" href={wikiHref(w.slug, lang)}><span class="xxd-list__title">{w.title}</span><span class="xxd-list__meta">{w.one}</span></a></li>
+          ))}
+        </ul>
+      </>
+    ))}
+  </article>
+</Site>

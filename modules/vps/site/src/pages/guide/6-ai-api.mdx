@@ -1,0 +1,98 @@
+---
+layout: ../../layouts/Guide.astro
+step: 6
+need: 登录信息文件；你自己的 AI 账号
+description: CLIProxyAPI 是什么、怎么登录管理中心、怎么添加账号、怎么接到 AI 工具里。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+
+## 这一步做什么
+
+你的服务器上已经装好了 <Term k="CLIProxyAPI" />：它能把你自己的 AI 账号（比如 ChatGPT）变成一个标准接口，给各种 AI 工具用。刚装好时它是空的，这一步把你的账号加进去。
+
+<Callout type="warn" title="不要把 Claude 账号接进来">
+Anthropic 的政策不允许把 Claude 账号接进 CLIProxyAPI 这类工具使用。ChatGPT 之类的 OpenAI 官方表示可以，作者个人很喜欢用它来做图。用 Claude Code 这个工具连接口（背后是你的 ChatGPT 账号）不受影响。
+</Callout>
+
+**这一步是可选的。** 只想要一条线路的话，可以跳过，直接看第 7 步。
+
+<Callout type="tip" title="它能做什么、不能做什么">
+能：让 Cherry Studio、各种编程工具、你自己写的程序，都通过同一个地址用上你的 AI 账号。
+不能：凭空变出额度。用的还是你账号自己的额度和费用。
+</Callout>
+
+## 1. 登录管理中心
+
+打开登录信息文件，找到「CLIProxyAPI」那一节：
+
+| 文件里的项目 | 用来做什么 |
+|---|---|
+| 管理中心 | 在浏览器里打开的后台地址 |
+| 管理中心登录 Key | 登录后台用 |
+| API 地址（Base URL） | 给 AI 工具填的接口地址 |
+| API Key | 给 AI 工具填的<Term k="API Key" text="密钥" /> |
+
+1. 用浏览器打开「管理中心」那个地址。
+2. 在「管理密钥」一栏粘贴「管理中心登录 Key」，连接。
+
+详细说明见 [登录 CLIProxyAPI 管理中心](/howto/cpa-login/)。
+
+## 2. 添加你的 AI 账号
+
+有两种方式，按你手上有什么来选：
+
+- **用账号登录（OAuth）**：你有 ChatGPT（Codex）等订阅账号（不要用 Claude 账号，见上面的提醒）。进入「OAuth 登录」，选对应的服务，按提示在浏览器里登录、授权。完成后，「认证文件」页面里会多出一项。
+- **填 API Key**：你有某家 AI 服务的 API Key。进入「AI 提供商」，添加对应的服务，粘贴 Key。
+
+<Callout type="warn">
+授权完成后，如果浏览器跳到一个打不开的 `localhost` 网址，不用慌：按管理中心页面上的提示，把地址栏里的完整网址复制回去即可。具体见 [给 CLIProxyAPI 添加账号](/howto/cpa-add-account/)。
+</Callout>
+
+## 3. 检查接口能用
+
+在终端里运行下面这条（换成你自己的 API 地址和 API Key）：
+
+<Copy id="cpa-test" lang="bash" title="列出可用的模型" code={`curl -s https://你的IP:8318/v1/models -H "Authorization: Bearer 你的API Key"`} />
+
+<Callout type="ok">
+返回一段包含模型名字的文字（比如 `gpt-…`、`claude-…`），说明账号已经加好、接口能用了。
+</Callout>
+
+## 4. 接到 AI 工具里
+
+大多数 AI 工具都支持「OpenAI 兼容接口」，填两样东西就行：
+
+- **API 地址 / Base URL**：登录信息文件里的「API 地址（Base URL）」，形如 `https://你的IP:8318/v1`；
+- **API Key**：登录信息文件里的「API Key」。
+
+Cherry Studio、Claude Code、Codex 等工具的具体填法，见 [把 AI 接口接到工具里](/howto/cpa-clients/)。
+
+<Callout type="no">
+API Key 和管理中心登录 Key 都等于门禁卡：不要发群、截图，也不要写进会上传到 GitHub 的代码里。也不要把接口分享给别人用，额度会很快用完，还可能违反 AI 服务的使用条款。
+</Callout>
+
+## 它会自己更新
+
+CLIProxyAPI 每 30 分钟检查一次新版本，等没有请求在跑的空闲时刻才换版，大约 1 秒完成，不会打断正在生成的内容。换版失败会自动退回旧版本。你不用管。
+
+## 卡住了？
+
+<Q q="管理中心打不开？">
+确认地址是 `https://` 开头、端口是 `8318`，并且你当前的网络能连上服务器（先看第 5 步出口 IP 是否正常）。
+</Q>
+<Q q="接口返回 401？">
+API Key 填错了，或者把「管理中心登录 Key」当成了「API Key」。这是两个不同的 Key。
+</Q>
+<Q q="接口能连上，但列不出模型、或者调用报错？">
+还没有添加账号，或者账号授权过期了。到「认证文件」页面看看账号状态，必要时重新登录一次。
+</Q>
+
+<Checkpoint id="step6" items={[
+  "我能用管理中心登录 Key 登录管理中心",
+  "我添加了至少一个 AI 账号",
+  "用 curl 测试，能列出模型",
+]} />

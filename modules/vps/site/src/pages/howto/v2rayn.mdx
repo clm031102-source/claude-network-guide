@@ -1,0 +1,81 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: v2rayn
+time: 约 10 分钟
+for: 已经在用 v2rayN 的电脑用户（Windows、Mac、Linux）
+step: 4
+description: 在 v2rayN 里导入这套方案的订阅。能用，但电脑上首推 Clash Verge Rev。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+<Callout type="warn" title="电脑上首推 Clash Verge Rev">
+这套方案是按 Clash Verge Rev 设计的。Clash 订阅里自带一整套<Term k="分流" />规则：AI 网站固定走你的服务器、微信等国内应用直连、规则每天从你自己的服务器更新，客户端里还能看到本月流量。
+
+v2rayN 只能拿到**两个节点**，这些规则一条都没有，分流靠 v2rayN 自带的「绕过大陆」。所以：**还没装客户端的，直接按 [第 4 步](/guide/4-clients/) 装 Clash Verge Rev**；已经习惯 v2rayN、或者 Clash Verge 在你电脑上装不了，再看这一篇。
+</Callout>
+
+## 能不能用
+
+能。用 v2rayN 7.25.6 自带的 Xray 内核实测过，Reality 和 TLS 两个节点的网页访问、UDP、出口 IP 都正常。
+
+## 1. 下载
+
+只从官方发布页下载：[github.com/2dust/v2rayN/releases](https://github.com/2dust/v2rayN/releases)。
+
+| 系统 | 下载哪个文件 |
+|---|---|
+| Windows | `v2rayN-windows-64.zip`，解压后运行 `v2rayN.exe` |
+| Mac（苹果芯片 M1 及以后） | `v2rayN-macos-arm64.dmg` |
+| Mac（Intel 芯片） | `v2rayN-macos-64.dmg` |
+| Linux（Debian / Ubuntu） | `v2rayN-linux-64.deb` |
+
+<Callout type="tip">
+Mac 版没有签名，打开时可能提示「已损坏」。装好后在终端运行下面这条命令再打开：
+
+<Copy id="v2rayn-xattr" lang="bash" title="在 Mac 终端里运行" code="xattr -cr /Applications/v2rayN.app" />
+</Callout>
+
+## 2. 导入订阅
+
+要用登录信息文件里 **「Shadowrocket（iPhone）」那一行**的订阅地址。Clash 那一行是给 Clash 类客户端的，v2rayN 读不全。
+
+1. 菜单「订阅分组」→「订阅分组设置」→「添加」。
+2. 「别名」随便填，比如服务器的名字；地址栏粘贴上面那个订阅地址，确定。
+3. 菜单「订阅分组」→「更新全部订阅 (不通过代理)」。列表里出现两个节点：`名字-Reality` 和 `名字-TLS`。
+4. 选中 `名字-Reality`，右键「设为活动」。
+
+## 3. 路由、系统代理和 Tun
+
+在主窗口底部：
+
+1. 「路由」选 `V4-绕过大陆(Whitelist)`（默认就是它）：国内直连，国外（包括 AI 网站）走你的服务器。
+2. 「系统代理」选「自动配置系统代理」。
+3. 打开「启用 Tun」。只开系统代理时，浏览器的 WebRTC 会暴露你的真实 IP，开了 Tun 才能挡住，作用和 Clash Verge 的[虚拟网卡模式](/howto/clash-verge-tun/)一样。Windows 要以管理员身份运行 v2rayN；Mac 和 Linux 第一次会要求在设置里填系统密码。
+
+<Callout type="ok">
+浏览器打开 ip.net.coffee/claude/，显示的是你服务器的 IP；再按 [查 WebRTC 泄露](/howto/webrtc-leak/) 检查一遍，看不到你家里的 IP 就对了。
+</Callout>
+
+## 和 Clash Verge Rev 的区别
+
+| | Clash Verge Rev（首推） | v2rayN |
+|---|---|---|
+| 用哪个订阅 | Clash 那一行 | Shadowrocket（iPhone）那一行 |
+| 节点 | Reality + TLS | Reality + TLS |
+| AI 网站固定走你的服务器 | 有，订阅自带 | 靠「绕过大陆」，国外都走代理 |
+| 微信等国内应用直连 | 有，按微信的网络段精确直连 | 靠 v2rayN 自带的国内名单 |
+| 规则更新 | 每天从你自己的服务器更新 | v2rayN 自己从 GitHub 下载 |
+| 本月流量显示 | 有 | 以你的版本为准 |
+
+## 卡住了？
+
+<Q q="更新订阅后没有节点，或者提示无效的订阅内容？">
+多半是用了 Clash 那一行的地址。换成「Shadowrocket（iPhone）」那一行，再更新一次。
+</Q>
+<Q q="节点都连不上？">
+先在设置里确认 VLESS 用的是 Xray 内核（默认就是）。还不行，用 Clash Verge Rev 导入 Clash 订阅试一下：Clash Verge 能通，就是 v2rayN 这边的设置问题；也不通，让 AI 给服务器[体检](/howto/ai-health-check/)。
+</Q>

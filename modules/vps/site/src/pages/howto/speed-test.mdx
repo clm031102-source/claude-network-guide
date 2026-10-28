@@ -1,0 +1,42 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: speed-test
+time: 5 分钟
+for: 觉得慢、想知道线路好不好的人
+step: 7
+description: 怎么测才像真实使用，以及怎么看懂测速结果。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 测之前先知道
+
+- **测速很费流量**：一次可能几 G 到几十 G，别频繁测。
+- **要测「从你这里出发」的速度**：在连着客户端的手机或电脑上测，才是你真实的体验。在服务器上直接测出来的数字（经常是几 Gbps）只说明服务器出口很快，不代表你用起来的速度。
+- **测试时只开这一个代理**，关掉其他代理和加速器。
+
+## 怎么测
+
+1. 设备连上客户端，选定一个节点。
+2. 浏览器打开 [fast.com](https://fast.com)，等它跑完，点「显示更多信息」能看到延迟和上传速度。
+3. 白天测一次，**晚上 8 点到 11 点再测一次**，对比一下。
+
+## 怎么看结果
+
+| 指标 | 说明 |
+|---|---|
+| 下载速度 | 看视频、下载文件的快慢。日常用几十 Mbps 就很流畅 |
+| 延迟 | 从国内到美国西部，一百多到两百多毫秒都正常，是距离决定的 |
+| 加载时延迟 | 下载时延迟涨得很厉害，说明线路拥堵 |
+
+## 白天快、晚上慢
+
+正常现象：晚上国内到国外的线路最拥挤。服务器开了 BBR 能缓解一些。很在意晚高峰的话，换更好线路的套餐。见 Wiki [晚高峰为什么慢](/wiki/peak-hours/)。
+
+<Callout type="tip">
+有的测速网站会限制测试时长，或者家里路由器、Wi-Fi 本身就是瓶颈。用网线直连电脑再测，更准。
+</Callout>

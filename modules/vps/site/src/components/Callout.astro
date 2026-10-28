@@ -1,0 +1,21 @@
+---
+// 提示框：ok 你应该看到 · warn 注意 · no 别这样做 · tip 小提示。用 xxd 的 Banner；标题跟页面语言走。
+import { langOf } from "../data/nav.js";
+interface Props { type?: "ok" | "warn" | "no" | "tip"; title?: string }
+const KINDS = {
+  ok: { tone: "success", icon: "CircleCheck", zh: "你应该看到", en: "You should see" },
+  warn: { tone: "warning", icon: "TriangleAlert", zh: "注意", en: "Heads up" },
+  no: { tone: "danger", icon: "CircleX", zh: "别这样做", en: "Don't do this" },
+  tip: { tone: undefined, icon: "Lightbulb", zh: "小提示", en: "Tip" },
+};
+const { type = "tip", title } = Astro.props;
+const k = KINDS[type];
+const lang = langOf(Astro.url.pathname);
+---
+<div class="xxd-banner" data-tone={k.tone}>
+  <i data-xxd-icon={k.icon}></i>
+  <div>
+    <p class="xxd-banner__title">{title ?? k[lang]}</p>
+    <div class="xxd-banner__text"><slot /></div>
+  </div>
+</div>

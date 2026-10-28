@@ -1,0 +1,41 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: check-ip
+time: 2 分钟
+for: 所有人
+step: 5
+description: 用 ip.net.coffee/claude 看网站眼里的你：出口 IP、地区、IP 类型和 Claude 的信任评分。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Shot from "../../components/Shot.astro";
+
+## 怎么看
+
+在连着客户端的设备上，用浏览器打开 [ip.net.coffee/claude/](https://ip.net.coffee/claude/)。
+
+| 页面上的项目 | 是什么意思 | 应该是什么 |
+|---|---|---|
+| Claude AI 出口 IP | Claude 那边看到的你的 IP | 你服务器的 IP |
+| 地区、城市 | 这个 IP 在哪里 | 服务器所在地 |
+| IP 属性 | 住宅、机房或原生 | 自己的服务器一般显示机房，正常 |
+| 信任评分 | Claude 对这个 IP 的打分 | 70 分以上就行 |
+| DNS 泄露检测 | 你查网址时用的 DNS 在哪 | 不在中国 |
+| WebRTC UDP 泄露检测 | 浏览器 WebRTC 报出去的 IP | 你服务器的 IP（只有电脑需要看） |
+
+<Shot src="ip-net-coffee.webp" w={982} h={832} alt="ip.net.coffee/claude 检测结果示例" caption="检测结果示例：红框依次是 Claude 看到的出口 IP、DNS 泄露状态、WebRTC 的 UDP 出口。图中的 IP 已换成示例地址 203.0.113.10，个人信息已隐藏。" />
+
+<Callout type="ok">
+出口 IP 是你的服务器，DNS 出口和 WebRTC 出口都不在中国。
+</Callout>
+
+## 看到的不对
+
+- **出口 IP 是你家的 IP**：流量没走代理，检查客户端是否连接、是否选中了订阅。
+- **出口 IP 是别的国外 IP**：设备上可能同时开着别的代理或 VPN，或者家里路由器也有代理。
+- **DNS 或 WebRTC 在中国**：看 [查 DNS 泄露](/howto/dns-leak/) 和 [查 WebRTC 泄露](/howto/webrtc-leak/)。这一项最要紧，先修好它。
+- **信任评分低于 70**：泄露都没问题的话，可以发邮件给服务商（比如搬瓦工）退掉这台，重新买一台（邮件模板见 [退掉服务器、重新买一台](/howto/refund-rebuy/)），部署好再测一次，到 70 分以上就行。

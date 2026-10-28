@@ -1,0 +1,32 @@
+---
+// 一个 Wiki 条目（中英文共用）
+import Site from "../layouts/Site.astro";
+import { WIKI } from "../data/wiki.js";
+import { WIKI_EN } from "../data/wiki.en.js";
+import { wikiHref, howtoHref, HOWTO_FLAT, link, langOf, t } from "../data/nav.js";
+import { inline } from "../lib/md.js";
+interface Props { slug: string }
+const lang = langOf(Astro.url.pathname);
+const en = lang === "en";
+const pick = (x) => (en ? { ...x, ...WIKI_EN[x.slug] } : x);
+const w = pick(WIKI.find((x) => x.slug === Astro.props.slug));
+const titleOf = (slug) => pick(WIKI.find((x) => x.slug === slug)).title;
+const howto = w.howto && HOWTO_FLAT.find((h) => h.slug === w.howto);
+const H = en ? ["Think of it like this", "In this setup", "Common misconceptions", "Try it", "Related"] : ["打个比方", "在这套方案里", "常见误区", "动手操作", "相关条目"];
+const headings = [{ slug: "like", text: H[0], depth: 2 }, { slug: "here", text: H[1], depth: 2 }, { slug: "myths", text: H[2], depth: 2 }];
+---
+<Site title={`${w.title} · Wiki`} description={w.one} headings={headings}>
+  <article class="xxd-prose wiki">
+    <ol class="xxd-breadcrumbs" data-size="sm"><li><a href={link("/wiki/", lang)}>Wiki</a></li><li>{w.group}</li><li aria-current="page">{w.title}</li></ol>
+    <h1>{w.title}</h1>
+    <p class="wiki__one" set:html={inline(w.one)} />
+    <h2 id="like">{H[0]}</h2>
+    <p set:html={inline(w.like)} />
+    <h2 id="here">{H[1]}</h2>
+    <p set:html={inline(w.here)} />
+    <h2 id="myths">{H[2]}</h2>
+    <ul>{w.myths.map((m) => <li set:html={inline(m)} />)}</ul>
+    {howto && <p>{H[3]}{en ? ": " : "："}<a href={howtoHref(howto.slug, lang)}>{t(howto, "title", lang)}</a></p>}
+    {w.see?.length > 0 && <p class="wiki__see">{H[4]}{en ? ": " : "："}{w.see.map((s, i) => <>{i > 0 && (en ? ", " : "、")}<a href={wikiHref(s, lang)}>{titleOf(s)}</a></>)}</p>}
+  </article>
+</Site>

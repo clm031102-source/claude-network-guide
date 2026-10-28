@@ -1,0 +1,69 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: apple-gift-card
+time: About 10 minutes
+for: People with a US Apple ID but no US bank card
+description: Buy a US Apple Gift Card and redeem it to your US Apple ID balance to pay for apps (like Shadowrocket) and subscriptions (like Claude). The most reliable way to pay.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## Why a gift card
+
+A US Apple ID needs a payment method from the same region. Without a US bank card, **a gift card is the most reliable option**: once it's in your balance, apps, in-app purchases and subscriptions can all be paid from it.
+
+[PayPal](/en/howto/apple-paypal/) is another option, but linking a PayPal account opened in mainland China to a US Apple ID doesn't always work. Know both, and start with a gift card.
+
+No US Apple ID yet? See [Create a non-China Apple ID](/en/howto/apple-id/) first.
+
+## 1. Buy the right card
+
+- **It must be a US card**: it says Apple Gift Card (US) and the value is in US dollars. Cards from other regions can't be redeemed to a US account. Older "App Store & iTunes" gift cards work too.
+- **Value**: Shadowrocket is about $3; subscriptions are charged each period, so keep enough balance for the next one. Try a small card first.
+- **Buy from reputable sources**: Apple's website or large US retailers (e.g. Amazon, Best Buy, Target).
+
+<Callout type="warn" title="Beware of cheap cards from unknown sellers">
+Many third-party sellers offer cards below face value. These may have been bought with stolen money; after redeeming, Apple may lock your Apple ID and claw back the balance. Choose sellers you can rely on, who will replace a bad card.
+</Callout>
+
+## 2. Redeem to your balance
+
+On iPhone:
+
+1. Make sure the App Store is signed in with your **US Apple ID** (profile picture, top right).
+2. Tap your profile picture → "**Redeem Gift Card or Code**".
+3. Scan the code on the back with the camera, or type the 16-character code starting with X.
+4. The amount is added to your account balance.
+
+On a computer: in the Mac App Store click your name (bottom left) → "Redeem Gift Card"; on Windows use "Redeem" in Apple Music or iTunes.
+
+<Callout type="ok">
+Your balance (e.g. $10.00) shows under your name on the App Store account page.
+</Callout>
+
+## 3. Pay with the balance
+
+- **Apps**: e.g. Shadowrocket — tap the price and confirm with Face ID or your password; the balance is used first.
+- **Subscriptions**: e.g. [Subscribe to Claude on iPhone](/en/howto/claude-app-store/) — each period is charged to the balance; **if the balance runs short, the renewal fails** and the subscription stops. Check your balance and top up before renewal.
+
+## Stuck?
+
+<Q q="&quot;This code can't be redeemed in the US Store&quot;?">
+The card isn't a US card, or the App Store isn't signed in with the US account. Check both.
+</Q>
+<Q q="&quot;Invalid code&quot; or &quot;already redeemed&quot;?">
+Re-check the code (it starts with X; 0/O and 1/I are easy to confuse). If it's right and still fails, contact the seller — only they can deal with an already-redeemed card.
+</Q>
+<Q q="The account got locked after redeeming?">
+The card's source may have been bad, or a new account did too much too quickly. Follow Apple's account-recovery prompts and contact Apple Support if needed. Only buy cards from reliable sources from now on.
+</Q>
+<Q q="Can the balance be refunded or transferred?">
+Generally no. Gift card balance stays in this Apple ID, so buy what you need rather than a lot at once.
+</Q>
+
+<Checkpoint id="apple-gift" items={[
+  "I bought a US Apple Gift Card from a reliable source",
+  "The App Store account page shows my balance",
+  "I know subscriptions renew from the balance and stop if it runs short",
+]} />

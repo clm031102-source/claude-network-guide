@@ -1,0 +1,48 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: ai-health-check
+time: 3 分钟
+for: 配置完成的人
+step: 7
+description: 让 AI 只读检查服务器的 34 个项目，有问题再在你同意后修复。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+## 什么时候做
+
+- 每隔一两个月做一次；
+- 觉得变慢了、连不上了；
+- 出差前。
+
+## 发给 AI 的话
+
+把 `bwg` 换成你给服务器起的名字：
+
+<Copy id="hc" title="复制给 AI 的话" code={`请按「Claude 网络指南」方案检查我的服务器：ssh bwg
+
+方案地址：https://github.com/clm031102-source/claude-network-guide
+请下载项目，阅读 modules/vps/skills/claude-network-guide/SKILL.md 的"以后的复核和维护"部分，
+先只做检查，把没通过的项目和原因告诉我，我同意后再修。
+不要在聊天里显示密码、订阅地址或 Key。`} />
+
+装了 skill 的话，直接说「用 claude-network-guide 检查一下 ssh bwg 这台服务器」也行。
+
+## 它会检查什么
+
+一共 34 项，包括：各项服务在运行、证书有效而且能自动续期、各个端口在监听、订阅能正常下发、CLIProxyAPI 能响应、SSH 只能用密钥登录、防火墙开着、有配置备份等。检查是**只读**的，不会改动服务器。
+
+<Callout type="ok">
+AI 报告 `验收：34/34 通过`。
+</Callout>
+
+## 有项目没通过
+
+AI 会告诉你是哪一项、为什么、打算怎么修。你同意后它再动手，修完会重新检查一遍。
+
+<Callout type="tip">
+如果你特意改过某些设置（比如保留了密码登录），对应的检查项会显示 FAIL，这是你自己的选择，告诉 AI 不用修就行。
+</Callout>

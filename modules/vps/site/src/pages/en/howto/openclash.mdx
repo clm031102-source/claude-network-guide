@@ -1,0 +1,45 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: openclash
+time: 30 minutes or more
+for: People with an OpenWrt router who enjoy tinkering
+step: 4
+description: Use the Clash subscription in OpenClash on an OpenWrt router so every device is covered. Advanced.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+<Callout type="warn" title="Advanced">
+Your router must already run OpenWrt with OpenClash installed. A router misconfiguration affects everyone's internet at home. Without experience, installing the app on each device is simpler and more reliable.
+</Callout>
+
+## Benefits
+
+Every device at home — TVs, tablets, consoles — follows the routing rules without installing an app. Rule files come from your own server, so the router never needs GitHub.
+
+## Steps
+
+1. Add a subscription on OpenClash's config subscription page, using the **Clash subscription URL** from the login-info file. **Turn off online subscription conversion** — it drops the Reality parameters and every node stops working.
+2. Update the subscription and select it in config management. Use the **Meta** core; the old Clash core doesn't support VLESS + Reality.
+3. Choose fake-ip (enhanced) mode and start OpenClash.
+4. On a device, open ip.net.coffee/claude/ and check the exit IP is your server.
+
+<Callout type="tip" title="Subscribe — don't upload a yaml file">
+Saving the subscription as a yaml file and uploading it works, but the uploaded file has no subscription URL: OpenClash can't show the data-usage bar, and rules and nodes never update automatically.
+</Callout>
+
+OpenClash's interface differs a lot between versions; follow your version's labels and the [OpenClash project](https://github.com/vernesong/OpenClash).
+
+## A known issue
+
+The subscription points AI domains at overseas encrypted DNS and relies on "DNS queries also follow the rules". OpenClash forces that setting off, so those queries go directly abroad and can time out on some networks — AI sites feel slow.
+
+If that happens, delete those AI domains' `nameserver-policy` entries in OpenClash's config override. See the setup's [troubleshooting notes](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/skills/claude-network-guide/references/troubleshooting.md) (in Chinese).
+
+<Callout type="tip">
+Reloading the router config drops proxied connections for a few seconds — do it when nobody at home is busy online.
+</Callout>

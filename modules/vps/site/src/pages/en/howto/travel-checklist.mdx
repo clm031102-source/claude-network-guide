@@ -1,0 +1,42 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: travel-checklist
+time: 20 minutes
+for: People about to travel abroad
+step: 7
+description: Tick off each item before you leave. Problems discovered once you’re behind a restricted network are much harder to fix.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+**Finish at the latest the day before you leave.** Ticks are saved in this browser, so you can do it in several sittings.
+
+<Checkpoint id="travel" items={[
+  "AI health check shows 34/34 passed",
+  "The provider's dashboard confirms the server won't expire during the trip (or auto-renew is on)",
+  "Enough traffic left this month",
+  "Computer: Clash Verge Rev is up to date, subscription updated, Rule mode + Tun Mode",
+  "Computer: ip.net.coffee/claude shows the server IP; DNS and WebRTC not in China",
+  "Phone: the app imported the subscription and the exit IP is the server when connected",
+  "Both nodes (Reality and TLS) tested by switching manually",
+  "Tested once on mobile data (not Wi-Fi)",
+  "The AI tools and apps you need are downloaded and logged in",
+  "Your Google account has a passkey or authenticator, and backup codes are with you (see “Secure your Google account”)",
+  "The login-info file is backed up somewhere safe (encrypted USB stick or password manager), not in a chat app",
+  "ssh your-name on your computer logs in to the server (in case it needs fixing)",
+  "Family members' devices are set up and tested too",
+]} done="All set — have a good trip!" />
+
+## Can't connect after you arrive
+
+1. Try other networks first: hotel Wi-Fi, mobile data, a SIM from another carrier.
+2. Switch to the other node in the app.
+3. Still nothing? The IP is probably blocked: ask the provider for a new IP, then reinstall the OS and set the server up again (see [IP blocked in China](/en/howto/ip-blocked/)).
+
+<Callout type="tip">
+If you travel often, keep a second server from a different provider and data center as a backup — just run the main guide again from step 1.
+</Callout>

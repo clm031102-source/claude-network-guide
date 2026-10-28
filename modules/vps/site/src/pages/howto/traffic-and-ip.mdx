@@ -1,0 +1,49 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: traffic-and-ip
+time: 5 分钟
+for: 配置完成的人
+step: 7
+description: 查看本月流量用了多少，让客户端显示的用量和商家后台对得上；搬瓦工可以直接读 KiwiVM 后台的真实用量。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+## 查看流量
+
+- **商家后台**：搬瓦工 KiwiVM 首页有本月流量和重置日期；其他商家在服务器详情页。
+- **客户端里**：Clash Verge、Shadowrocket 里默认按每月 1T 显示本月用量，重置日按服务器开通日自动推算。服务器自己查不到你的套餐，所以额度或重置日和商家后台不一致时，告诉 AI 实际数字（手动路线是重跑 `init` 并加上 `--quota-gb 额度 --reset-day 几号`，再跑一次 `sub`）。
+
+### 让客户端的数字和后台对得上（任何商家）
+
+服务器自己数网卡进出的流量，重启也接着累加，每月在重置日的当地零点清零。和商家后台对不上，一般是这两个原因：
+
+- **计费方式不同**：默认进和出都算（双向）。如果商家写的是只算出站、或者进出取大的一边，告诉 AI 改一下计费方式，不然会多算将近一倍。
+- **起点不同**：配置之前用掉的流量服务器不知道，重装系统后记录也会清零。打开商家后台，把「本月已用」的数字告诉 AI 校准一次，之后服务器在这个数上接着累加。隔几个月发现又差多了，再校准一次就行。
+
+手动路线：`remote.sh 名称 traffic --used-gb 后台已用GB --count both`（`--count` 可选 `both` 双向、`out` 只算出站、`in` 只算入站、`max` 取大的一边；不带参数只查看现在显示的数字）。改这些只会重启订阅服务，正在用的节点不断。
+
+### 搬瓦工：让客户端显示后台的真实用量
+
+搬瓦工有官方 API，服务器能直接读到 KiwiVM 后台的已用流量、套餐额度和重置时间，客户端里显示的数字就和后台完全一致（每 10 分钟刷新）。为此需要两样东西：
+
+1. 进入这台服务器的 KiwiVM 控制面板（进入方法见 [购买搬瓦工](/howto/buy-bandwagonhost/) 第 2 步）。
+2. 在左侧菜单里找到 **API**，点进去。
+3. 页面上写着 **Your VEID: 一串数字**，这就是 VEID。
+4. API Key 默认是隐藏的，点页面上方的按钮显示出来，是一串 `private_` 开头的字符，这就是 API Key。
+5. 把 VEID 和 API Key 告诉 AI，让它「把订阅用量改成读 KiwiVM」（手动路线：`sub` 之后跑 `remote.sh 名称 kiwivm --veid VEID --key-file 存放-Key-的文件`）。
+
+<Callout type="warn">
+API Key 能控制这台服务器（包括重启、重装系统），和密码一样别发给别人。它只会保存在你自己的服务器上，方案只用它读流量。如果页面上的按钮是生成新的 Key，生成后旧的 Key 会失效，用到旧 Key 的地方要一起更新。
+</Callout>
+
+<Callout type="tip">
+测速特别费流量，一次可能就是几 G 甚至几十 G。看视频也用得快。家用一般每月几百 G 到 1T 就够。
+</Callout>
+
+## 在国内连不上了？
+
+服务器体检一切正常、但在国内就是连不上，多半是 IP 被墙了。怎么确认、搬瓦工和 DMIT 各自怎么换 IP、换完怎么重新配置，见 [IP 被墙了怎么办](/howto/ip-blocked/)。

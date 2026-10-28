@@ -1,0 +1,94 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: refund-rebuy
+time: 10 minutes (plus waiting for the refund)
+for: People whose IP trust score is below 70, or who picked the wrong location
+step: 1
+description: When the Claude AI trust score is below 70 or you picked the wrong location, email BandwagonHost to refund this server, buy a new one, deploy it and test again. Includes three emails you can copy.
+---
+import Callout from "../../../components/Callout.astro";
+import Copy from "../../../components/Copy.astro";
+
+## When to use this
+
+- On [ip.net.coffee/claude](/en/howto/check-ip/), **there are no leaks**, but the Claude AI trust score is **below 70**;
+- or you picked the wrong location or plan when buying;
+- or the IP is blocked in China, and you bought it less than a month ago and have barely used it (usually it's easier to just pay for a new IP: see [IP blocked in China](/en/howto/ip-blocked/)).
+
+You can't swap your own server for a "better-reputation" IP. The simplest fix is to refund this one and buy a new one, which comes with a new IP.
+
+<Callout type="warn">
+BandwagonHost offers a 30-day money-back guarantee, so **if the score is low, ask early**. Under its [Terms of Service](https://bandwagonhost.com/terms-of-service.php) you need all of: a new order (not a renewal) placed 30 or fewer days ago, this month's traffic under 10% of the quota, no overdue payments or chargebacks, and no blacklisted IPs. After the refund the server is deleted, along with everything on it.
+</Callout>
+
+## 1. Email for a refund
+
+Sign in to the BandwagonHost client area and submit a ticket, or email support, and paste **whichever email below matches your situation**. Replace `[...]` with your server IP or order number.
+
+### Low score (most common)
+
+<Copy id="refund-score" title="Low IP score" code={`Dear BandwagonHost Support Team,
+
+I recently purchased a VPS (IP: [your server IP]). After setting it up, I found that the IP address assigned to it has a low reputation score, which doesn't work well for my use.
+
+I would like to request a refund for this order so that I can purchase a new VPS with a different IP address.
+
+I still intend to use your services and will place a new order after the refund is processed.
+
+Thank you for your understanding and support.
+
+Best regards`} />
+
+### Wrong location
+
+<Copy id="refund-location" title="Wrong location" code={`Dear BandwagonHost Support Team,
+
+I recently purchased a VPS (IP: [your server IP]), but I accidentally selected the wrong server location during checkout.
+
+I would like to request a refund for this order so that I can purchase a new VPS in my preferred location.
+
+I still intend to use your services and will place a new order after the refund is processed.
+
+I would appreciate your assistance with this request.
+
+Thank you for your understanding and support.
+
+Best regards`} />
+
+### Short version
+
+<Copy id="refund-short" title="Short version" code={`Hello,
+
+I purchased a VPS recently (IP: [your server IP]), and it doesn't fit my needs. As it's still within the 30-day money-back period, I'd like to request a full refund for this order.
+
+I plan to place a new order afterwards.
+
+Thank you!
+
+Best regards`} />
+
+## 2. Reply to the confirmation email
+
+After you submit, BandwagonHost staff will email you to confirm. Just reply to that email and confirm once more:
+
+<Copy id="refund-confirm" title="Confirmation reply" code={`Hello,
+
+Yes, I confirm that I would like to cancel this VPS and receive a full refund to my original payment method.
+
+Thank you for your help.
+
+Best regards`} />
+
+Once you've confirmed, the refund goes back to the account you paid with.
+
+## 3. Buy a new one
+
+Once the refund is processed, buy a new server as in [Buy a server from BandwagonHost](/en/howto/buy-bandwagonhost/), and note its IP, root password and SSH port again.
+
+## 4. Deploy, then test again
+
+Set up the new server from [step 3 "Configure the server"](/en/guide/3-deploy/) and give it a new name (the old `ssh name` no longer works). When it's done, open [ip.net.coffee/claude](/en/howto/check-ip/) again: no leaks and a score of 70 or above means you're set.
+
+<Callout type="ok">
+The new server is deployed, there are no leaks, and the Claude AI trust score is 70 or above.
+</Callout>

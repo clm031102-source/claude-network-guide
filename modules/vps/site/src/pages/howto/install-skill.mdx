@@ -1,0 +1,42 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: install-skill
+time: 2 分钟
+for: 经常配服务器的人
+step: 2
+description: 把 claude-network-guide 装成 Claude Code / Codex 的 skill，以后一句话就能配新服务器。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+## 有什么用
+
+装成 skill 以后，不用每次复制一大段话。直接对 AI 说「用 claude-network-guide 帮我配置新买的服务器」，它会自己问你要服务器信息。
+
+**第一次用可以不装**：第 3 步那段话会让 AI 自己下载方案。
+
+## 安装
+
+在终端里运行一次：
+
+<Copy id="skill" lang="bash" title="下载方案并装成 skill" code={`git clone https://github.com/clm031102-source/claude-network-guide.git
+mkdir -p ~/.claude/skills ~/.codex/skills
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.claude/skills/
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.codex/skills/`} />
+
+只用其中一个 AI 助手的话，另一行 `cp` 不运行也行。
+
+## 以后怎么更新
+
+方案有更新时，进入下载的目录拉取最新版，再复制一次：
+
+<Copy id="skill-up" lang="bash" title="更新 skill" code={`cd claude-network-guide && git pull && cd ..
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.claude/skills/
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.codex/skills/`} />
+
+<Callout type="ok">
+重新打开 AI 助手，说「用 claude-network-guide 帮我检查服务器」，它能认出这个 skill。
+</Callout>

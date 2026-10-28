@@ -1,0 +1,22 @@
+---
+import Site from "../layouts/Site.astro";
+import { STEPS, stepHref, link } from "../data/nav.js";
+---
+<Site title="找不到这个页面 · Page not found">
+  <article class="xxd-prose">
+    <h1>找不到这个页面</h1>
+    <p>链接可能写错了，或者页面换了地址。可以按 <kbd class="xxd-kbd">⌘K</kbd> 搜索，或者从这里重新开始：</p>
+    <ul>
+      <li><a href={link("/")}>首页：一张图看懂</a></li>
+      <li><a href={stepHref(STEPS[0])}>主线教程：从第 0 步开始</a></li>
+      <li><a href={link("/faq/")}>常见问题</a></li>
+    </ul>
+    <h2>Page not found</h2>
+    <p>The link may be wrong, or the page has moved. Start again from:</p>
+    <ul>
+      <li><a href={link("/", "en")}>Home: the big picture</a></li>
+      <li><a href={stepHref(STEPS[0], "en")}>Main guide: start at step 0</a></li>
+      <li><a href={link("/faq/", "en")}>FAQ</a></li>
+    </ul>
+  </article>
+</Site>

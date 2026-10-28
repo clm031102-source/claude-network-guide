@@ -1,0 +1,81 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: cpa-clients
+time: 5 分钟
+for: 想用自己 AI 接口的人
+step: 6
+description: 把你的 CLIProxyAPI 接到 Cherry Studio、Claude Code、Codex 等工具里。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 通用填法
+
+绝大多数 AI 工具都支持「OpenAI 兼容接口」，只要填两样：
+
+| 工具里的名字 | 填什么 |
+|---|---|
+| API 地址 / Base URL / Endpoint | 登录信息文件里的「API 地址（Base URL）」：`https://你的IP:8318/v1` |
+| API Key / 密钥 | 登录信息文件里的「API Key」 |
+| 模型名 | 用 [添加账号](/howto/cpa-add-account/) 里 curl 列出来的模型名 |
+
+CLIProxyAPI 也兼容 Claude 和 Gemini 的接口格式。
+
+<Tabs id="tool" label="选工具" items={[["cherry", "Cherry Studio"], ["claude", "Claude Code"], ["codex", "Codex"], ["curl", "命令行测试"]]}>
+<div slot="cherry">
+
+1. 打开 Cherry Studio 的设置 →「模型服务」，添加一个服务商，类型选 **OpenAI**。
+2. 「API 密钥」填 API Key；「API 地址」填 `https://你的IP:8318`（Cherry Studio 会自动补上 `/v1`；如果连不上，再试试完整的 `https://你的IP:8318/v1`）。
+3. 点「管理」或「获取模型列表」，把要用的模型加进来，再点「检查」测试一下。
+
+</div>
+<div slot="claude">
+
+在启动 Claude Code 之前设置两个环境变量（地址不带 `/v1`）：
+
+<Copy id="cc-env" lang="bash" title="让 Claude Code 走你的接口" code={`export ANTHROPIC_BASE_URL="https://你的IP:8318"
+export ANTHROPIC_AUTH_TOKEN="你的API Key"
+claude`} />
+
+前提是管理中心里加了能提供 Claude 模型的账号。只想临时用，就在同一个终端里设置；想长期用，写进 shell 的配置文件。
+
+</div>
+<div slot="codex">
+
+在 `~/.codex/config.toml` 里加一个自定义服务商（没有这个文件就新建）：
+
+<Copy id="cx-cfg" lang="bash" title="~/.codex/config.toml" code={`model_provider = "cpa"
+model = "填 curl 列出来的模型名"
+
+[model_providers.cpa]
+name = "CLIProxyAPI"
+base_url = "https://你的IP:8318/v1"
+env_key = "CPA_API_KEY"
+wire_api = "responses"`} />
+
+然后在终端里设置 Key 再启动：`export CPA_API_KEY="你的API Key"`，再运行 `codex`。
+
+</div>
+<div slot="curl">
+
+<Copy id="chat" lang="bash" title="发一句话试试" code={`curl -s https://你的IP:8318/v1/chat/completions \\
+  -H "Authorization: Bearer 你的API Key" \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"填模型名","messages":[{"role":"user","content":"你好"}]}'`} />
+
+返回一段 JSON，里面有模型的回答，就说明接口能用。
+
+</div>
+</Tabs>
+
+<Callout type="no">
+不要把 API Key 写进会上传到 GitHub 的代码或配置里。用环境变量，或者只保存在本机的配置文件。
+</Callout>
+
+<Callout type="tip">
+各个工具的设置界面会随版本变化。找「自定义服务商」「OpenAI 兼容」「Base URL」这几个词就对了。
+</Callout>

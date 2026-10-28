@@ -1,0 +1,50 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: buy-bandwagonhost
+time: 20–30 分钟
+for: 买服务器的人
+step: 1
+description: 在搬瓦工（BandwagonHost）购买服务器，并在 KiwiVM 后台找到 IP、SSH 端口和 root 密码。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+搬瓦工的后台分两层：**客户中心**（下单、付款、续费）和 **KiwiVM 控制面板**（管理这台服务器）。下面的按钮名称以英文界面为准，商家改版后可能略有不同。
+
+## 1. 下单
+
+1. 打开 [搬瓦工购买链接](https://bandwagonhost.com/)（作者的邀请链接，见下面说明）。
+2. 确认套餐（链接里的套餐每月 1T 流量）、付款周期（Billing Cycle），机房（Location）选**洛杉矶**相关的选项。
+3. 点加入购物车，结账时注册账号（推荐用 Gmail），付款方式可以选**支付宝**（Alipay）。
+
+<Shot src="bwg-order.webp" w={999} h={311} alt="搬瓦工下单页的付款周期和机房选项" caption="下单页：红框是付款周期（Billing Cycle）和机房（Location）两项。价格以官网为准。" />
+
+<Callout type="tip" title="关于链接">
+这是作者的邀请链接，通过它购买作者可能获得佣金，这部分收入会用于慈善相关工作。价格、库存和可选机房以官网为准。
+</Callout>
+
+## 2. 进入 KiwiVM 控制面板
+
+1. 登录搬瓦工客户中心，进入 Services → My Services，能看到刚买的服务器。
+2. 点进去，找到 **KiwiVM Control Panel** 的入口，打开。
+
+## 3. 找到要记下的三样东西
+
+- **IP 地址**和 **SSH 端口**：KiwiVM 首页（Main controls）就有显示。搬瓦工的 SSH 端口**不一定是 22**，以页面为准。
+- **root 密码**：开通邮件里会给；找不到的话，在 KiwiVM 里用「Root password modification」生成一个新的（会显示一次，马上抄下来）。
+
+## 4. 确认系统
+
+KiwiVM 首页的 Operating system 一栏就是当前系统。搬瓦工开通时装的是默认系统，多半要重装一次：先在首页点 **Stop** 关机，再点左侧 **Install new OS**，选 Ubuntu 24.04，勾选同意后点 **Reload**，几分钟后抄下页面显示的新 root 密码和 SSH 端口。每一步的细节见 [后台重装系统为 Ubuntu](/howto/reinstall-os/)。
+
+<Callout type="ok">
+KiwiVM 里服务器状态是运行中（Running），你已经记下了 IP、SSH 端口和 root 密码，系统是 Ubuntu 24.04。
+</Callout>
+
+<Callout type="warn">
+搬瓦工的服务器出厂时可能已经开了自己的防火墙或别的设置，不用管，第 3 步的脚本会按方案重新配置。
+</Callout>

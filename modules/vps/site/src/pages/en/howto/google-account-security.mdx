@@ -1,0 +1,119 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: google-account-security
+time: About 15 minutes
+for: Google account owners who travel or use AI tools
+description: Go through the Google Account Security page top to bottom — 2-Step Verification, passkeys, an authenticator, backup codes, recovery email and phone — so you can still sign in abroad.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## Why it's worth 15 minutes
+
+Your Google account is the key to a lot: Gmail, YouTube, Android, and many AI tools and sites you use "Sign in with Google" for. Two things can go wrong:
+
+- **Someone else gets in**: a leaked password or a phishing page. 2-Step Verification stops this.
+- **You can't get in**: more common. Abroad, on a new server IP or a new phone, Google may think "this doesn't look like you" and ask for extra verification. If the only option is a text to your home phone number and you can't receive it abroad, you're stuck.
+
+So the goal: **turn on 2-Step Verification, and have at least two ways to verify that don't depend on SMS**.
+
+## Open the Security page
+
+Open [myaccount.google.com/security](https://myaccount.google.com/security) and scroll to "**How you sign in to Google**". Work through the items below in order of importance.
+
+<Callout type="tip">
+If the top of the page flags a security issue, open it and follow the prompts — usually adding a recovery email or reviewing devices. You can also run the [Security Checkup](https://myaccount.google.com/security-checkup) anytime.
+</Callout>
+
+## 1. 2-Step Verification (must do)
+
+Click "**2-Step Verification**" and follow the prompts to turn it on. After that, signing in needs your password plus one more proof that it's you.
+
+<Callout type="ok">
+"2-Step Verification" shows "On" with the date it was turned on.
+</Callout>
+
+## 2. At least two non-SMS ways to verify
+
+On the 2-Step Verification page you can add several methods. Prepare them in this order:
+
+| Method | What it is | Abroad |
+|---|---|---|
+| **Passkey** | Sign in with your phone or computer's fingerprint, face or screen lock — no password | Best: no signal needed, and phishing-resistant |
+| **Authenticator** | An authenticator app (e.g. Google Authenticator) shows a new 6-digit code every 30 seconds | Works offline, no roaming needed |
+| **Google prompt** | A signed-in phone asks "Is it you trying to sign in?" — tap Yes | The phone needs internet |
+| 2-Step Verification phones | A code by text or call | **Least reliable**: no roaming or a local SIM means no code |
+
+How:
+
+1. **Passkey**: click "**Passkeys and security keys**" → "Create a passkey", and confirm with your fingerprint or face. One on your phone and one on your main computer is safer.
+2. **Authenticator**: on the 2-Step Verification page find "**Authenticator**" → set up, scan the QR code with the app, then enter the 6-digit code it shows.
+3. **Google prompt**: appears automatically on phones signed in to the same account (Android, or an iPhone with the Gmail / Google app). Check the device list shows your own phone.
+4. **SMS**: keep it as the last fallback, but don't rely on it alone.
+
+<Callout type="warn" title="Move the authenticator before changing phones">
+Authenticator codes live on the old phone. Before switching, export the accounts to the new phone in the app (Google Authenticator can also sync through your Google account), confirm the new phone shows codes, and only then wipe the old one.
+</Callout>
+
+## 3. Backup codes (save them)
+
+On the 2-Step Verification page find "**Backup codes**" and generate 10 one-time codes. If you lose your phone and nothing else works, these get you in.
+
+- Save them in a password manager, or print them and keep them in your wallet or luggage;
+- Don't keep them as a screenshot on your phone (lose the phone, lose the codes), and don't send them in a chat app;
+- Each code works once; generate a new set when you've used a few.
+
+## 4. Recovery email and recovery phone
+
+Fill in "**Recovery email**" and "**Recovery phone**". If you forget your password or the account is taken over, Google uses them to get it back to you.
+
+- Use a **non-Gmail** recovery email (e.g. Outlook, or a mailbox from your home country);
+- Use a phone number you'll keep long-term;
+- Update them when you change number or email.
+
+"**Recovery contacts**" is optional: a trusted family member who can help confirm it's you.
+
+## 5. Password and "Skip password"
+
+- **Password**: a long password used only for Google, kept in a password manager. Change it right away if you suspect a leak.
+- **Skip password when possible**: once you have a passkey, turn this on to sign in with your fingerprint or face instead of typing the password. The password still exists for other sign-in methods.
+
+## 6. Review signed-in devices
+
+On the Security page find "**Your devices**" → "**Manage all devices**". If you see a device you don't recognize, sign it out and change your password right away.
+
+## Before you travel
+
+<Callout type="warn" title="Do it before you leave, not while abroad">
+Changing security settings from an unfamiliar country and network looks more suspicious to Google, and newly added methods may not count for account recovery for a while. Set everything up at home, on your usual devices.
+</Callout>
+
+- The authenticator app shows codes;
+- Backup codes are with you (password manager or paper);
+- Google prompts arrive on your phone;
+- Go through the [pre-trip checklist](/en/howto/travel-checklist/) for the server and apps too.
+
+## Stuck?
+
+<Q q="&quot;Couldn't verify it's you&quot; and you can't sign in?">
+Choose another method: on the verification screen tap "Try another way" and use a passkey, the authenticator or a backup code. Sign in from your usual device and network (for example the server you always use) so Google recognises you. If that fails, use [account recovery](https://accounts.google.com/signin/recovery) and answer as accurately as you can.
+</Q>
+<Q q="No SMS codes while abroad?">
+That's why to prepare a passkey, an authenticator and backup codes in advance. If SMS is all you have, try turning on international roaming, or look for other options on the verification screen.
+</Q>
+<Q q="Are passkeys safe? What if I lose my phone?">
+A passkey is stored in your device's secure chip, can't be used without your fingerprint, face or screen lock, and can't be phished. If you lose the phone, sign in another way (another device or a backup code) and remove that device's passkey under "Passkeys and security keys".
+</Q>
+<Q q="Will 2-Step Verification affect sites I use &quot;Sign in with Google&quot; for?">
+No. Sites you're already signed in to keep working; only signing in to Google again takes the extra step.
+</Q>
+
+<Checkpoint id="google-security" items={[
+  "2-Step Verification shows On",
+  "Passkey created (phone, ideally a computer too)",
+  "The authenticator app shows codes",
+  "Backup codes saved in a password manager or printed",
+  "Recovery email (not Gmail) and recovery phone filled in and current",
+  "No unrecognized devices in the device list",
+]} done="Account secured — you can sign in abroad too." />

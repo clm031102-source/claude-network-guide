@@ -1,0 +1,62 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: google-payment-card
+time: About 5 minutes
+for: People who want to buy apps or subscriptions on Google Play
+description: Add a credit or debit card to your Google account to pay on Google Play — which cards work, and what to do when one won't add.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## First check your card can be used
+
+Accepted cards follow [Google's list](https://support.google.com/googleplay/answer/2651410). Common ones:
+
+- **Visa, Mastercard, American Express, JCB, Discover** credit or debit cards;
+- accepted types **vary by country and region** — go by what the page shows when you add a card.
+
+<Callout type="warn" title="These usually won't add">
+Virtual credit cards (VCC), bank transfers and wire transfers aren't supported. Cards carrying **only** a UnionPay logo aren't among the card types Google lists; a co-branded card with a Visa or Mastercard logo is worth trying.
+</Callout>
+
+No suitable card? Buy a **Google Play gift card** to top up your balance and pay or subscribe with that.
+
+## Steps (computer or phone browser)
+
+1. Open [pay.google.com](https://pay.google.com) and sign in to your Google account.
+2. Click "**Payment methods**" → "**Add payment method**" → "**Add credit or debit card**".
+3. Enter the card number, expiry, security code (3 digits on the back), cardholder name and billing address.
+4. Save. Your bank may send a text code or ask you to confirm in its app.
+
+<Callout type="ok">
+The card appears under "Payment methods" (card type and last 4 digits).
+</Callout>
+
+## Or add it in the Play Store on your phone
+
+Open the Play Store → tap your profile picture → "**Payments & subscriptions**" → "**Payment methods**" → "Add credit or debit card", and fill in the same details.
+
+## Things to know
+
+- **A small "pending" charge** appears: Google uses it to verify the card; it disappears later and isn't really taken.
+- **Payments profile country/region**: adding your first payment method creates a payments profile whose country/region decides which Play Store region you get and which apps you can buy. It can't simply be changed later — you'd need a new payments profile — so pick the right one the first time.
+- **Safety**: enter card details only on Google's own pages; never send them to anyone or screenshot them. Also [secure your Google account](/en/howto/google-account-security/).
+
+## Stuck?
+
+<Q q="&quot;Can't add this card&quot; or the payment is declined?">
+Check the card type is on the list, the card is enabled for overseas (or online) payments, and the billing address matches your bank's records. If it still fails, call your card issuer — banks often block overseas transactions. Or use a Google Play gift card.
+</Q>
+<Q q="No option to add a credit card, only other methods?">
+Your payments profile's country/region doesn't support that method. Available methods vary by country and region.
+</Q>
+<Q q="No Play Store on my Android phone?">
+Many phones sold in mainland China don't ship with Google services. Add the payment method from a computer browser at pay.google.com instead.
+</Q>
+
+<Checkpoint id="google-card" items={[
+  "I checked my card type is on Google Play's list",
+  "The card shows under Payment methods on pay.google.com",
+  "The payments profile country/region is the one I want",
+]} />

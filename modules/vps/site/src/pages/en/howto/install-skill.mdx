@@ -1,0 +1,43 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: install-skill
+time: 2 minutes
+for: People who set up servers often
+step: 2
+description: Install claude-network-guide as a Claude Code / Codex skill, so one sentence sets up a new server.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## What it's for
+
+With the skill installed you don't need to paste a long message each time. Just tell the AI "use claude-network-guide to set up my new server", and it asks for the server details itself.
+
+**Not needed the first time**: step 3's message tells the AI to download the setup itself.
+
+## Install
+
+Run this once in the terminal:
+
+<Copy id="skill" lang="bash" title="Download the setup and install it as a skill" code={`git clone https://github.com/clm031102-source/claude-network-guide.git
+mkdir -p ~/.claude/skills ~/.codex/skills
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.claude/skills/
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.codex/skills/`} />
+
+If you only use one AI assistant, you can skip the other `cp` line.
+
+## Updating later
+
+When the setup changes, pull the latest version in the downloaded folder and copy it again:
+
+<Copy id="skill-up" lang="bash" title="Update the skill" code={`cd claude-network-guide && git pull && cd ..
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.claude/skills/
+cp -R claude-network-guide/modules/vps/skills/claude-network-guide ~/.codex/skills/`} />
+
+<Callout type="ok">
+Reopen the AI assistant and say "use claude-network-guide to check my server" — it recognises the skill.
+</Callout>

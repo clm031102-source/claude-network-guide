@@ -1,0 +1,69 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: apple-gift-card
+time: 约 10 分钟
+for: 有美区 Apple ID、没有美国银行卡的人
+description: 买美国区 Apple 礼品卡，兑换到美区 Apple ID 的余额里，用来买 App（比如 Shadowrocket）和订阅（比如 Claude）。最稳妥的付款方式。
+---
+import Callout from "../../components/Callout.astro";
+import Q from "../../components/Q.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+
+## 为什么推荐礼品卡
+
+美区 Apple ID 买东西，付款方式要和账号地区一致。没有美国银行卡时，**礼品卡是最稳妥的办法**：充进账号余额后，买 App、App 内购买和订阅都能用余额付。
+
+[PayPal](/howto/apple-paypal/) 也是一种办法，但用国内的 PayPal 绑美区账号不一定成功。建议两条路都了解，先用礼品卡。
+
+还没有美区 Apple ID？先看 [注册境外 Apple ID](/howto/apple-id/)。
+
+## 1. 买对礼品卡
+
+- **要美国区的卡**：卡面或页面写着 Apple Gift Card（美国），面值是美元。别的地区的卡充不进美区账号。旧的「App Store & iTunes」礼品卡也能用。
+- **面值**：买 Shadowrocket 约 3 美元；订阅按月扣，余额要够下一期。可以先买小面值试一次。
+- **从正规渠道买**：Apple 官网、美国的大型零售商（如 Amazon、Best Buy、Target）。
+
+<Callout type="warn" title="小心来路不明的低价卡">
+很多第三方渠道卖的礼品卡比面值便宜。这类卡可能是用盗刷的钱买的，兑换后苹果可能锁定你的 Apple ID、扣回余额。贪便宜买到问题卡，损失的不只是这张卡。尽量选可靠的卖家，出了问题能退换。
+</Callout>
+
+## 2. 兑换到余额
+
+在 iPhone 上：
+
+1. 确认 App Store 登录的是**美区 Apple ID**（右上角头像）。
+2. 点右上角头像 →「**兑换充值卡或代码**」（Redeem Gift Card or Code）。
+3. 用相机扫卡背面的代码，或者手动输入以 X 开头的 16 位代码。
+4. 兑换成功后，金额加到账户余额里。
+
+在电脑上：Mac 的 App Store 左下角点你的名字 →「兑换充值卡」；Windows 用 Apple Music 或 iTunes 里的「兑换」。
+
+<Callout type="ok">
+App Store 头像页面里，你的名字下面显示余额（比如 $10.00）。
+</Callout>
+
+## 3. 用余额购买
+
+- **买 App**：比如 Shadowrocket，点价格按钮，用面容或密码确认，会优先从余额扣。
+- **订阅**：比如 [在 iPhone 上订阅 Claude](/howto/claude-app-store/)，每期从余额扣；**余额不够时续费会失败**，订阅就停了。订阅前看一眼余额，快到期前补充值。
+
+## 卡住了？
+
+<Q q="提示「此代码不能在美国商店兑换」？">
+卡不是美国区的，或者 App Store 登录的不是美区账号。核对卡面地区和右上角登录的账号。
+</Q>
+<Q q="提示「代码无效」或「已被兑换」？">
+仔细核对代码（X 开头，容易把 0 和 O、1 和 I 看错）。确认没输错还不行，联系卖家；已被兑换的卡只能找卖家处理。
+</Q>
+<Q q="兑换后账号被锁了？">
+可能是卡的来源有问题，或者新账号短时间内操作太多。按页面提示走 Apple 的账号恢复流程，必要时联系 Apple 支持。以后只从可靠渠道买卡。
+</Q>
+<Q q="余额能退或转给别人吗？">
+一般不能。礼品卡余额只能在这个 Apple ID 里用，所以按需购买，不要一次充太多。
+</Q>
+
+<Checkpoint id="apple-gift" items={[
+  "我买的是美国区 Apple 礼品卡，渠道可靠",
+  "App Store 头像页显示了余额",
+  "我知道订阅续费会从余额扣，余额不够会停",
+]} />

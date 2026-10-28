@@ -1,0 +1,39 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: dns-leak
+time: 3 minutes
+for: Everyone
+step: 5
+description: Check that foreign sites are not being looked up with Chinese DNS.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## What it is
+
+A <Term k="DNS 泄露" text="DNS leak" />: when you visit a foreign site, its name is first looked up with Chinese DNS, letting test sites see your province and provider.
+
+This setup's subscription already handles it: unlisted foreign sites aren't looked up locally — they're handed straight to the server.
+
+## How to test
+
+Open [ip.net.coffee/claude/](https://ip.net.coffee/claude/) and look at the "DNS leak test":
+
+<Callout type="ok">
+The DNS exit isn't in China (usually overseas DNS such as Cloudflare or Google).
+</Callout>
+
+## If Chinese DNS shows up
+
+1. **Update the subscription**: tap "Update" on it in your app to get the latest rules (the setup fixed this in October 2026).
+2. **Turn on Tun Mode** on computers, and check Clash Verge's **DNS Overwrite** is **off** (it replaces the subscription's DNS settings).
+3. **Turn off other proxies**: other proxies or boosters on the device skew the result.
+4. On Windows, with Tun Mode on, also turn on **Strict Route** so Windows can't bypass Clash for DNS.
+
+<Callout type="tip">
+Using Chinese DNS for Chinese sites is normal — that's for speed. The test is about foreign sites.
+</Callout>

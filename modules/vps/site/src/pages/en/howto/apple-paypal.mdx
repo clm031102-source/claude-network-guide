@@ -1,0 +1,85 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: apple-paypal
+time: About 20 minutes
+for: People who want to pay for a US Apple ID with PayPal
+description: Open a PayPal personal account, link a card and verify your identity, then add PayPal as the payment method of a US Apple ID on iPhone. It doesn't always work — fall back to a gift card.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## First: this route doesn't always work
+
+Paying for a **US Apple ID** with a **PayPal account opened in mainland China** (linked to a Chinese bank card) works for some people and fails for others when adding it or paying. Neither Apple nor PayPal says publicly whether this combination is supported, and the rules can change anytime.
+
+So:
+
+- have the reliable [gift card](/en/howto/apple-gift-card/) route ready;
+- treat PayPal as an extra — try once, and if it fails switch back to gift cards. **Don't keep retrying**, or you may trigger PayPal's or Apple's risk controls.
+
+<Callout type="warn" title="Use your real details">
+PayPal requires real-name verification: your details must match your ID and bank card. Fill in your Apple ID billing details truthfully as the page asks, too. Accounts registered with false details can be restricted anytime, and money in them may be frozen.
+</Callout>
+
+## 1. Open a PayPal personal account
+
+1. Open [paypal.com](https://www.paypal.com); if your region is China you'll see PayPal China's site. Click "Sign up" and choose a "**Personal account**".
+2. Enter your email (an address you use, e.g. Gmail) and set a password.
+3. Enter your **real name** (as on your ID, in Chinese characters), phone number (+86) and address.
+4. Verify your email and phone as prompted.
+
+<Callout type="ok">
+You can log in, and the account home has no "please confirm your email" style warnings.
+</Callout>
+
+## 2. Link a bank card
+
+1. Log in and go to "**Wallet**" → "**Link a card**" (debit or credit).
+2. Enter the card number, expiry, security code and billing address (as registered with your bank).
+3. Complete verification: a text code, or a small charge whose amount or code you enter to confirm.
+
+- Many users report that **UnionPay cards can be linked**; Visa or Mastercard credit cards work more widely.
+- The card must be enabled for **online** and **overseas payments**, or your bank may block the verification or payment.
+
+## 3. Verify your identity
+
+PayPal China supports personal identity verification with your **national ID card**. When the account prompts you, follow the steps and upload it; verified accounts are less likely to be restricted.
+
+## 4. Add PayPal to your US Apple ID on iPhone
+
+1. Make sure the App Store is signed in with your **US Apple ID** (none yet? see [Create a non-China Apple ID](/en/howto/apple-id/)).
+2. Open Settings → tap your name at the top → "**Payment & Shipping**". If the US account is only signed in to the App Store, go to Settings → your name → Media & Purchases → View Account → Manage Payments.
+3. Tap "**Add Payment Method**" → choose **PayPal** → log in to PayPal and agree.
+4. Back on the page, PayPal is listed as a payment method.
+
+<Callout type="ok">
+The payment method list shows PayPal with your PayPal email.
+</Callout>
+
+## 5. Try a small purchase
+
+Buy something cheap first, such as Shadowrocket (about $3), to confirm PayPal charges work. Once it does, go on to [subscribe to Claude](/en/howto/claude-app-store/) and so on.
+
+If the account also has gift card balance, Apple **uses the balance first** and charges the rest to PayPal.
+
+## Stuck?
+
+<Q q="Error when adding PayPal, or &quot;payment method declined&quot;?">
+That's the uncertainty above: this combination may not be supported. Don't keep retrying — remove PayPal and use a [gift card](/en/howto/apple-gift-card/) instead.
+</Q>
+<Q q="PayPal won't link my card?">
+Check the card is enabled for online and overseas payments and the billing address matches your bank's records; try a Visa or Mastercard credit card, or call your card issuer.
+</Q>
+<Q q="My PayPal account was restricted?">
+Log in and check the reason in the Message Center or on the account home, then provide what's asked (usually identity, address or transaction details) — truthfully.
+</Q>
+<Q q="Want to stop using PayPal later?">
+Remove it under Payment & Shipping; you can also cancel Apple's authorization in PayPal under Settings → Payments → Automatic payments.
+</Q>
+
+<Checkpoint id="apple-paypal" items={[
+  "PayPal is set up: email and phone verified, a card linked",
+  "PayPal appears in the US Apple ID's payment methods",
+  "A small purchase with PayPal worked — or it failed and I switched to a gift card",
+]} />

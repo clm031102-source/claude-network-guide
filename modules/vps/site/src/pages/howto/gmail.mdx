@@ -1,0 +1,61 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: gmail
+time: 约 10 分钟
+for: 所有人
+step: 0
+description: 注册一个 Google 账号（Gmail 邮箱），并打开两步验证。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+## 为什么要 Gmail
+
+买服务器、注册 GitHub、注册各种国外服务，都需要一个能正常收信的邮箱。国内邮箱也能用，但有些国外服务的邮件会被拦截或延迟。Gmail 用来注册国外服务最省心。
+
+<Callout type="tip">
+打开 Google 的网站需要网络能访问国外。还没有线路的话，买服务器先用你现有的邮箱，等第 4 步装好客户端以后再来注册 Gmail。
+</Callout>
+
+## 步骤
+
+1. 打开 [accounts.google.com/signup](https://accounts.google.com/signup)（或者打开 gmail.com，点「创建账号」）。
+2. 用途选「个人用途」。
+3. 填姓名、生日、性别。生日请填真实的，未成年账号会有限制。
+4. 选一个 Gmail 地址，比如 `yourname2026@gmail.com`。被占用了就换一个。
+5. 设置密码：至少 12 位，字母、数字、符号混合，不要和别的网站用同一个。
+6. 按提示验证手机号（下面有常见问题）。
+7. 建议填一个「辅助邮箱」，忘记密码时可以用它找回。
+
+<Shot src="google-signup-zh.webp" w={1064} h={410} alt="创建 Google 账号的第一页" caption="注册第一页：填姓名，点「下一步」。" />
+
+## 注册完马上做：打开两步验证
+
+1. 打开 [myaccount.google.com](https://myaccount.google.com)，点「安全」。
+2. 找到「两步验证」，按提示打开，推荐用手机上的验证器 App 或「Google 提示」。
+
+这样就算密码泄露，别人也登录不了你的账号。通行密钥、备用验证码、辅助邮箱等完整设置，见 [Google 账号安全设置](/howto/google-account-security/)，出国前一定要做。
+
+<Callout type="ok">
+能用新地址登录 Gmail，收发一封邮件试试；「安全」页面显示两步验证已开启。
+</Callout>
+
+## 已经有 Gmail，想换一个地址？
+
+不用重新注册，现有账号可以直接换一个新的 @gmail.com 地址，旧地址继续收信。见 [更换 Gmail 地址](/howto/gmail-change-address/)。
+
+## 卡住了？
+
+<Q q="提示「此电话号码无法用于进行验证」？">
+这是 Google 的风控，常见于新设备、新网络。可以换个时间再试，或者在手机上用 Gmail App 注册，成功率通常更高。
+</Q>
+<Q q="收不到验证码短信？">
+等一两分钟再点重新发送；确认国家代码选对了（中国大陆是 +86）。
+</Q>
+<Q q="账号刚注册就被停用？">
+新账号短时间内频繁换 IP、批量操作容易触发风控。按页面提示申诉，正常使用一段时间后会稳定下来。
+</Q>

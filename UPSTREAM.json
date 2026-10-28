@@ -1,0 +1,1285 @@
+{
+  "sources": [
+    {
+      "module": "switcher",
+      "repository": "https://github.com/YOURSJEYO/claude-switcher",
+      "commit": "495b9952f36b8b7b7575fa0d8de48c2465dbf486",
+      "license": "MIT",
+      "files": [
+        {
+          "source_path": ".github/workflows/checks.yml",
+          "path": "modules/switcher/.github/workflows/checks.yml",
+          "source_sha256": "e64effc18d9878b865466a924c2af088ee0adb38cd8661c37c7e952c9412332a"
+        },
+        {
+          "source_path": ".github/workflows/release.yml",
+          "path": "modules/switcher/.github/workflows/release.yml",
+          "source_sha256": "3c6ae10e294b738d4ce174a2fb2bf06528cbc965301b1bd36360d89314874d4f"
+        },
+        {
+          "source_path": ".gitignore",
+          "path": "modules/switcher/.gitignore",
+          "source_sha256": "6611d1e1857385031159325b554e688c93ead1e7dbc3fb390708961b2b2ff6bc"
+        },
+        {
+          "source_path": "AGENTS.md",
+          "path": "modules/switcher/docs/agent-install-reference.md",
+          "source_sha256": "1c2738fde56d357b4fe6852596cbd9ddfa4ef81033ca78ca0592520cf7af019c"
+        },
+        {
+          "source_path": "LICENSE",
+          "path": "modules/switcher/LICENSE",
+          "source_sha256": "c288d9b3c1c5bdb2038628f39c82b82375570798005c8e263b365057457b393a"
+        },
+        {
+          "source_path": "README.en.md",
+          "path": "modules/switcher/README.en.md",
+          "source_sha256": "3b7896faa3f0d531d4fcb4844841a1c8928df8322b1e0883ceefbdc3d60abeda"
+        },
+        {
+          "source_path": "README.md",
+          "path": "modules/switcher/README.md",
+          "source_sha256": "3f6cb79c76d765004aa9b7409e3ae83e6c694de5c5c5c74fc59ab177e24e229a"
+        },
+        {
+          "source_path": "SECURITY.md",
+          "path": "modules/switcher/SECURITY.md",
+          "source_sha256": "d98d1a35aaba89fa83c2232a14d4b0c105f0ba897d9ed495a45bf65612a95689"
+        },
+        {
+          "source_path": "SHA256SUMS",
+          "path": "modules/switcher/SHA256SUMS",
+          "source_sha256": "cfed65128f24f4e29830e732c414468cc4fa241205cc680c3fd1b9e31a58bc78"
+        },
+        {
+          "source_path": "app/main.swift",
+          "path": "modules/switcher/app/main.swift",
+          "source_sha256": "2bed29842048b3479413dd3ff0578350b8c4261f47d48fb397f7fb17c9ad8cc7"
+        },
+        {
+          "source_path": "assets/icon-2048.png",
+          "path": "modules/switcher/assets/icon-2048.png",
+          "source_sha256": "d60b8a1379b39645e69eb7873ad772b6c897d4d78dd423e0fec62cbea3e7ef3d"
+        },
+        {
+          "source_path": "assets/icon-gen.swift",
+          "path": "modules/switcher/assets/icon-gen.swift",
+          "source_sha256": "516c9392cfa1166f274ba94797c19acba3401aab71be2e7cdb146dc402f36bd4"
+        },
+        {
+          "source_path": "assets/wechat-group.png",
+          "path": "modules/switcher/assets/wechat-group.png",
+          "source_sha256": "7f2d694a43e90241b597d79f43c6cd3345f251358d0fe0e8c8781734a9d65ccb"
+        },
+        {
+          "source_path": "core/claude-switch.sh",
+          "path": "modules/switcher/core/claude-switch.sh",
+          "source_sha256": "9221daa13ef7e688627f2d6f78955a2113ebd9b3721ecb3e5e16f154bc92d3ab"
+        },
+        {
+          "source_path": "core/stun-probe.py",
+          "path": "modules/switcher/core/stun-probe.py",
+          "source_sha256": "2c891f5f3cf392a6bb736dacc65a945afe89ae8e4d88e353b04fd1f9cd792ab1"
+        },
+        {
+          "source_path": "daemons/claude-bodyguard.sh",
+          "path": "modules/switcher/daemons/claude-bodyguard.sh",
+          "source_sha256": "b423fce9ee729d554494b9ec6905aa00d766e7de63c3ad5f44deba38231e433e"
+        },
+        {
+          "source_path": "daemons/local.claude-bodyguard.plist",
+          "path": "modules/switcher/daemons/local.claude-bodyguard.plist",
+          "source_sha256": "0105bf35a2bcbc286fd785534f7730059354cbfb2c6a30a1ba3fb44c146dab4f"
+        },
+        {
+          "source_path": "daemons/local.claude-update.plist",
+          "path": "modules/switcher/daemons/local.claude-update.plist",
+          "source_sha256": "d467716f831d87ad167e6dac98b34bd299f4c5230eb89ffbafebebe66f6d69d9"
+        },
+        {
+          "source_path": "daemons/local.tz-watchdog.plist",
+          "path": "modules/switcher/daemons/local.tz-watchdog.plist",
+          "source_sha256": "c0b6b95e88becfb9aa51ec75e3c2a04b8e5a8a2698c5f87ec139d57621971300"
+        },
+        {
+          "source_path": "daemons/tz-watchdog.sh",
+          "path": "modules/switcher/daemons/tz-watchdog.sh",
+          "source_sha256": "b09e1e98efafbf6935ea55f01b079f0d4d692d22727bf0649ee1861202527cd7"
+        },
+        {
+          "source_path": "docs/WEB-README.md",
+          "path": "modules/switcher/docs/WEB-README.md",
+          "source_sha256": "ef476639bf2ffbd7282d9d159f580c687ef284167e06a0a4e1ffece4e6282bd4"
+        },
+        {
+          "source_path": "docs/app.js",
+          "path": "modules/switcher/docs/app.js",
+          "source_sha256": "53bbb59388e5d94fd28993c2821b1ff2af88679b4cf84c6feb236a738d7158d6"
+        },
+        {
+          "source_path": "docs/favicon.svg",
+          "path": "modules/switcher/docs/favicon.svg",
+          "source_sha256": "bcebc9b4f45a4160aa4d76b1f3faec7aa9e8955c8cc746470bcf7f7bf11fdfaa"
+        },
+        {
+          "source_path": "docs/images/macos-menu-bar-demo-dark.jpg",
+          "path": "modules/switcher/docs/images/macos-menu-bar-demo-dark.jpg",
+          "source_sha256": "5a2698ae0a5ca71704c14c2a3f9598ee47ba1b84e637e7162f1670095660f428"
+        },
+        {
+          "source_path": "docs/images/macos-menu-bar-demo.jpg",
+          "path": "modules/switcher/docs/images/macos-menu-bar-demo.jpg",
+          "source_sha256": "718638699a50b6a533db0cb01a7fa29fec107f978e2c2d9cc1d4c3e3aec0d87d"
+        },
+        {
+          "source_path": "docs/index.html",
+          "path": "modules/switcher/docs/index.html",
+          "source_sha256": "90e661e6144ca52f2cd305fd3ae6d3fb12584fd493370cded058fe068eacdc0f"
+        },
+        {
+          "source_path": "docs/screenshot.png",
+          "path": "modules/switcher/docs/screenshot.png",
+          "source_sha256": "2d6cef91164ae0b512daad4ad339c7179564105bf17b48ae3ddba3a0b1546ca1"
+        },
+        {
+          "source_path": "docs/style.css",
+          "path": "modules/switcher/docs/style.css",
+          "source_sha256": "874fd81cbdf1aecf731d9a44c3257d9e18574c89b8b5b3fa57ef47a4c826dd20"
+        },
+        {
+          "source_path": "docs/superpowers/plans/2026-10-26-webrtc-rules.md",
+          "path": "modules/switcher/docs/superpowers/plans/2026-10-26-webrtc-rules.md",
+          "source_sha256": "5d66c32a22e77621fa007201b6c807cb08681e93f01da7dc72613efd4ef324c9"
+        },
+        {
+          "source_path": "docs/superpowers/plans/2026-10-26-windows-native-exe.md",
+          "path": "modules/switcher/docs/superpowers/plans/2026-10-26-windows-native-exe.md",
+          "source_sha256": "51765aef854354d8b5528c22aa2501bcafc1dfd002196238ad6dc78ac879d685"
+        },
+        {
+          "source_path": "docs/superpowers/specs/2026-10-26-windows-native-exe-design.md",
+          "path": "modules/switcher/docs/superpowers/specs/2026-10-26-windows-native-exe-design.md",
+          "source_sha256": "70b2f92944421d38c89a91e52fb70936a77499264105774afe34819964d830c4"
+        },
+        {
+          "source_path": "installer/卸载.command",
+          "path": "modules/switcher/installer/卸载.command",
+          "source_sha256": "2ed59432d85917f1c0b67d8276bf348e3a2cf55b5330af4f8cedd9a3672e6b0f"
+        },
+        {
+          "source_path": "installer/安装.command",
+          "path": "modules/switcher/installer/安装.command",
+          "source_sha256": "97e839126f2d7235f8deebe3ba27d30e24935968e98882cc88fd5af4d0116121"
+        },
+        {
+          "source_path": "linux/README.md",
+          "path": "modules/switcher/linux/README.md",
+          "source_sha256": "f061c4ce2d2be94cadac762e4bcf0aa64cfbed707f117f4aea69519e762bb937"
+        },
+        {
+          "source_path": "linux/claude-bodyguard.sh",
+          "path": "modules/switcher/linux/claude-bodyguard.sh",
+          "source_sha256": "654154179166fc9c91ed43f46cc36c5513ce31b6fb661ae2338718173755b773"
+        },
+        {
+          "source_path": "linux/claude-switch.sh",
+          "path": "modules/switcher/linux/claude-switch.sh",
+          "source_sha256": "3d0e190446ee0355040c4e4f27fea6143bda05c0045157b023d856b2d3311c5d"
+        },
+        {
+          "source_path": "linux/install.sh",
+          "path": "modules/switcher/linux/install.sh",
+          "source_sha256": "1dc63cd1f60ac9f1f4ea8710bef4b7f8971d88dae4e4229b21d8edbbae29191f"
+        },
+        {
+          "source_path": "linux/stun-probe.py",
+          "path": "modules/switcher/linux/stun-probe.py",
+          "source_sha256": "2c891f5f3cf392a6bb736dacc65a945afe89ae8e4d88e353b04fd1f9cd792ab1"
+        },
+        {
+          "source_path": "scripts/gen-sums.sh",
+          "path": "modules/switcher/scripts/gen-sums.sh",
+          "source_sha256": "0f9943dd89cfc126cb56afabfa8489af66577dc5de4e7822a0ab040786825a2b"
+        },
+        {
+          "source_path": "scripts/package-macos.sh",
+          "path": "modules/switcher/scripts/package-macos.sh",
+          "source_sha256": "bf586fd02b3e2cf4f21a288a5647a831000cb8893ce71380a50a7059f210c679"
+        },
+        {
+          "source_path": "tests/MENU-BAR-TESTING.md",
+          "path": "modules/switcher/tests/MENU-BAR-TESTING.md",
+          "source_sha256": "3a6f834a8fc419a85147513795be955b166a60769782b186379f738d8659ba18"
+        },
+        {
+          "source_path": "tests/MenuBarFixture.swift",
+          "path": "modules/switcher/tests/MenuBarFixture.swift",
+          "source_sha256": "12315552f3e247558641e7f4d52eaf0b04385e1f3f16648f70ff36c86629774e"
+        },
+        {
+          "source_path": "tests/MenuBarModelTests.swift",
+          "path": "modules/switcher/tests/MenuBarModelTests.swift",
+          "source_sha256": "445a9b7680f3f38e364d8b76d61c2bb17f1660827be5728ec626e64d3980f310"
+        },
+        {
+          "source_path": "tests/test_cli_info.py",
+          "path": "modules/switcher/tests/test_cli_info.py",
+          "source_sha256": "1bfb9f3c3a570a572d22c3d2dddc783d188cce3802e841d645fce8475042ecbf"
+        },
+        {
+          "source_path": "tests/test_geo_detection.py",
+          "path": "modules/switcher/tests/test_geo_detection.py",
+          "source_sha256": "bb2c21c301a485d7f808c74a9231196306c7c64c09539688fc75954ad8117e2c"
+        },
+        {
+          "source_path": "tests/test_menu_bar_model.py",
+          "path": "modules/switcher/tests/test_menu_bar_model.py",
+          "source_sha256": "ab62d48aa6fc71053696973a3ea8bff828aea7bd5c966403a068e5ff3b2ff73a"
+        },
+        {
+          "source_path": "tests/test_multi_account.py",
+          "path": "modules/switcher/tests/test_multi_account.py",
+          "source_sha256": "6f82bcdac1f0baff35a7c945bdae2205fb3b4c74ea11df99723b678e48c58c8c"
+        },
+        {
+          "source_path": "tests/test_open_safe.py",
+          "path": "modules/switcher/tests/test_open_safe.py",
+          "source_sha256": "8ec48b1a423524c7cedd4904ca2070d06c8f0c10b26282f7867566b4480b7398"
+        },
+        {
+          "source_path": "tests/test_proxy_diagnose.py",
+          "path": "modules/switcher/tests/test_proxy_diagnose.py",
+          "source_sha256": "5f1a7534a1477852527aea89b57e6e82f2d062fd7ef046d7891774aeac7f20fa"
+        },
+        {
+          "source_path": "tests/test_set_client.py",
+          "path": "modules/switcher/tests/test_set_client.py",
+          "source_sha256": "a0f11c81e1e1ddc01cbfad97767fd4c0d320cfb7c28ae30567bc7d4fbb1703d9"
+        },
+        {
+          "source_path": "tests/test_snapshot_safety.py",
+          "path": "modules/switcher/tests/test_snapshot_safety.py",
+          "source_sha256": "9e3cb5f6ba33232dcc1fd3b6e263ed86fe4e96e909a4963e705ac72c1e0be0d4"
+        },
+        {
+          "source_path": "tests/test_snapshot_transfer.py",
+          "path": "modules/switcher/tests/test_snapshot_transfer.py",
+          "source_sha256": "5a387b150f74a1632729da242cb90dd085df712eaba2125019ce78951e3ee145"
+        },
+        {
+          "source_path": "tests/test_webrtc_rules.py",
+          "path": "modules/switcher/tests/test_webrtc_rules.py",
+          "source_sha256": "84a42128f96f5ed8e6721271d51687d445746c8b10203effa7c7c19e8d0d6163"
+        },
+        {
+          "source_path": "tests/test_windows_rules_static.py",
+          "path": "modules/switcher/tests/test_windows_rules_static.py",
+          "source_sha256": "d0312fafe9347de3a5d45b2e310284e88a45c9ad9b37eee92729c752b0a078a1"
+        },
+        {
+          "source_path": "tests/test_windows_update_static.py",
+          "path": "modules/switcher/tests/test_windows_update_static.py",
+          "source_sha256": "392b67e9d192c4d5700cd77665b0e6707e016402e895f2b0ab5651d9de160516"
+        },
+        {
+          "source_path": "windows/README.md",
+          "path": "modules/switcher/windows/README.md",
+          "source_sha256": "6780477b7a544daf8ff712364143662086506b09dca90acf1273950f99545110"
+        },
+        {
+          "source_path": "windows/SwitcherUI.ps1",
+          "path": "modules/switcher/windows/SwitcherUI.ps1",
+          "source_sha256": "3c5ee1ac3fcb8b76c590d5f6dcd9048519c5cf96ce50a117a14b8d377f0e20b5"
+        },
+        {
+          "source_path": "windows/claude-bodyguard.ps1",
+          "path": "modules/switcher/windows/claude-bodyguard.ps1",
+          "source_sha256": "985aa306e320e3178d5391abe2103d9c7fc585675987742b40965c427db0ae42"
+        },
+        {
+          "source_path": "windows/claude-switch.ps1",
+          "path": "modules/switcher/windows/claude-switch.ps1",
+          "source_sha256": "b6e49d01dff9e20db944c4fb975b15c0747a7ac170e8c7cab9e2e9aa23d01024"
+        },
+        {
+          "source_path": "windows/install.ps1",
+          "path": "modules/switcher/windows/install.ps1",
+          "source_sha256": "74e3503957c1b5031e0bb701f1c7b106eaa4bb2c6b6c91b2be6b6e32697de905"
+        }
+      ]
+    },
+    {
+      "module": "vps",
+      "repository": "https://github.com/nevertoday/xiaoxiaodong-vps",
+      "commit": "81daa77d33018c5a92b3a29d962f9376f41c1427",
+      "license": "MIT",
+      "files": [
+        {
+          "source_path": ".github/workflows/site-pages.yml",
+          "path": "modules/vps/.github/workflows/site-pages.yml",
+          "source_sha256": "2a69db6d122cc81edc884ceffece8abfc27323fc3d68b8c758fc6201d3ffc6e3"
+        },
+        {
+          "source_path": ".gitignore",
+          "path": "modules/vps/.gitignore",
+          "source_sha256": "95571748a0622c09e485d80f489be9895747fef21358a37c12e6e061abc73424"
+        },
+        {
+          "source_path": "LICENSE",
+          "path": "modules/vps/LICENSE",
+          "source_sha256": "450ffdb97004a149fcc8ba4951e30c330053e74046592bf8c4b28f4b23be8cec"
+        },
+        {
+          "source_path": "README.ar.md",
+          "path": "modules/vps/README.ar.md",
+          "source_sha256": "48119316b9ed01600c8536f90a3d3d77e3667c675c3810c28825ccff0242987f"
+        },
+        {
+          "source_path": "README.de.md",
+          "path": "modules/vps/README.de.md",
+          "source_sha256": "3e13a51fac6db2e20bebf9461f6909f08a4917a0e5ba2b3ee2c964cc20897143"
+        },
+        {
+          "source_path": "README.en.md",
+          "path": "modules/vps/README.en.md",
+          "source_sha256": "6073c2e9e165e7e7e76ba26f8af477f6b1e589ecedc9ad4151e9a0cc2ec61ad0"
+        },
+        {
+          "source_path": "README.es.md",
+          "path": "modules/vps/README.es.md",
+          "source_sha256": "afa136552ae9a6a7b35a042f00c41a9a5643ba6048e48098dd61e86357564ec4"
+        },
+        {
+          "source_path": "README.fr.md",
+          "path": "modules/vps/README.fr.md",
+          "source_sha256": "042ffd314a93ff1da3cc96a2f204fc0917ecb9b805847f7813f59eeb4c08df8f"
+        },
+        {
+          "source_path": "README.ja.md",
+          "path": "modules/vps/README.ja.md",
+          "source_sha256": "d0daf4a3e68799a96f7683b0fb03e0265cd4a8d8c5f06f76841ea5888f892412"
+        },
+        {
+          "source_path": "README.ko.md",
+          "path": "modules/vps/README.ko.md",
+          "source_sha256": "bdacf8c182f085af097d70e239178d1c738100b26297de3afee6e5b9dbc8c0ca"
+        },
+        {
+          "source_path": "README.md",
+          "path": "modules/vps/README.md",
+          "source_sha256": "1e2eef274aafd0099f77e7cf485ac3d9adab517579acd69cb8101cb9d18e5411"
+        },
+        {
+          "source_path": "README.pt.md",
+          "path": "modules/vps/README.pt.md",
+          "source_sha256": "da2f56e3d0d16bb01610736b0c678460c09a94af2ec9bea31ed62ceeec5f6fdd"
+        },
+        {
+          "source_path": "README.ru.md",
+          "path": "modules/vps/README.ru.md",
+          "source_sha256": "db82d14ad222ca2c588648273ac1c3df1db50fce5254d529a5fa73f987065c82"
+        },
+        {
+          "source_path": "SECURITY.md",
+          "path": "modules/vps/SECURITY.md",
+          "source_sha256": "a496c5ee2f8002d7e30e341f404425c624ef7eae64a31e6ad01a14d933969053"
+        },
+        {
+          "source_path": "docs/Clash-Verge-WebRTC泄露修复手册.md",
+          "path": "modules/vps/docs/Clash-Verge-WebRTC泄露修复手册.md",
+          "source_sha256": "8f8636bfc0f770169161cd81292d803579c1f6fb687bc98154466dd74150114b"
+        },
+        {
+          "source_path": "docs/客户端与使用建议.md",
+          "path": "modules/vps/docs/客户端与使用建议.md",
+          "source_sha256": "231b3f8fe208f9baaf1fa44822dadbad0a5ef05a11c19001eb8d12ee988090b7"
+        },
+        {
+          "source_path": "site/.gitignore",
+          "path": "modules/vps/site/.gitignore",
+          "source_sha256": "c760594e89b7b78ec030eb86107c075f9d8177fa7987881c04ff6ea47d5d40cc"
+        },
+        {
+          "source_path": "site/README.md",
+          "path": "modules/vps/site/README.md",
+          "source_sha256": "9009b533fb7bf94f843ad42a1607365712ee1ca1d805aacc274a6b414c1bfae7"
+        },
+        {
+          "source_path": "site/TESTING.md",
+          "path": "modules/vps/site/TESTING.md",
+          "source_sha256": "89a4a14a4222f94cfb51735f9031d832a7a50591aaffb29ec027235859ed94cb"
+        },
+        {
+          "source_path": "site/astro.config.mjs",
+          "path": "modules/vps/site/astro.config.mjs",
+          "source_sha256": "357f003559ed5f6806917d6361c39dc387f0dbf679ecfdbf3ff3a95df659cfec"
+        },
+        {
+          "source_path": "site/package-lock.json",
+          "path": "modules/vps/site/package-lock.json",
+          "source_sha256": "c2896cdd6761007b8de59d0e4546ae9e53f5f51e902d4bb3f6d8f92bb4cf9b7c"
+        },
+        {
+          "source_path": "site/package.json",
+          "path": "modules/vps/site/package.json",
+          "source_sha256": "c3acc14ac37a468ff0a42b1a30ecfcdec49aad5fb5414657cd7f1c92feee20ae"
+        },
+        {
+          "source_path": "site/public/_headers",
+          "path": "modules/vps/site/public/_headers",
+          "source_sha256": "e683d09546061ea31ecee5786bd02afe11435088d25c609bea9cb4eb24318220"
+        },
+        {
+          "source_path": "site/public/favicon.svg",
+          "path": "modules/vps/site/public/favicon.svg",
+          "source_sha256": "b402b06648ba512c1fa5d13795d93557683d7ed48721a3179e3ffc370ed234c5"
+        },
+        {
+          "source_path": "site/public/img/apple-account.webp",
+          "path": "modules/vps/site/public/img/apple-account.webp",
+          "source_sha256": "5cb6909d8d03e29818bc6f052a3a9928a6eec8abc4276bc49f8dc17fa85c6763"
+        },
+        {
+          "source_path": "site/public/img/browserleaks-webrtc.webp",
+          "path": "modules/vps/site/public/img/browserleaks-webrtc.webp",
+          "source_sha256": "0ea61f9286feb530eacd492aeed0a01cc0e0a934c13eb85bbabdb2c56b83e66b"
+        },
+        {
+          "source_path": "site/public/img/bwg-order.webp",
+          "path": "modules/vps/site/public/img/bwg-order.webp",
+          "source_sha256": "054e2ca64f43e716908aeb36a0f1744d252f2ac0f665254942cb3d98c43f5488"
+        },
+        {
+          "source_path": "site/public/img/clash-verge-download-en.gif",
+          "path": "modules/vps/site/public/img/clash-verge-download-en.gif",
+          "source_sha256": "cafbc4fa6b9e1d81c954a931d4e5def1f4e7b6e06d972931d8b53bdbdca13b6e"
+        },
+        {
+          "source_path": "site/public/img/clash-verge-download-zh.gif",
+          "path": "modules/vps/site/public/img/clash-verge-download-zh.gif",
+          "source_sha256": "f7040b2d64f6b62850ed27e2c63c27bad62bde4e7879af812357ede88b15c8ee"
+        },
+        {
+          "source_path": "site/public/img/clash-verge-download.webp",
+          "path": "modules/vps/site/public/img/clash-verge-download.webp",
+          "source_sha256": "0d6837b423e6da5ae328d0c6bbe209dc3bdbfdfd93d7660002de238b804e6e2a"
+        },
+        {
+          "source_path": "site/public/img/flclash-download.webp",
+          "path": "modules/vps/site/public/img/flclash-download.webp",
+          "source_sha256": "703bd1c5f2c56400a16a67a5be440819b876813b14c88f5fe4b961d1e113216c"
+        },
+        {
+          "source_path": "site/public/img/google-signup-en.webp",
+          "path": "modules/vps/site/public/img/google-signup-en.webp",
+          "source_sha256": "2999f8084346e8dcc63ae819ac651c01da2672a5ff40536dc4f43cce4976b59a"
+        },
+        {
+          "source_path": "site/public/img/google-signup-zh.webp",
+          "path": "modules/vps/site/public/img/google-signup-zh.webp",
+          "source_sha256": "36b6fbb4e77a35a0b054d82fc98e10ea9077d37bf1b686df6cdf439767233bf5"
+        },
+        {
+          "source_path": "site/public/img/ip-net-coffee.webp",
+          "path": "modules/vps/site/public/img/ip-net-coffee.webp",
+          "source_sha256": "f3c585f8ad9be176eef7aaad74d377560f553162aa737af4da17ef2f534c6744"
+        },
+        {
+          "source_path": "site/public/site.css",
+          "path": "modules/vps/site/public/site.css",
+          "source_sha256": "fc0b2577cf0ad9e23834437a0afdacb4b5fae86ba8c0ab0f6daabac0abf3ab00"
+        },
+        {
+          "source_path": "site/public/xxd/LICENSE",
+          "path": "modules/vps/site/public/xxd/LICENSE",
+          "source_sha256": "98c5d4869d1efb51380d0b903b630fe835ee2c72043c21efc2b11059ac974901"
+        },
+        {
+          "source_path": "site/public/xxd/VERSION",
+          "path": "modules/vps/site/public/xxd/VERSION",
+          "source_sha256": "ccc1f60927e9159cdb948c0a15f65df853567b14a5b3e221b117c622eb525db8"
+        },
+        {
+          "source_path": "site/public/xxd/boot.js",
+          "path": "modules/vps/site/public/xxd/boot.js",
+          "source_sha256": "c552268825b7609192bba7fcf736f0d1dbf51e7135125afe28847c8fc98ec878"
+        },
+        {
+          "source_path": "site/public/xxd/extension.js",
+          "path": "modules/vps/site/public/xxd/extension.js",
+          "source_sha256": "d2da40b6799cc0c3b5e3bcaa2312bd02c92784d6bc93abb8c1289f08ec7ed1c4"
+        },
+        {
+          "source_path": "site/public/xxd/icons.js",
+          "path": "modules/vps/site/public/xxd/icons.js",
+          "source_sha256": "f122bdaa053d4079e6b99e0c3686f0f74a12e3015bf572e3e40af68045224efa"
+        },
+        {
+          "source_path": "site/public/xxd/tokens.css",
+          "path": "modules/vps/site/public/xxd/tokens.css",
+          "source_sha256": "a7d011873ddbebfe8898508c51c9ab71b072cd240fb2a9128703bfb6d120e6dd"
+        },
+        {
+          "source_path": "site/public/xxd/tokens.mjs",
+          "path": "modules/vps/site/public/xxd/tokens.mjs",
+          "source_sha256": "644bc29a3aa7d53953c4b235754c5c21c9468a46771bc2e815f9416f5040d68b"
+        },
+        {
+          "source_path": "site/public/xxd/xxd.css",
+          "path": "modules/vps/site/public/xxd/xxd.css",
+          "source_sha256": "b1a4b56919e9c5503ba2a28cf87ae79cef9538589229c51339807b896c587787"
+        },
+        {
+          "source_path": "site/public/xxd/xxd.js",
+          "path": "modules/vps/site/public/xxd/xxd.js",
+          "source_sha256": "be70e23fb7f01532b083fd431b807fc2bcc3f870cd151cbc47532df1dd673d07"
+        },
+        {
+          "source_path": "site/public/xxd/xxd.shadow.css",
+          "path": "modules/vps/site/public/xxd/xxd.shadow.css",
+          "source_sha256": "7111aa0b0e425cfded2e7ca2daac05e1f160ff1a3874025866673959aaf10e7b"
+        },
+        {
+          "source_path": "site/public/xxd/xxd.shadow.css.js",
+          "path": "modules/vps/site/public/xxd/xxd.shadow.css.js",
+          "source_sha256": "cf3d1b4d142d948e4620be8a9a050cca606aa9941000e975f0ea81b7626df5f9"
+        },
+        {
+          "source_path": "site/scripts/base-links.mjs",
+          "path": "modules/vps/site/scripts/base-links.mjs",
+          "source_sha256": "ed3eb2d429077967f3bfbb11a4999dddabf08202aee2222c90d28999ac5265bc"
+        },
+        {
+          "source_path": "site/scripts/search-sections.mjs",
+          "path": "modules/vps/site/scripts/search-sections.mjs",
+          "source_sha256": "206119e76b03d4976594573c37d13693dcb438f3938f1c34b28c1e25878d79a1"
+        },
+        {
+          "source_path": "site/scripts/sync-xxd.mjs",
+          "path": "modules/vps/site/scripts/sync-xxd.mjs",
+          "source_sha256": "ec087df8a1b9e6516a9b13c9dd8af879a2611be50ce86a85361be54ec4ea4540"
+        },
+        {
+          "source_path": "site/src/components/Callout.astro",
+          "path": "modules/vps/site/src/components/Callout.astro",
+          "source_sha256": "16d82f7bedb6ed6ee20bf26fd7012c0ba5ab49b6868c9b607fe155f633d93255"
+        },
+        {
+          "source_path": "site/src/components/Checkpoint.astro",
+          "path": "modules/vps/site/src/components/Checkpoint.astro",
+          "source_sha256": "1bfde2f46465902591cad908b8d5c2297eb09e5ced3cf2745f0a1179095b93b1"
+        },
+        {
+          "source_path": "site/src/components/Cmd.astro",
+          "path": "modules/vps/site/src/components/Cmd.astro",
+          "source_sha256": "cd2168cc3c81c69d184d6426ece51b16601cd2d6d192ef50edf7e0ecceec18a3"
+        },
+        {
+          "source_path": "site/src/components/Contact.astro",
+          "path": "modules/vps/site/src/components/Contact.astro",
+          "source_sha256": "683874b07f94c213b8d8111068f511c19d41e5f34befe243321bee292cf15c83"
+        },
+        {
+          "source_path": "site/src/components/Copy.astro",
+          "path": "modules/vps/site/src/components/Copy.astro",
+          "source_sha256": "a54880ac4a9df49723f57f1f93d738c3f21d8ef1eb227f5bf57040e3a9d3977a"
+        },
+        {
+          "source_path": "site/src/components/Feedback.astro",
+          "path": "modules/vps/site/src/components/Feedback.astro",
+          "source_sha256": "3b0248ba02e2d425c3db21b4a06bd3f757c8388c24b176d15226c9b334c9d651"
+        },
+        {
+          "source_path": "site/src/components/Q.astro",
+          "path": "modules/vps/site/src/components/Q.astro",
+          "source_sha256": "dd08bbb1afbc49ad12bb3de1b882b182ecb957fe2775140dc9e8c90a1caace76"
+        },
+        {
+          "source_path": "site/src/components/Shot.astro",
+          "path": "modules/vps/site/src/components/Shot.astro",
+          "source_sha256": "c21bd180838848af8b78a4daea4c79c8debce8838f7085901323e5c1525fb65b"
+        },
+        {
+          "source_path": "site/src/components/Tabs.astro",
+          "path": "modules/vps/site/src/components/Tabs.astro",
+          "source_sha256": "e3210298d208c064c852b256b3ac2f5b39b86a79a91a90a737eb099e89c5137b"
+        },
+        {
+          "source_path": "site/src/components/Term.astro",
+          "path": "modules/vps/site/src/components/Term.astro",
+          "source_sha256": "ea076dcdd8473192fdc3e7da5c355ccc77414e2f6e5ff13a3247249bef83cd2e"
+        },
+        {
+          "source_path": "site/src/data/faq.en.js",
+          "path": "modules/vps/site/src/data/faq.en.js",
+          "source_sha256": "b0ce76215706a47f031688ea576444eb89918c48ffa79a4940e32330da3c6698"
+        },
+        {
+          "source_path": "site/src/data/faq.js",
+          "path": "modules/vps/site/src/data/faq.js",
+          "source_sha256": "76ddc0652b6464904d7f4e260effcab5f6e9dc13e6bd937aa3e486f00808f2b5"
+        },
+        {
+          "source_path": "site/src/data/nav.js",
+          "path": "modules/vps/site/src/data/nav.js",
+          "source_sha256": "6793fb14ee4f3353ac98161345d80c31fdd9ee9fc63cdb91115d2339cb24f4bc"
+        },
+        {
+          "source_path": "site/src/data/wiki.en.js",
+          "path": "modules/vps/site/src/data/wiki.en.js",
+          "source_sha256": "03ecd5e070932fe2c5f09115891bdb8290fe579a98d56967e0e02f9aff767e31"
+        },
+        {
+          "source_path": "site/src/data/wiki.js",
+          "path": "modules/vps/site/src/data/wiki.js",
+          "source_sha256": "afdf2bbd0c06a3e7518d5b81ed465973d4075b37f82bc35d903dc5a6ff85bafc"
+        },
+        {
+          "source_path": "site/src/layouts/Guide.astro",
+          "path": "modules/vps/site/src/layouts/Guide.astro",
+          "source_sha256": "333f6961a12f73f9ea65ee4f33bfd42c2704034a95b95c98d66c3c7f26694b6a"
+        },
+        {
+          "source_path": "site/src/layouts/HowTo.astro",
+          "path": "modules/vps/site/src/layouts/HowTo.astro",
+          "source_sha256": "b8b409b33d5b3e7220546aac234278da5fc9f3726434d0bc4283aa4687149e92"
+        },
+        {
+          "source_path": "site/src/layouts/Site.astro",
+          "path": "modules/vps/site/src/layouts/Site.astro",
+          "source_sha256": "1e81e0fd183ee91c72a8110bf672ee73ebcca57ffc621338527db2eec592af00"
+        },
+        {
+          "source_path": "site/src/lib/md.js",
+          "path": "modules/vps/site/src/lib/md.js",
+          "source_sha256": "a6b497663085537bf559e88873d9d5ac6f052ab1e6b4c91bc04fe6182b9e824a"
+        },
+        {
+          "source_path": "site/src/pages/404.astro",
+          "path": "modules/vps/site/src/pages/404.astro",
+          "source_sha256": "a811f7a8d4c9a999b152b1eb8e79334b8f536b8487870de05cf3b2460b42b3fc"
+        },
+        {
+          "source_path": "site/src/pages/en/faq/index.astro",
+          "path": "modules/vps/site/src/pages/en/faq/index.astro",
+          "source_sha256": "c8af0478e99a9c55174bbbe37aa8562c6c93167ef96a67d94808848d55d0a5c2"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/0-prepare.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/0-prepare.mdx",
+          "source_sha256": "9d642bfd558adcff82d62fc5f9df8a6a9099531f290d6efdc37b415283db8fcd"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/1-buy-server.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/1-buy-server.mdx",
+          "source_sha256": "6fa7a5042692f20b5905bab3a042990f2f514704338667a81928deeef75a9b28"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/2-ai-assistant.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/2-ai-assistant.mdx",
+          "source_sha256": "120ff64254852778613f20403a87b588c624ba722d1bcfba8d918ed53eed87e3"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/3-deploy.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/3-deploy.mdx",
+          "source_sha256": "0e8303c1bf26bd35d1ee93c560f892e6d270adef6568ede884170e4c8a319fb1"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/4-clients.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/4-clients.mdx",
+          "source_sha256": "f2b8927e684f135ae3a738182a298394f49b43e44a89b5126bcb41fbe0da600f"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/5-verify.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/5-verify.mdx",
+          "source_sha256": "a504e7902dc55bc95c424a19472f6bca1171495f9943aa114a8d050c2f8ba507"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/6-ai-api.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/6-ai-api.mdx",
+          "source_sha256": "53035c78120d72f2be8c990c2c4c17842972041226f7a34e0cf85bc41ee78be7"
+        },
+        {
+          "source_path": "site/src/pages/en/guide/7-daily.mdx",
+          "path": "modules/vps/site/src/pages/en/guide/7-daily.mdx",
+          "source_sha256": "e2742aa399a562eb25ddf09b0e3cc8a564d78db7669d3835429572094674a800"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/ai-health-check.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/ai-health-check.mdx",
+          "source_sha256": "c3c60caadc83081b9f44124525f187d770d63d646b018574697313193ba08575"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/android.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/android.mdx",
+          "source_sha256": "3f4a097c2e9323534805387e30349ee7706fd3ec33dfa5e9d6fe328643b87237"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/apple-gift-card.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/apple-gift-card.mdx",
+          "source_sha256": "e8625a9ff4dcd3f576349a8c53b691bb394279be1d5f662e8f9b0b4894b71c8a"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/apple-id.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/apple-id.mdx",
+          "source_sha256": "a3bd55397da7916fc7caef01554da43e285015e48a8793a4c731fdeaae2921cd"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/apple-paypal.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/apple-paypal.mdx",
+          "source_sha256": "5cb0da801719ffef2be9a18c9280f842374883513f56f109452559361d9f9331"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/buy-bandwagonhost.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/buy-bandwagonhost.mdx",
+          "source_sha256": "28adf48f9950d81d572cb7f9dae1459e3c06ff82e5772ddeec31c227a1092402"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/buy-dmit.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/buy-dmit.mdx",
+          "source_sha256": "bec6e2b75566073ad7f0cbef4bc2bfe02d1ecefdd9921866877b92b7d8b8a1ef"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/check-ip.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/check-ip.mdx",
+          "source_sha256": "e5710517d673fbb0db35da0f45233ccb95a8b706cd5ccb3978a2d643889236de"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/clash-verge-mac.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/clash-verge-mac.mdx",
+          "source_sha256": "0f5b9ec737d879e31b3683d6ec1595d5f3bd6d3b0f34fc5eb1698e5e91a4aadd"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/clash-verge-tun.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/clash-verge-tun.mdx",
+          "source_sha256": "55bbc881855e1bdb93a7ac4397763d615e99071ab317575465f78f2e99731cad"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/clash-verge-windows.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/clash-verge-windows.mdx",
+          "source_sha256": "5aebe848329ed6f316dc02fbf1a1730837c27e9aceadf8de47ef5b41f28140d1"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/claude-app-store.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/claude-app-store.mdx",
+          "source_sha256": "48847b4f65bb3aef738d6fcb87444f97284dc8a90182e69b1a24a6f70296aedb"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/claude-google-play.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/claude-google-play.mdx",
+          "source_sha256": "9878a72ba6773ebfd5dbe5f7d397689bb2615fbe33a476e0c9c0e44672931945"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/cpa-add-account.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/cpa-add-account.mdx",
+          "source_sha256": "25aada2a759fdeced6e12094c0e4321686398b41ba1c59a103925d83984cebae"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/cpa-clients.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/cpa-clients.mdx",
+          "source_sha256": "2814b79d2e50012ddd71692edb975aade4d0cc7447c32a4025d30a88f099cfff"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/cpa-login.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/cpa-login.mdx",
+          "source_sha256": "75979c23ed7127d2c0763ca6974c2b25c6ff61cb85082bd2295ed390c965bcfe"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/dns-leak.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/dns-leak.mdx",
+          "source_sha256": "3f47e3dc225e59a2339153cace000c60d5d88743ca0d44238611e050747992e2"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/github.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/github.mdx",
+          "source_sha256": "385d6ccb6d758bdd13b9bb577c9691a9db4e996ba4c371fd9c6308853d8fc52a"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/gmail-change-address.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/gmail-change-address.mdx",
+          "source_sha256": "c3fe9ebaecc92bd1a67b9d2ee819d0a53a87532649ac0195377ffcc6d123f966"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/gmail.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/gmail.mdx",
+          "source_sha256": "803c9c454e627c0f6f7318fd3eae703b04037b285ad23fc55670968c55b04f78"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/google-account-security.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/google-account-security.mdx",
+          "source_sha256": "b0aa88ad7d988704c1efd46d1fbd7c5af9abf68a17f1cfa80957a18babd39f95"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/google-payment-card.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/google-payment-card.mdx",
+          "source_sha256": "5d85219f498640723e09aed9501a71e1ceb5c8e63343c2b62c399ba8ea805923"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/index.astro",
+          "path": "modules/vps/site/src/pages/en/howto/index.astro",
+          "source_sha256": "27bccdd30cbe669652795f409f542dfd935c3b71baa0c5fa435c5a3e1f011110"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/install-claude-code.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/install-claude-code.mdx",
+          "source_sha256": "38fb82e5b5896ca0fbc11836949324a97b4588103d0caaede1f1d550db0d4b52"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/install-codex.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/install-codex.mdx",
+          "source_sha256": "fd3afbf428e6c61a5f120efa4d11bf9f9c7b5da1c58d9d03fb98e1cad641942e"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/install-skill.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/install-skill.mdx",
+          "source_sha256": "a17805a68b9b27c99468805c03eb0ebb1cc7f48d60b35dc795b07d1169c5de6e"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/ip-blocked.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/ip-blocked.mdx",
+          "source_sha256": "5bed576ac8c142ca8b7656666b47811ed90d7d0a6f8fc277db64d91eb2ea2226"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/openclash.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/openclash.mdx",
+          "source_sha256": "4a455dc9b2e03878a05a540cea3b3ca9ad00b635da7a94a7a1ad8abe7a2f77df"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/payment.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/payment.mdx",
+          "source_sha256": "2b1610cafb06fc81869b6f2ffcfa530c582b072ff8e06b5c4be6897c2d0af8a9"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/refund-rebuy.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/refund-rebuy.mdx",
+          "source_sha256": "0cbfb4498e2e79e09ad00e47b30d24647874187ee148127f07aee89a72b97bda"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/reinstall-os.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/reinstall-os.mdx",
+          "source_sha256": "87df7ca1ffded3fa50622bafe977e8b4b6b5b902f1db70578c8eda654770624e"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/root-password-vnc.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/root-password-vnc.mdx",
+          "source_sha256": "20fcbf72e336a95b4a8c2a09198b5e82dcbb2fc4d261ddcac684dfbfa246a81f"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/shadowrocket.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/shadowrocket.mdx",
+          "source_sha256": "92a4b42a2b06848498e83b9abf7f80e8f2ecf214839430d94e8b7799434f4a55"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/speed-test.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/speed-test.mdx",
+          "source_sha256": "9403e58cd3ede17cffe3fd6d8042499cd4f92d0358c914d3b05580bb6e513a9d"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/traffic-and-ip.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/traffic-and-ip.mdx",
+          "source_sha256": "88e7fd0be46316b7500aed13a2b342e03432204e68df401e8bff6a027e2e7912"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/travel-checklist.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/travel-checklist.mdx",
+          "source_sha256": "625d253285419308472f6539270ea2885aadc565b5e15665066087541c55d158"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/v2rayn.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/v2rayn.mdx",
+          "source_sha256": "e9037b39bc6044aa448f83901d82f8db086e9f217fafe5ca9417598994560094"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/webrtc-leak.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/webrtc-leak.mdx",
+          "source_sha256": "ac61c37721e7cceb0a54ddb9b0eb6a027cfe69cd100841b6d75c3bd2c20f14c8"
+        },
+        {
+          "source_path": "site/src/pages/en/howto/windows-wsl.mdx",
+          "path": "modules/vps/site/src/pages/en/howto/windows-wsl.mdx",
+          "source_sha256": "e324a123f3f9c0afd62b11804a14a526673986631b5d3341ffafbb1aa56125eb"
+        },
+        {
+          "source_path": "site/src/pages/en/index.astro",
+          "path": "modules/vps/site/src/pages/en/index.astro",
+          "source_sha256": "9396c81a6336e9d65d1ac878fe29d6cd31238f4794c47adbb5e9a7ab7e1d6f7a"
+        },
+        {
+          "source_path": "site/src/pages/en/wiki/[slug].astro",
+          "path": "modules/vps/site/src/pages/en/wiki/[slug].astro",
+          "source_sha256": "f941689441fc9c0467962d57807927769e8acbb946926c5a5171e010f87faef8"
+        },
+        {
+          "source_path": "site/src/pages/en/wiki/index.astro",
+          "path": "modules/vps/site/src/pages/en/wiki/index.astro",
+          "source_sha256": "5f9cc300a2f511f403c9ffb1a575a9fb7848d797c7c56e4899c136d6f24ef4a8"
+        },
+        {
+          "source_path": "site/src/pages/faq/index.astro",
+          "path": "modules/vps/site/src/pages/faq/index.astro",
+          "source_sha256": "7fc9e7702f2750dbe8fc3b57617c28514582d827637add1161c5e66a1a0e4fe5"
+        },
+        {
+          "source_path": "site/src/pages/guide/0-prepare.mdx",
+          "path": "modules/vps/site/src/pages/guide/0-prepare.mdx",
+          "source_sha256": "590f67cbc15554a21e916af4d33bdbbb1cae70279006318338ba40defb57f2d5"
+        },
+        {
+          "source_path": "site/src/pages/guide/1-buy-server.mdx",
+          "path": "modules/vps/site/src/pages/guide/1-buy-server.mdx",
+          "source_sha256": "22a4c7866e1c17d3f4b37ad260ae6279047c1fe6732c76783eaafe19b3565c33"
+        },
+        {
+          "source_path": "site/src/pages/guide/2-ai-assistant.mdx",
+          "path": "modules/vps/site/src/pages/guide/2-ai-assistant.mdx",
+          "source_sha256": "7c7ed329aa79f53412ac083c63db83e40f9b9346af6a05afed24ef1cf7efd940"
+        },
+        {
+          "source_path": "site/src/pages/guide/3-deploy.mdx",
+          "path": "modules/vps/site/src/pages/guide/3-deploy.mdx",
+          "source_sha256": "dbbc3046555934fe94efc750b10b5cedf97d59ec2302180a783dcfd9e9477520"
+        },
+        {
+          "source_path": "site/src/pages/guide/4-clients.mdx",
+          "path": "modules/vps/site/src/pages/guide/4-clients.mdx",
+          "source_sha256": "b983c0b099eda0b38a7d75e3c61d527edcc3b95561eb16146a9e9066e1bc2818"
+        },
+        {
+          "source_path": "site/src/pages/guide/5-verify.mdx",
+          "path": "modules/vps/site/src/pages/guide/5-verify.mdx",
+          "source_sha256": "1b820873724d49213f2e9986a718b6b6e996ea9304bc8365280933e214caaa37"
+        },
+        {
+          "source_path": "site/src/pages/guide/6-ai-api.mdx",
+          "path": "modules/vps/site/src/pages/guide/6-ai-api.mdx",
+          "source_sha256": "6a3221c5901b924c8cd8892dff11071ebad3f5c5e51a0b72b40343503c9a6cd1"
+        },
+        {
+          "source_path": "site/src/pages/guide/7-daily.mdx",
+          "path": "modules/vps/site/src/pages/guide/7-daily.mdx",
+          "source_sha256": "e743b6a293980a7b2e6dc67a6d8136689a32079bcf4932fbce8be608bcba7c6d"
+        },
+        {
+          "source_path": "site/src/pages/howto/ai-health-check.mdx",
+          "path": "modules/vps/site/src/pages/howto/ai-health-check.mdx",
+          "source_sha256": "d83918b624fb1763cf5c0fb3e365b3714545218da889f420ee3e4796dca682cb"
+        },
+        {
+          "source_path": "site/src/pages/howto/android.mdx",
+          "path": "modules/vps/site/src/pages/howto/android.mdx",
+          "source_sha256": "857cef09cd501ac0ca9eb756535940e913cb4b82b09a55130683ecd51ed8da9e"
+        },
+        {
+          "source_path": "site/src/pages/howto/apple-gift-card.mdx",
+          "path": "modules/vps/site/src/pages/howto/apple-gift-card.mdx",
+          "source_sha256": "17dbcb73f72aa6697db90bccef0b2c58f490960ab7290b1a9fc32384a4d21f67"
+        },
+        {
+          "source_path": "site/src/pages/howto/apple-id.mdx",
+          "path": "modules/vps/site/src/pages/howto/apple-id.mdx",
+          "source_sha256": "95cbcfaec8ccf32da013a4396ace7cb0593395fd2b893b9db3c6e7c30d14480c"
+        },
+        {
+          "source_path": "site/src/pages/howto/apple-paypal.mdx",
+          "path": "modules/vps/site/src/pages/howto/apple-paypal.mdx",
+          "source_sha256": "06bc90b0e3085fad46258dc1356b55ebe7d0facac5e6ce32c84bc286c841bb13"
+        },
+        {
+          "source_path": "site/src/pages/howto/buy-bandwagonhost.mdx",
+          "path": "modules/vps/site/src/pages/howto/buy-bandwagonhost.mdx",
+          "source_sha256": "1548ab532738a292d9a8d109732c1602fba66eca73c58e0643b9e379a317e314"
+        },
+        {
+          "source_path": "site/src/pages/howto/buy-dmit.mdx",
+          "path": "modules/vps/site/src/pages/howto/buy-dmit.mdx",
+          "source_sha256": "4695b582eb3f1836a49ec0189285d62773fc600a89862bacaed636b43ddd20fc"
+        },
+        {
+          "source_path": "site/src/pages/howto/check-ip.mdx",
+          "path": "modules/vps/site/src/pages/howto/check-ip.mdx",
+          "source_sha256": "0c0654e6e70e33efd2f302aee2bcd5cdda200b4fc2ec6141a5b9d8b0020fc62d"
+        },
+        {
+          "source_path": "site/src/pages/howto/clash-verge-mac.mdx",
+          "path": "modules/vps/site/src/pages/howto/clash-verge-mac.mdx",
+          "source_sha256": "2390d8de259e4c8b9215fbca93789507d45f5c3801e5accbf7ba86f08bbf1ad0"
+        },
+        {
+          "source_path": "site/src/pages/howto/clash-verge-tun.mdx",
+          "path": "modules/vps/site/src/pages/howto/clash-verge-tun.mdx",
+          "source_sha256": "74122aa2e2f58c922dbb38e67a49c046169540c1564bfec86d81fdbde7126fc1"
+        },
+        {
+          "source_path": "site/src/pages/howto/clash-verge-windows.mdx",
+          "path": "modules/vps/site/src/pages/howto/clash-verge-windows.mdx",
+          "source_sha256": "0100f0a2db0401d61f6a0a62d3841edfce82c0416f5ab7fc0ea6e33ca0e789a2"
+        },
+        {
+          "source_path": "site/src/pages/howto/claude-app-store.mdx",
+          "path": "modules/vps/site/src/pages/howto/claude-app-store.mdx",
+          "source_sha256": "3f9b78910b3a166a899671f7f4be7660dda98ba38367c071749707df4c46f658"
+        },
+        {
+          "source_path": "site/src/pages/howto/claude-google-play.mdx",
+          "path": "modules/vps/site/src/pages/howto/claude-google-play.mdx",
+          "source_sha256": "98cc2cbc489bcba05b78d276bac3aa0c1b4fbc05751db06413be448e288b9393"
+        },
+        {
+          "source_path": "site/src/pages/howto/cpa-add-account.mdx",
+          "path": "modules/vps/site/src/pages/howto/cpa-add-account.mdx",
+          "source_sha256": "f207ef5d3131e7c219a23173876a051ffb689bc6e655cbfd253b6969810517ca"
+        },
+        {
+          "source_path": "site/src/pages/howto/cpa-clients.mdx",
+          "path": "modules/vps/site/src/pages/howto/cpa-clients.mdx",
+          "source_sha256": "5af827a4b7bcc1c7f09f0a1ae89434453ba87eb3479a38d88c11c12ddfc61540"
+        },
+        {
+          "source_path": "site/src/pages/howto/cpa-login.mdx",
+          "path": "modules/vps/site/src/pages/howto/cpa-login.mdx",
+          "source_sha256": "7b2aae7e3ba51a05d35b593bc40907c2e9c4a0d10752f1f0ae14d8aed52054b0"
+        },
+        {
+          "source_path": "site/src/pages/howto/dns-leak.mdx",
+          "path": "modules/vps/site/src/pages/howto/dns-leak.mdx",
+          "source_sha256": "042c56d1fa76b5388ae56402edf5871ef4bf9f3642060edc0754eb3af5c3a4c7"
+        },
+        {
+          "source_path": "site/src/pages/howto/github.mdx",
+          "path": "modules/vps/site/src/pages/howto/github.mdx",
+          "source_sha256": "98bad37b1040733d68d554e29f689082de56b166e144b1f2314b7a94c26b93ec"
+        },
+        {
+          "source_path": "site/src/pages/howto/gmail-change-address.mdx",
+          "path": "modules/vps/site/src/pages/howto/gmail-change-address.mdx",
+          "source_sha256": "91cfe4734240abe830898c2ae4aabeb71b48cd806212569bf8ef11b4b17c3d69"
+        },
+        {
+          "source_path": "site/src/pages/howto/gmail.mdx",
+          "path": "modules/vps/site/src/pages/howto/gmail.mdx",
+          "source_sha256": "e18be7bcbf5e9221e2171ca8848f09ee31e55be0e129e5aecdc3d70057e1c70d"
+        },
+        {
+          "source_path": "site/src/pages/howto/google-account-security.mdx",
+          "path": "modules/vps/site/src/pages/howto/google-account-security.mdx",
+          "source_sha256": "4a4ea1763b633dd688a1615dd02ae09d1e061f4785a9f4deb2668299eef77597"
+        },
+        {
+          "source_path": "site/src/pages/howto/google-payment-card.mdx",
+          "path": "modules/vps/site/src/pages/howto/google-payment-card.mdx",
+          "source_sha256": "182755535f603f7857960437a756701c6d601b36adfd7a45ae754a4b11323621"
+        },
+        {
+          "source_path": "site/src/pages/howto/index.astro",
+          "path": "modules/vps/site/src/pages/howto/index.astro",
+          "source_sha256": "d6b372aa396e8931bbfaf609bf8a37602b90ae513ac4cdd6f4f9c9d66c295da8"
+        },
+        {
+          "source_path": "site/src/pages/howto/install-claude-code.mdx",
+          "path": "modules/vps/site/src/pages/howto/install-claude-code.mdx",
+          "source_sha256": "ac34bc81d7bfabd4f86e302f41493ff64cfadf3b9a67a7d9e27908b93537a8e1"
+        },
+        {
+          "source_path": "site/src/pages/howto/install-codex.mdx",
+          "path": "modules/vps/site/src/pages/howto/install-codex.mdx",
+          "source_sha256": "bd75fe17d4a46d88c4ddffaea816b050d0df453cd8d031aba486b807a90798b8"
+        },
+        {
+          "source_path": "site/src/pages/howto/install-skill.mdx",
+          "path": "modules/vps/site/src/pages/howto/install-skill.mdx",
+          "source_sha256": "37b8a2b6be730c893300858cbccb3429b75840aa89288452b80bb0670b282d3c"
+        },
+        {
+          "source_path": "site/src/pages/howto/ip-blocked.mdx",
+          "path": "modules/vps/site/src/pages/howto/ip-blocked.mdx",
+          "source_sha256": "d61886feb94b451667d6de85131e8e0450e937f175cff9b963b9b40972bb5267"
+        },
+        {
+          "source_path": "site/src/pages/howto/openclash.mdx",
+          "path": "modules/vps/site/src/pages/howto/openclash.mdx",
+          "source_sha256": "558f63b2a2d505c419bf9928430fc3b2210a171fc39873a838829eac6b732d09"
+        },
+        {
+          "source_path": "site/src/pages/howto/payment.mdx",
+          "path": "modules/vps/site/src/pages/howto/payment.mdx",
+          "source_sha256": "626c427b105a14edb1e8aae4eaccc8cfa75c890926dd20888f2055608771782e"
+        },
+        {
+          "source_path": "site/src/pages/howto/refund-rebuy.mdx",
+          "path": "modules/vps/site/src/pages/howto/refund-rebuy.mdx",
+          "source_sha256": "cac73b9eb689fcd1cef1d13a9e1bdcaaf1c78bf59d2f6df58765451cd282478b"
+        },
+        {
+          "source_path": "site/src/pages/howto/reinstall-os.mdx",
+          "path": "modules/vps/site/src/pages/howto/reinstall-os.mdx",
+          "source_sha256": "99bb7589a83d9fa15ab72ca031d2539ed6ab058ecb584adbfced8f5ce8071298"
+        },
+        {
+          "source_path": "site/src/pages/howto/root-password-vnc.mdx",
+          "path": "modules/vps/site/src/pages/howto/root-password-vnc.mdx",
+          "source_sha256": "61d7feb04240d9520ee4def485024393a7bb46eafabccbdb7f89d852b471c59e"
+        },
+        {
+          "source_path": "site/src/pages/howto/shadowrocket.mdx",
+          "path": "modules/vps/site/src/pages/howto/shadowrocket.mdx",
+          "source_sha256": "144c851342b558a73d0a32deeb08650cc113e532c6174a2615ac670220396901"
+        },
+        {
+          "source_path": "site/src/pages/howto/speed-test.mdx",
+          "path": "modules/vps/site/src/pages/howto/speed-test.mdx",
+          "source_sha256": "5503acc1ed73af5e0f5cb6cce285d691ee57088b655ef5dd078c3401762dd767"
+        },
+        {
+          "source_path": "site/src/pages/howto/traffic-and-ip.mdx",
+          "path": "modules/vps/site/src/pages/howto/traffic-and-ip.mdx",
+          "source_sha256": "a47ce5ba6752df1e118b63f853ed67a00e2652939d4201038600ed73e99ee180"
+        },
+        {
+          "source_path": "site/src/pages/howto/travel-checklist.mdx",
+          "path": "modules/vps/site/src/pages/howto/travel-checklist.mdx",
+          "source_sha256": "79d614a072b99c210449ef0da6e8c5139d7847cc441d418e9c73719e85916d0b"
+        },
+        {
+          "source_path": "site/src/pages/howto/v2rayn.mdx",
+          "path": "modules/vps/site/src/pages/howto/v2rayn.mdx",
+          "source_sha256": "119d90a105fef1fd11606a93d59f06b3d64d76a77e6ab061eb1ead0183550db0"
+        },
+        {
+          "source_path": "site/src/pages/howto/webrtc-leak.mdx",
+          "path": "modules/vps/site/src/pages/howto/webrtc-leak.mdx",
+          "source_sha256": "515e6cf445d7a506757cf02026e305bd94c6158fd2c1c20f4c7582507fb21292"
+        },
+        {
+          "source_path": "site/src/pages/howto/windows-wsl.mdx",
+          "path": "modules/vps/site/src/pages/howto/windows-wsl.mdx",
+          "source_sha256": "a91d0841f847d9ff848f82376b486286df168aae3256e2f3fb5c92ba07b9571d"
+        },
+        {
+          "source_path": "site/src/pages/index.astro",
+          "path": "modules/vps/site/src/pages/index.astro",
+          "source_sha256": "a80a7eebd04c218f9ccc6c4debecc26b2a35cc74175e9612b1cba7610df3f7ad"
+        },
+        {
+          "source_path": "site/src/pages/wiki/[slug].astro",
+          "path": "modules/vps/site/src/pages/wiki/[slug].astro",
+          "source_sha256": "c6d4c3d9b45e184d72683fdeef74ca351917227a11c6d82162b53f72d4587fd1"
+        },
+        {
+          "source_path": "site/src/pages/wiki/index.astro",
+          "path": "modules/vps/site/src/pages/wiki/index.astro",
+          "source_sha256": "eb003835d3d0ab04694084e965242ec2c1459749306ddda0892846bb437e4d11"
+        },
+        {
+          "source_path": "site/src/views/FaqPage.astro",
+          "path": "modules/vps/site/src/views/FaqPage.astro",
+          "source_sha256": "a09299819d6c8f374f97516ef4a1b6bb73cda9d676d5a4ea05b756f3e97b0f7f"
+        },
+        {
+          "source_path": "site/src/views/Home.astro",
+          "path": "modules/vps/site/src/views/Home.astro",
+          "source_sha256": "9d0f94fc5de4ea0f9c5c9ed0c74bed091547cb253467ebdc974c71dd66497391"
+        },
+        {
+          "source_path": "site/src/views/HowtoIndex.astro",
+          "path": "modules/vps/site/src/views/HowtoIndex.astro",
+          "source_sha256": "9e8c1a854649f4c2afac00c91a51ce2c4c850dd88e5329d26935a67e17020eef"
+        },
+        {
+          "source_path": "site/src/views/WikiEntry.astro",
+          "path": "modules/vps/site/src/views/WikiEntry.astro",
+          "source_sha256": "4973e283ab34dc2744f97dfbe8672ebc74561edc1cc9dc787b32bcca493e0be1"
+        },
+        {
+          "source_path": "site/src/views/WikiIndex.astro",
+          "path": "modules/vps/site/src/views/WikiIndex.astro",
+          "source_sha256": "ca950fd7920ca56cd426a42c56ef140c7f7586863c10c1a99848489e118833fb"
+        },
+        {
+          "source_path": "site/wrangler.jsonc",
+          "path": "modules/vps/site/wrangler.jsonc",
+          "source_sha256": "10025b5ef0fe3b2893ed4bc8658d7fd54d410dd9e8978ffa9cf86fa7ecf3bd84"
+        },
+        {
+          "source_path": "site/xxd.config.json",
+          "path": "modules/vps/site/xxd.config.json",
+          "source_sha256": "bda2a049ce10544d8610fbbff9a67f8fad9e5c1f3eefca0f283da1e2168cf41f"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/SKILL.md",
+          "path": "modules/vps/skills/claude-network-guide/SKILL.md",
+          "source_sha256": "eb24bc670b3e9e81ae3dc011ceae332a9834dcb2b7a727a423cffcb12d7c3e8a"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/references/design.md",
+          "path": "modules/vps/skills/claude-network-guide/references/design.md",
+          "source_sha256": "32bc81580d31b6f1cd931838fec0e76d1d5414e4e93d879a132680a2479a3694"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/references/troubleshooting.md",
+          "path": "modules/vps/skills/claude-network-guide/references/troubleshooting.md",
+          "source_sha256": "4cace29cb0eb26f8cbe98c3c0e003a684a1943bf82a26f03a3e084c29f8119be"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/local/connect.sh",
+          "path": "modules/vps/skills/claude-network-guide/scripts/local/connect.sh",
+          "source_sha256": "9f6bec9999b6cc35b86d4ac78baa4733374b614d3ffc3a73086872c4ba58ca81"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/local/remote.sh",
+          "path": "modules/vps/skills/claude-network-guide/scripts/local/remote.sh",
+          "source_sha256": "a721dd83d01a52e59a2fc6272124e8853f3ae20441c4cce69b142cb0c5bdab1c"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/clash-template.yaml",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/clash-template.yaml",
+          "source_sha256": "068d04fd4813d3668c844db270c57c1830f428020fd3399a12c7df74ac753ea1"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/cliproxy-auto-update",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/cliproxy-auto-update",
+          "source_sha256": "60b8911bacd0b7d2b9cef136255916fd0e28db57aebd95f01c5c8457db95e183"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/export-labels.json",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/export-labels.json",
+          "source_sha256": "e11e7961360b282104ae235b144e374840e959598ca6c60e2cf38b52b961ff43"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/rule-sources.json",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/rule-sources.json",
+          "source_sha256": "56a92242b0afe803c20e1fba846959d5a7dc2949d6fb0b5d3eec2a8a2fcf6b7f"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/rules/direct-lite.yaml",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/rules/direct-lite.yaml",
+          "source_sha256": "3110c47f8d79b8c7dc51365a13fbcbc2cf22a3205d7e0265478f25aaa796ddde"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/rules/gemini.yaml",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/rules/gemini.yaml",
+          "source_sha256": "0a0a9b1f2e78b847ed138c7c9d15c7c79e938b965c2a6a29460df73873c2f7d7"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/sub-proxy.py",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/sub-proxy.py",
+          "source_sha256": "de687035cc08d65ce90ddc66ad161852b8c5bbede3e1699bb9fdab6705eef447"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/xray-template.json",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/xray-template.json",
+          "source_sha256": "4266f3aefa5cc0386c07b02aaf8acfc606020f84f121be1063b947d8d50fd434"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/files/xxd-vps-refresh-rules",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/files/xxd-vps-refresh-rules",
+          "source_sha256": "39d93185eaa53230a86e9c29ddac8e7d0e8e0d3ce155f708d64ce356abc15cf5"
+        },
+        {
+          "source_path": "skills/xiaoxiaodong-vps/scripts/server/xxd-vps.py",
+          "path": "modules/vps/skills/claude-network-guide/scripts/server/xxd-vps.py",
+          "source_sha256": "ab66fdeab51002a7eea24750b001175f9b7533d65f8639e737e5c224d44ad042"
+        }
+      ]
+    }
+  ]
+}

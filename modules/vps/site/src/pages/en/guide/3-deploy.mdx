@@ -1,0 +1,175 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 3
+need: Server IP, root password, SSH port; an open terminal
+description: Let AI configure the server with this setup, or type the commands yourself. You'll end up with a login-info file on your desktop.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Copy from "../../../components/Copy.astro";
+import Cmd from "../../../components/Cmd.astro";
+
+## What this step is
+
+Configure the server you bought in step 1: install the nodes, get a <Term k="证书" text="certificate" />, install the AI API and harden security. Both routes do exactly the same thing; only who types differs.
+
+Afterwards:
+
+- `ssh your-name` logs you in without a password (using a <Term k="密钥" text="key" /> instead);
+- your desktop has a new file `我的服务器-your-name-订阅和账号.md` (or `my-server-your-name-subscriptions-and-accounts-en.md` if you ask for English) with the subscription URLs and the panel and AI API logins.
+
+**Pick a name first**, such as `bwg` or `la1`: letters, digits, dots and hyphens only, starting with a letter. From then on, `ssh bwg` logs you in.
+
+<Tabs id="route" label="Choose a route" items={[["ai", "Let AI do it"], ["manual", "Type it yourself"]]}>
+<div slot="ai">
+
+### 1. Send this message to the AI
+
+Open `claude` or `codex` in the terminal, copy the message below, **fill in the IP and name**, and send it:
+
+<Copy id="prompt" title="Message for the AI" code={`Please configure my new server with the "Claude Network Guide" setup.
+
+Setup: https://github.com/clm031102-source/claude-network-guide
+Download the project first, read modules/vps/skills/claude-network-guide/SKILL.md in full,
+and follow its steps and rules strictly, using the project's scripts for deployment and verification.
+Please talk to me in English and save the login file in English.
+
+My server:
+- IP:
+- Login: initial password (please let me type it in the terminal myself)
+- SSH user and port: default
+- Name I want to use to log in: bwg`} />
+
+What to change:
+
+- **IP**: the server IP from step 1.
+- **Login**: if the provider gave you a key file, change it to `key file: path` (a zip works too).
+- **SSH user and port**: if they aren't root and 22, replace "default" with the real values.
+- **Name**: replace `bwg` with your chosen name.
+
+### 2. Type the password once when asked
+
+The AI will ask you to **type** the server's root password in the terminal yourself (nothing shows while typing — that's normal).
+
+<Callout type="tip" title="A command starting with !">
+In Claude Code, the AI may ask you to enter a command that starts with `!`. Paste the whole line into Claude Code's input box and press Enter; it then prompts for the password in the terminal. `!` means "you run this command yourself", so the password never passes through the AI.
+</Callout>
+
+<Callout type="no">
+Don't paste the password into the chat. The AI gives you a command so you type it into the terminal, keeping it out of the chat history.
+</Callout>
+
+### 3. Wait for it to finish
+
+Usually about 10 minutes. The AI works stage by stage and reports progress: base setup → certificate → nodes → subscription → AI API → maintenance → verification.
+
+If something goes wrong, the AI fixes it using the setup's troubleshooting notes and reruns that stage. You only answer its questions.
+
+If the AI can't download the project, [download the ZIP](https://github.com/clm031102-source/claude-network-guide/archive/refs/heads/main.zip) yourself, unzip it, and add "the project is already at: folder path" to the message.
+
+</div>
+<div slot="manual">
+
+Each block below: copy → paste into the terminal → Enter → wait for it to finish, then the next. **Replace `your-IP` and `bwg` with your own.**
+
+<Callout type="warn" title="Use one terminal window throughout">
+The later commands run inside the folder you entered in "Download the setup" and use the `R=…` variable. If you close the terminal midway, reopen it and first run <Cmd c="cd claude-network-guide/modules/vps/skills/claude-network-guide" /> and <Cmd c="R=scripts/local/remote.sh" />, then continue.
+</Callout>
+
+### 1. Download the setup
+
+<Copy id="m-clone" lang="bash" title="Download and enter the folder" code={`git clone https://github.com/clm031102-source/claude-network-guide.git
+cd claude-network-guide/modules/vps/skills/claude-network-guide`} />
+
+The first time you use `git` on a Mac, a pop-up may offer to install the "command line developer tools". Install them, then run the command again.
+
+### 2. Set up passwordless login
+
+<Copy id="m-connect" lang="bash" title="Set up passwordless login (asks for the root password once)" code="bash scripts/local/connect.sh --alias bwg --host your-IP --port 22 --user root --password-prompt" />
+
+If your SSH port isn't 22, change `--port 22`. Seeing `完成：以后用 ssh bwg 登录` ("done: log in with ssh bwg from now on") means it worked — the scripts print messages in Chinese.
+
+### 3. Choose a time zone
+
+Pick by the server's city; you'll use it in the next block:
+
+| Data center | Time zone |
+|---|---|
+| Los Angeles, San Jose, US West | `America/Los_Angeles` |
+| New York, US East | `America/New_York` |
+| Hong Kong | `Asia/Hong_Kong` |
+| Tokyo | `Asia/Tokyo` |
+| Singapore | `Asia/Singapore` |
+| Not sure | `Etc/UTC` |
+
+### 4. Run the configuration in order
+
+<Copy id="m-deploy" lang="bash" title="Run block by block (or paste it all)" code={`R=scripts/local/remote.sh
+bash $R bwg upload
+bash $R bwg init --ip your-IP --alias bwg --timezone America/Los_Angeles
+bash $R bwg base
+bash $R bwg cert
+bash $R bwg xui
+bash $R bwg sub
+bash $R bwg cliproxy
+bash $R bwg maint`} />
+
+Each stage ends with `xxx 完成` ("xxx done"), e.g. `cert 完成`. Apps show traffic against 1000 GB a month by default (the recommended BandwagonHost plan's traffic), with the reset day worked out from the provisioning date. If your plan differs, add `--quota-gb QUOTA --reset-day DAY` to the end of the `init` line (e.g. `--quota-gb 500 --reset-day 1`).
+
+<Callout type="warn" title="If you see 停止： (stopped)">
+When a stage stops, it prints `停止：` ("stopped:") and a reason. Fix the cause and **rerun the same stage** — every stage can be run again. Common causes and fixes: [troubleshooting notes](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/skills/claude-network-guide/references/troubleshooting.md) (in Chinese).
+</Callout>
+
+### 5. Verify and save the login info
+
+<Copy id="m-verify" lang="bash" title="Verify + save login info (English file)" code={`bash $R bwg verify --full
+bash $R bwg save --lang en`} />
+
+</div>
+</Tabs>
+
+## How you know it worked
+
+<Callout type="ok">
+The last lines show `验收：34/34 通过` (verification: 34/34 passed — every item PASS), followed by a message that the login file has been saved.
+</Callout>
+
+Where the login-info file is:
+
+- **Mac**: on your desktop.
+- **Windows (WSL)**: WSL has no desktop, so it's in your Ubuntu home folder. Type `explorer.exe .` in the terminal to open that folder in File Explorer.
+
+The file contains: the Clash subscription URL, the Shadowrocket subscription URL, the 3x-ui panel login and the CLIProxyAPI address and keys. **You'll need the subscription URL in the next step.**
+
+**How to open it**: it's a plain-text file. On Mac, right-click → "Open With" → "TextEdit"; on Windows, right-click → "Open with" → "Notepad". A subscription URL is one long line starting with `https://` — copy the whole line.
+
+<Callout type="no">
+This file holds every password and key. Keep it only on your own computer — never post, screenshot or upload it.
+</Callout>
+
+## Stuck?
+
+<Q q="The certificate stage failed?">
+Most often the provider's "security group" or firewall blocks port 80. Allow TCP 80 in the provider's dashboard and rerun `cert`. The setup never falls back to a self-signed certificate.
+</Q>
+<Q q="It says the OS isn't supported?">
+Only Ubuntu 22.04+ and Debian 12+ are supported. Reinstall as Ubuntu 24.04 from the provider's dashboard — see [Reinstall the OS as Ubuntu](/en/howto/reinstall-os/). The password changes after reinstalling; start again from passwordless login with the new one.
+</Q>
+<Q q="The password is right, but key login fails?">
+Some provider images disable SSH key login by default. Current versions of the scripts turn it back on automatically; if you have an old copy, update the setup and try again.
+</Q>
+<Q q="One or two verification items FAIL?">
+Read the note after the FAIL line, fix it, rerun that stage, then run `verify --full` again. On the AI route, just let the AI handle it.
+</Q>
+<Q q="After reinstalling the OS, my ssh name won't connect?">
+Reinstalling changes the server's identity fingerprint, and sometimes the port. See [Reinstall the OS as Ubuntu](/en/howto/reinstall-os/) for the clean-up commands.
+</Q>
+
+<Checkpoint id="step3" items={[
+  "Verification shows 34/34 passed",
+  "ssh my-name logs me straight into the server",
+  "I found the login-info file with the Clash and Shadowrocket subscription URLs",
+]} />

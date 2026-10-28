@@ -1,0 +1,71 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: claude-app-store
+time: About 10 minutes
+for: iPhone and iPad users who want to subscribe to Claude Pro / Max in the app
+description: Download the Claude app with a non-China Apple ID, subscribe to Pro or Max in the app (billed by the App Store), and manage or cancel it.
+---
+import Callout from "../../../components/Callout.astro";
+import Q from "../../../components/Q.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## Before you start
+
+- **A non-China Apple ID**: the Claude app isn't on the China App Store. If you don't have one, see [Create a non-China Apple ID](/en/howto/apple-id/).
+- **That Apple ID can pay**: Settings → your name → Payment & Shipping has a working payment method, or the account has a balance (from a gift card).
+- **A Claude account**: you can sign up and log in right in the app with email or Google.
+
+<Callout type="tip" title="In-app vs. web subscriptions">
+Subscribe in the app and Apple takes the payment and manages the subscription; the price may be higher than subscribing on claude.ai (the store takes a cut) — go by what the subscription screen shows. If you already subscribed on the web, don't subscribe again in the app, or you'll be charged twice.
+</Callout>
+
+Claude is only offered in countries and regions Anthropic supports; follow its terms when subscribing and using it.
+
+## 1. Download and sign in
+
+1. Signed in to the App Store with your non-China Apple ID, search for "**Claude by Anthropic**" (developer: Anthropic) and install it.
+2. Open the app and log in with email or "Continue with Google".
+
+## 2. Subscribe in the app
+
+1. Tap your **initials** (top right) to open settings.
+2. Tap "**Upgrade to Pro**" (or the upgrade option) and choose the plan and monthly or yearly.
+3. The App Store payment sheet appears; check the price and Apple ID, then confirm with Face ID, Touch ID or your password.
+
+<Callout type="ok">
+Settings shows your plan as Pro (or Max), and your Apple ID email gets an App Store receipt.
+</Callout>
+
+## 3. Manage and cancel
+
+Either works:
+
+- **Claude app**: tap your initials → "**Billing**" → "**Manage subscription**".
+- **iPhone Settings**: Settings → your name → "**Subscriptions**" → Claude.
+
+Know that:
+
+- **Cancel at least 24 hours before the next charge**, or it renews automatically;
+- after cancelling you can keep using it until the period ends;
+- an App Store subscription is **managed only on Apple's side** — you can't change it on claude.ai, and refunds go through Apple ([reportaproblem.apple.com](https://reportaproblem.apple.com)).
+
+## Stuck?
+
+<Q q="Can't find Claude in the App Store?">
+You're probably signed in with a China Apple ID. Sign out from your profile in the App Store, sign in with the non-China Apple ID and search again.
+</Q>
+<Q q="&quot;Cannot complete purchase&quot; or payment method invalid?">
+Check Payment & Shipping for this Apple ID: the payment method must belong to its country/region, or there must be enough balance. Top up with that region's App Store gift card.
+</Q>
+<Q q="I subscribed on the web but the app still says upgrade?">
+Make sure the app is logged in to the same Claude account. Web and app subscriptions are separate — don't subscribe twice.
+</Q>
+<Q q="Want to switch to a web subscription (possibly cheaper)?">
+Cancel on Apple's side first; after the period ends, subscribe on claude.ai with a card.
+</Q>
+
+<Checkpoint id="claude-ios" items={[
+  "The App Store uses a non-China Apple ID and Claude is installed",
+  "App settings show Pro (or Max)",
+  "I know where to cancel: Billing in the app, or Subscriptions in iPhone Settings",
+]} />

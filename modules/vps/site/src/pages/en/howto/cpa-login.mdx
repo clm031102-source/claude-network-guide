@@ -1,0 +1,44 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: cpa-login
+time: 2 minutes
+for: People who want their own AI API
+step: 6
+description: Log in to the CLIProxyAPI management center with the address and key from your login-info file.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+
+## What you need
+
+From the "CLIProxyAPI" section of the login-info file:
+
+- **Management center**: like `https://your-IP:8318/management.html`;
+- **Management center login key**: a long string of letters and numbers.
+
+## Steps
+
+1. Open the "management center" address in a browser.
+2. Paste the login key into the **management key** field and connect.
+3. You'll see sections such as Dashboard, Auth files & OAuth, AI providers and Configuration (names may vary slightly by version; the interface also offers Chinese).
+
+<Callout type="ok">
+You're in the management center and can see the service version and connection status.
+</Callout>
+
+<Callout type="warn">
+The management center login key is only for the admin page; the API Key is for AI tools — don't mix them up. The browser's "remember password" only obfuscates it, so don't tick it on shared computers.
+</Callout>
+
+## Stuck?
+
+<Q q="The page won't open?">
+Check it starts with `https://` and uses port `8318`. Confirm your network reaches the server as in step 5.
+</Q>
+<Q q="It says the key is wrong?">
+Copy it without spaces or line breaks. Can't find it? If `ssh your-name` still works, ask the AI to export the login-info file again.
+</Q>

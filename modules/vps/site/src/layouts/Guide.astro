@@ -1,0 +1,36 @@
+---
+// 主线教程的一步：进度、标题、预计时间，正文，上一步 / 下一步（中英文共用，语言看路径）
+import Site from "./Site.astro";
+import Feedback from "../components/Feedback.astro";
+import { STEPS, stepHref, langOf, t } from "../data/nav.js";
+const { frontmatter, headings = [] } = Astro.props;
+const lang = langOf(Astro.url.pathname);
+const T = lang === "en"
+  ? { step: (n) => `Step ${n}`, of: (n, last) => `Main guide · step ${n} of ${last}`, progress: (n, last) => `Progress: step ${n} of ${last}`, need: "You need", prev: "Previous", next: "Next", nextPending: "Next (in progress)", nav: "Previous and next step" }
+  : { step: (n) => `第 ${n} 步`, of: (n, last) => `主线教程 · 第 ${n} 步，共 ${last} 步`, progress: (n, last) => `进度：第 ${n} 步，共 ${last} 步`, need: "要准备", prev: "上一步", next: "下一步", nextPending: "下一步（编写中）", nav: "上一步和下一步" };
+const i = STEPS.findIndex((s) => s.n === frontmatter.step);
+const s = STEPS[i], prev = STEPS[i - 1], next = STEPS[i + 1];
+const last = STEPS[STEPS.length - 1].n;
+const title = t(s, "title", lang);
+---
+<Site title={`${T.step(s.n)}${lang === "en" ? ": " : "："}${title}`} description={frontmatter.description ?? t(s, "sum", lang)} headings={headings}>
+  <header class="step-head">
+    <div class="step-head__eyebrow"><span>{T.of(s.n, last)}</span><span>{t(s, "minutes", lang)}</span></div>
+    <progress class="xxd-progress" value={s.n} max={last} aria-label={T.progress(s.n, last)}></progress>
+    <h1>{title}</h1>
+    <div class="step-head__meta">
+      {frontmatter.need && <span class="xxd-badge">{T.need}{lang === "en" ? ": " : "："}{frontmatter.need}</span>}
+      <span class="xxd-badge">{t(s, "sum", lang)}</span>
+    </div>
+  </header>
+  <article class="xxd-prose"><slot /></article>
+  <Feedback page={`${T.step(s.n)} ${title}`} />
+  <nav class="prevnext" aria-label={T.nav}>
+    {prev && (prev.ready
+      ? <a href={stepHref(prev, lang)} data-dir="prev"><small>{T.prev}</small>{prev.n}. {t(prev, "title", lang)}</a>
+      : <span data-dir="prev"><small>{T.prev}</small>{prev.n}. {t(prev, "title", lang)}</span>)}
+    {next && (next.ready
+      ? <a href={stepHref(next, lang)} data-dir="next"><small>{T.next}</small>{next.n}. {t(next, "title", lang)}</a>
+      : <span data-dir="next"><small>{T.nextPending}</small>{next.n}. {t(next, "title", lang)}</span>)}
+  </nav>
+</Site>

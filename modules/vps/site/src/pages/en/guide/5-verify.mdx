@@ -1,0 +1,86 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 5
+need: A connected app
+description: Confirm your traffic really goes through your server, with no DNS or WebRTC leaks.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Shot from "../../../components/Shot.astro";
+
+## What this step is
+
+Use two test pages to confirm three things:
+
+1. Websites see your server's IP;
+2. No <Term k="DNS 泄露" text="DNS leak" />;
+3. No <Term k="WebRTC" /> leak.
+
+Test on both phone and computer.
+
+## 1. Exit IP and leaks
+
+On a device with the app connected, open [ip.net.coffee/claude/](https://ip.net.coffee/claude/) in the browser.
+
+| Look at | It should be |
+|---|---|
+| Claude AI exit IP | Your server's IP (the "server IP" in the login-info file) |
+| Region | The server's country and city |
+| DNS leak test | DNS exit not in China |
+| WebRTC UDP leak test (computer) | UDP exit is your server's IP |
+
+<Shot src="ip-net-coffee.webp" w={982} h={832} alt="Example ip.net.coffee/claude result" caption="Example result (the page is in Chinese): the red boxes are the exit IP Claude sees, the DNS leak status and WebRTC's UDP exit. IPs are replaced with the example 203.0.113.10; personal details are hidden." />
+
+<Callout type="ok">
+The exit IP is your server's IP, and neither the DNS exit nor the WebRTC exit is in China.
+</Callout>
+
+**The leak tests above matter most**; the Claude AI trust score comes second. If it's below 70, you can email your provider (for example BandwagonHost) to cancel this server, buy a new one (email templates: [Refund a server and buy a new one](/en/howto/refund-rebuy/)), deploy it and test again. Once it's 70 or above, you're set.
+
+## 2. Double-check WebRTC (computer)
+
+Open [browserleaks.com/webrtc](https://browserleaks.com/webrtc) and check two things:
+
+- "RTCPeerConnection" shows ✔ (WebRTC works normally);
+- "Public IP Address" is your server's IP.
+
+<Shot src="browserleaks-webrtc.webp" w={931} h={139} alt="Example browserleaks WebRTC result" caption="Two parts of browserleaks: RTCPeerConnection shows ✔, and Public IP Address is the server IP (replaced with an example here)." />
+
+<Callout type="no" title="Don't “fix” it by disabling WebRTC">
+If a Chinese IP shows here, the right fix is turning on Clash Verge's Tun Mode. Don't install extensions that disable WebRTC — that breaks web video and voice. Step by step: [Check for WebRTC leaks](/en/howto/webrtc-leak/).
+</Callout>
+
+## 3. Test on your phone too
+
+Open [ip.net.coffee/claude/](https://ip.net.coffee/claude/) in Safari or Chrome on your phone; the exit IP should be your server's IP as well.
+
+<Callout type="warn" title="Do this before you travel">
+Before leaving, test on both phone and computer, switching between both nodes (Reality and TLS). Problems discovered once you're behind a restricted network are much harder to fix.
+</Callout>
+
+## Stuck?
+
+<Q q="The exit IP is my home IP?">
+Traffic isn't going through the proxy. Computer: check Clash Verge has the profile selected, Rule mode and Tun Mode on. Phone: check Shadowrocket's switch is on.
+</Q>
+<Q q="The exit IP is some other foreign IP, not my server?">
+Another proxy or VPN may be running on the device, or your home router has a proxy too. Turn other proxies off and test again.
+</Q>
+<Q q="Chinese DNS shows up in the DNS test?">
+First "Update" the subscription in your app to get the latest rules (this was fixed in the setup). Still there? See [Check for DNS leaks](/en/howto/dns-leak/).
+</Q>
+<Q q="WebRTC shows a Chinese IP?">
+Most likely only System Proxy is on, not Tun Mode. Turn it on as in [Turn on TUN mode](/en/howto/clash-verge-tun/), fully quit and reopen the browser, and test again.
+</Q>
+
+<Q q="The trust score is below 70?">
+If there are no leaks and only the score is low, the IP itself just has a so-so reputation. As a fix, you can email your provider (for example BandwagonHost) to cancel this server, buy a new one (email templates: [Refund a server and buy a new one](/en/howto/refund-rebuy/)), deploy it and test again. Once it's 70 or above, you're set.
+</Q>
+
+<Checkpoint id="step5" items={[
+  "Computer: ip.net.coffee/claude shows my server as the exit IP",
+  "Computer: DNS and WebRTC exits aren't in China, and RTCPeerConnection shows ✔",
+  "Phone: the exit IP is my server too",
+]} />

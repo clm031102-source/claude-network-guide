@@ -1,0 +1,48 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: webrtc-leak
+time: 5 分钟
+for: Windows、Mac 用户
+step: 5
+description: 检查浏览器的 WebRTC 有没有暴露真实 IP；正确的修法是打开虚拟网卡模式，不是禁用 WebRTC。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Shot from "../../components/Shot.astro";
+
+## 怎么测
+
+1. 打开 [browserleaks.com/webrtc](https://browserleaks.com/webrtc)。
+2. 看「RTCPeerConnection」：应该是 ✔，说明 WebRTC 能正常用。
+3. 看「Public IP Address」：应该是你服务器的 IP。
+
+<Shot src="browserleaks-webrtc.webp" w={931} h={139} alt="browserleaks WebRTC 检测结果示例" caption="browserleaks 的两处：RTCPeerConnection 是 ✔，Public IP Address 是服务器 IP（图中换成了示例地址）。" />
+
+也可以看 [ip.net.coffee/claude/](https://ip.net.coffee/claude/) 里的「WebRTC UDP 泄露检测」。
+
+| 看到的 | 结论 |
+|---|---|
+| ✔ 并且公网 IP 是服务器 IP | 没有泄露，WebRTC 也正常 |
+| ✔ 但公网 IP 是国内 IP | 有泄露：多半只开了系统代理 |
+| ✘，或者检测不到 IP | WebRTC 被禁用或限制了，**不算修好** |
+
+## 有泄露：打开虚拟网卡模式
+
+按 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/) 操作，完成后**完全退出浏览器**再测。
+
+## WebRTC 被禁用了：恢复它
+
+以前装过的「防泄露」扩展或改过的设置要撤销：
+
+- **Chrome / Edge**：打开 `chrome://extensions`（Edge 是 `edge://extensions`），移除名字里带 WebRTC 的扩展；装了 uBlock Origin 的，在它的设置里取消「防止 WebRTC 泄露本地 IP 地址」。
+- **Firefox**：打开 `about:config`，搜索 `media.peerconnection`，把粗体（被改过）的项逐个点「重置」。
+
+<Callout type="no">
+不要用禁用 WebRTC 的扩展或设置来「修」泄露。那样网页上的视频会议、语音通话会坏掉。
+</Callout>
+
+给 AI 助手照做的完整排查手册（带检测命令和故障表）：[Clash Verge WebRTC 泄露修复手册](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/docs/Clash-Verge-WebRTC泄露修复手册.md)。

@@ -1,0 +1,104 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: clash-verge-tun
+time: 5 分钟
+for: Windows、Mac 上用 Clash Verge Rev 的人
+step: 4
+description: 为什么要开虚拟网卡模式、怎么开、开完怎么验证。WebRTC 照常可用，只是出口变成服务器 IP。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+
+## 为什么要开
+
+Clash Verge 的「系统代理」只接管浏览器的网页流量（TCP）。浏览器的 <Term k="WebRTC" /> 用 UDP 向外报告你的 IP，这部分不走系统代理，检测网站就能看到你的真实 IP。
+
+<Term k="虚拟网卡" text="虚拟网卡模式" />（TUN）让电脑上所有软件、所有流量都先进 Clash，再按规则分流：国内网站照样直连，WebRTC 照常可用，只是出口变成你的服务器 IP。
+
+## 怎么开
+
+1. 「订阅」页面里先把订阅「更新」一次，拿到最新规则。
+2. 「设置」→「系统设置」里，打开「虚拟网卡模式」。
+3. 提示「TUN 模式需要服务模式，请先安装服务」时，点「安装服务」：Windows 点「是」，Mac 输入开机密码。看到「已成功安装服务」就行。
+4. **只有 Windows**：点「虚拟网卡模式」旁边的齿轮，打开「严格路由」，其他选项不要改，保存。
+5. 「Clash 设置」里：「DNS 覆写」**关闭**；「IPv6」先按下面的方法检测，再决定开还是关。
+6. **完全退出浏览器**再重新打开（Mac 按 ⌘Q；Windows 连托盘里的也要退出）。
+
+「系统代理」开着或关着都可以，不影响。
+
+## IPv6 开还是关
+
+先看你现在用的网络有没有 IPv6。打开终端（Mac）或 PowerShell（Windows），粘贴下面这行，按回车：
+
+<Tabs id="v6" label="选系统" items={[["mac", "Mac"], ["win", "Windows"]]}>
+<div slot="mac">
+
+<Copy id="v6-mac" lang="bash" title="检测有没有 IPv6（Mac 终端）" code={`ifconfig | awk '/^[a-z]/{i=$1} $1=="inet6" && i!~/^(utun|lo|bridge|awdl|llw|gif|stf|anpi|ap)/ && $2!~/^(fe80|fd|fc|::1|2001:0:|2002:)/ {print i, $2}'`} />
+
+</div>
+<div slot="win">
+
+<Copy id="v6-win" lang="powershell" title="检测有没有 IPv6（Windows PowerShell）" code={`Get-NetIPAddress -AddressFamily IPv6 -PrefixOrigin RouterAdvertisement, Dhcp -ErrorAction SilentlyContinue | Where-Object { $_.IPAddress -notmatch '^(fe80|fd|fc|2001:0:|2002:)' } | Select-Object InterfaceAlias, IPAddress`} />
+
+</div>
+</Tabs>
+
+| 结果 | 「IPv6」开关 | 为什么 |
+|---|---|---|
+| 列出了地址（以 `2` 开头） | **打开** | 网络有 IPv6。关着的话，IPv6 流量会绕过虚拟网卡，可能暴露你的国内 IPv6 地址 |
+| 什么都没输出 | **关闭** | 网络没有 IPv6，没有 IPv6 流量可以泄露。开着反而会让微信这类软件去连 IPv6 地址，连不上又不改用 IPv4，**文字能发，图片发不出去** |
+
+<Callout type="warn" title="这个开关会覆盖订阅里的设置">
+Clash Verge 的「IPv6」开关会覆盖订阅里的 IPv6 设置，所以一定要按检测结果设置。改完以后，把微信、QQ 完全退出再打开。换了网络（比如从家里换到公司、连手机热点）要重新检测一次。
+</Callout>
+
+## 开完怎么验证
+
+- 首页显示「TUN 模式已启用」；
+- 打开 [browserleaks.com/webrtc](https://browserleaks.com/webrtc)：「RTCPeerConnection」是 ✔，「Public IP Address」是你服务器的 IP。
+
+<Shot src="browserleaks-webrtc.webp" w={931} h={139} alt="browserleaks WebRTC 检测结果示例" caption="browserleaks 的两处：RTCPeerConnection 是 ✔，Public IP Address 是服务器 IP（图中换成了示例地址）。" />
+
+<Callout type="no" title="不要用禁用 WebRTC 来代替">
+不要装 WebRTC Network Limiter 这类扩展，也不要改浏览器里 WebRTC 相关的设置。那样检测网站会显示「检测不到 IP」，看起来像修好了，其实是把网页的视频、语音功能弄坏了。
+</Callout>
+
+## 卡住了？
+
+<Q q="出现「由于服务不可用，TUN 模式已自动关闭」？">
+在设置里先「卸载服务」，再「安装服务」，然后重新打开虚拟网卡模式。
+</Q>
+<Q q="出现「已切换到普通模式（Sidecar），普通权限下无法使用 TUN」？">
+点提示里的「查看修复方法」照做。Windows 也可以右键「以管理员身份运行」Clash Verge。
+</Q>
+<Q q="检测网站显示的是国内 IPv6 地址？">
+能看到国内 IPv6，说明你的网络有 IPv6，「IPv6」开关应该打开，先确认它开着。仍然是国内 IPv6，就在系统里关掉 IPv6：Windows 在网卡属性里取消勾选「Internet 协议版本 6」；Mac 在「系统设置 → 网络 → 当前网络 → 详细信息 → TCP/IP」里把「配置 IPv6」改成「仅本地链接」。
+</Q>
+<Q q="开了虚拟网卡模式后，微信文字能发，图片发不出去？">
+按顺序试，每试一步就把微信完全退出再打开，发一张图看看：
+
+1. 按上面「IPv6 开还是关」重新检测。网络没有 IPv6、开关却开着，就把它关掉。这是最常见的原因。
+2. 「订阅」页面里把订阅「更新」一次。
+3. 点「虚拟网卡模式」旁边的齿轮，把「TUN 模式堆栈」换成 Mixed，保存。
+4. 只有 Windows：在同一个窗口里关掉「严格路由」，保存。
+
+还不行，就打开 Clash Verge 左侧「连接」页面，发一张图，同时截下微信相关的连接，发给帮你配置的人排查。
+</Q>
+<Q q="有的国内检测网站还是显示国内 IP？">
+如果那个网站用的是国内的 STUN 服务器，在「规则」模式下本来就直连，这是正常的。用 browserleaks.com/webrtc 确认即可，不要为此去禁用 WebRTC 或切全局模式。
+</Q>
+<Q q="Windows 和 Mac 想用同一套配置？">
+可以，导入同一个订阅、用同样的设置就行。但要**两台各自仔细核对一遍**：
+
+- 都是「规则」模式，「虚拟网卡模式」打开，服务装好了；
+- **只有 Windows** 多一步：「严格路由」打开；
+- 「DNS 覆写」都是关闭的；
+- 「IPv6」开关按**这台电脑现在用的网络**检测后再定，两台的结果不一定一样；
+- 各自完全退出浏览器再打开，各自打开 [ip.net.coffee/claude](/howto/check-ip/) 测一次泄露。
+</Q>
+
+一步一步的完整排查（包括给 AI 助手照做的检测命令），见方案仓库里的 [WebRTC 泄露修复手册](https://github.com/clm031102-source/claude-network-guide/blob/main/modules/vps/docs/Clash-Verge-WebRTC泄露修复手册.md)。

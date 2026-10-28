@@ -1,0 +1,62 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: gmail
+time: About 10 minutes
+for: Everyone
+step: 0
+description: Create a Google account (Gmail) and turn on 2-Step Verification.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## Why Gmail
+
+Buying a server, signing up for GitHub and other overseas services all need an email address that receives mail reliably. Chinese mailboxes work too, but some overseas services' emails get blocked or delayed. Gmail is the least hassle for overseas services.
+
+<Callout type="tip">
+Opening Google's sites needs a network that can reach them. No line yet? Buy the server with your existing email first, and create Gmail after installing the apps in step 4.
+</Callout>
+
+## Steps
+
+1. Open [accounts.google.com/signup](https://accounts.google.com/signup) (or gmail.com → "Create account").
+2. Choose "For my personal use".
+3. Enter your name, birthday and gender. Use your real birthday — under-age accounts are restricted.
+4. Pick a Gmail address, e.g. `yourname2026@gmail.com`. Taken? Try another.
+5. Set a password: at least 12 characters mixing letters, numbers and symbols, not reused elsewhere.
+6. Verify your phone number when asked (see below).
+7. Add a recovery email so you can get back in if you forget the password.
+
+<Shot src="google-signup-en.webp" w={1064} h={410} alt="The first page of creating a Google account" caption="First page: enter your name and click Next." />
+
+## Right after signing up: turn on 2-Step Verification
+
+1. Open [myaccount.google.com](https://myaccount.google.com) and click "Security".
+2. Find "2-Step Verification" and turn it on — an authenticator app or "Google prompts" are recommended.
+
+Then even a leaked password won't let anyone into your account. For the full setup — passkeys, backup codes, recovery email — see [Secure your Google account](/en/howto/google-account-security/); do it before travelling.
+
+<Callout type="ok">
+You can log in to Gmail with the new address and send yourself a test email; "Security" shows 2-Step Verification is on.
+</Callout>
+
+## Already have Gmail and want a different address?
+
+No need to sign up again: an existing account can switch to a new @gmail.com address, and the old one keeps receiving mail. See [Change your Gmail address](/en/howto/gmail-change-address/).
+
+## Stuck?
+
+<Q q="“This phone number cannot be used for verification”?">
+That's Google's risk control, common on new devices and networks. Try again later, or sign up in the Gmail app on your phone, which usually works better.
+</Q>
+<Q q="No verification SMS?">
+Wait a minute or two before resending, and check the country code (mainland China is +86).
+</Q>
+<Q q="The new account was disabled right away?">
+Frequent IP changes or bulk actions on a new account trigger risk control. Appeal as prompted; it settles down after a period of normal use.
+</Q>

@@ -1,0 +1,6 @@
+---
+// 「卡住了？」里的一条：原生 <details>，同一组只开一个
+interface Props { q: string; group?: string; id?: string }
+const { q, group = "stuck", id } = Astro.props;
+---
+<details class="xxd-collapse" name={group} id={id}><summary>{q}</summary><slot /></details>

@@ -1,0 +1,47 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: shadowrocket
+time: 约 10 分钟
+for: iPhone、iPad 用户
+step: 4
+description: 安装 Shadowrocket，导入 Shadowrocket 订阅，连接。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+
+## 1. 安装
+
+Shadowrocket 在中国区 App Store 没有上架，要用境外 Apple ID 在美区等地区的 App Store 购买，一次性付费，约 3 美元（以商店页为准）。认准开发者 **Shadow Launch Technology Limited**。没有境外 Apple ID 的见 [注册境外 Apple ID](/howto/apple-id/)。
+
+## 2. 导入订阅
+
+1. 打开 Shadowrocket，点右上角的「+」。
+2. 「类型」选 **Subscribe**。
+3. 「URL」粘贴登录信息文件里的 **Shadowrocket 订阅地址**（不是 Clash 那个），「备注」可以写服务器的名字，点「完成」。
+4. 列表里出现 `名字-Reality` 和 `名字-TLS` 两个节点，点一下 `名字-Reality` 选中它。
+
+## 3. 连接
+
+1. 首页的「全局路由」保持「配置」（按规则分流），不要选「代理」（那样所有网站都绕到国外）。
+2. 打开最上面的连接开关。第一次会请求添加 VPN 配置，点「允许」，按提示验证面容或密码。
+
+<Callout type="ok">
+状态栏出现 VPN 标志；Safari 打开 ip.net.coffee/claude/ 显示的是你服务器的 IP。
+</Callout>
+
+## 小技巧
+
+- 点节点右边的延迟数字可以测速，选延迟正常的那个。
+- 在设置里的订阅选项中，可以打开「打开时更新」之类的自动更新，订阅有变化时会自动同步。
+
+## 卡住了？
+
+<Q q="导入后节点显示超时？">
+先确认你当前的网络能连上服务器：换成手机流量或别的 Wi-Fi 试试。再试试另一个节点（`名字-TLS`）。
+</Q>
+<Q q="把 Clash 订阅地址填进来了？">
+删掉重新添加，用登录信息文件里标着「Shadowrocket（iPhone）」的那个地址。
+</Q>

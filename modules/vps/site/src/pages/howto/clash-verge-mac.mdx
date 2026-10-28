@@ -1,0 +1,62 @@
+---
+layout: ../../layouts/HowTo.astro
+slug: clash-verge-mac
+time: 约 10 分钟
+for: Mac 用户
+step: 4
+description: 在 Mac 上安装 Clash Verge Rev，导入 Clash 订阅，打开虚拟网卡模式。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+import Tabs from "../../components/Tabs.astro";
+import Shot from "../../components/Shot.astro";
+import Cmd from "../../components/Cmd.astro";
+
+## 1. 下载哪个安装包
+
+打开官方发布页 [github.com/clash-verge-rev/clash-verge-rev/releases](https://github.com/clash-verge-rev/clash-verge-rev/releases)，在最新版本下面的文件列表里找：
+
+| 你的 Mac | 下载 |
+|---|---|
+| M1、M2、M3、M4 等 Apple 芯片 | 文件名以 `_aarch64.dmg` 结尾 |
+| Intel 芯片 | 以 `_x64.dmg` 结尾 |
+
+不知道自己是哪种：点屏幕左上角苹果图标 →「关于本机」，看「芯片」或「处理器」。
+
+<Shot src="clash-verge-download.webp" w={1214} h={367} alt="Clash Verge Rev 发布说明里的下载地址" caption="发布说明里的「下载地址」：Mac 按芯片选「Apple M芯片」或「Intel芯片」。" />
+
+## 2. 安装
+
+双击 dmg，把 Clash Verge 拖进「应用程序」文件夹，然后从「应用程序」里打开。
+
+## 3. 导入订阅
+
+1. 打开 Clash Verge，点左侧「订阅」。
+2. 在「订阅文件链接」输入框里粘贴登录信息文件里的 **Clash 订阅地址**，点「导入」。
+3. 点一下新出现的订阅卡片，让它变成选中状态。
+
+## 4. 选规则模式
+
+点左侧「代理」，上方模式选「规则」。
+
+## 5. 打开虚拟网卡模式
+
+1. 点左侧「设置」，打开「虚拟网卡模式」。提示需要服务模式时，点「安装服务」，输入 Mac 的开机密码。
+2. 「Clash 设置」里的「DNS 覆写」保持关闭；「IPv6」先检测网络有没有 IPv6 再决定开关，方法见 [IPv6 开还是关](/howto/clash-verge-tun/#ipv6-开还是关)。
+
+Mac 不需要打开「严格路由」。更多细节见 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/)。
+
+<Callout type="ok">
+首页显示「TUN 模式已启用」；浏览器打开 ip.net.coffee/claude/ 显示的是你服务器的 IP。
+</Callout>
+
+## 卡住了？
+
+<Q q="打开时提示「已损坏」或「无法验证开发者」？">
+打开「系统设置 → 隐私与安全性」，在下方找到 Clash Verge 的提示，点「仍要打开」。还不行的话，在终端运行 <Cmd c='sudo xattr -r -c "/Applications/Clash Verge.app"' />（会要求输入开机密码），再打开。
+</Q>
+<Q q="安装服务一直失败？">
+确认用的是最新版。旧版本可以先卸载，从发布页重新下载最新版安装。
+</Q>

@@ -1,0 +1,91 @@
+---
+layout: ../../layouts/Guide.astro
+step: 7
+need: 什么都不用，需要时回来看
+description: 平时怎么用、出了问题怎么查、出差前检查什么、流量和续费。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Q from "../../components/Q.astro";
+import Copy from "../../components/Copy.astro";
+
+## 恭喜，主线做完了
+
+服务器配好以后基本不用管：证书每 6 小时检查一次、到期前自动续期，分流规则每天更新，AI 接口自动更新，配置每天自动备份一份（保留 7 份）。
+
+这一页是平时的使用习惯，以及出了问题怎么办。
+
+## 先做一件安全的小事
+
+到商家后台把 root 密码改掉（见 [后台改 root 密码](/howto/root-password-vnc/)）。服务器已经不能用密码远程登录了，但商家后台的救援控制台可能还认这个密码，而且它曾经出现在开通邮件里。
+
+## 平时怎么用
+
+- **电脑**：开机后 Clash Verge 保持运行，保持「规则」模式和虚拟网卡模式。
+- **手机**：需要时打开 Shadowrocket 的连接开关。
+- **节点**：一般用 `名字-Reality`；它连不上时，客户端的「自动切换」会换到 `名字-TLS`，你也可以手动选。
+- **更新订阅**：客户端会定期自动更新。看到别人说方案「更新了规则」，可以手动点一次「更新」。
+- **少切换**：长期用同一台服务器，不要在不同国家的节点之间来回切换，对 AI 账号更友好。
+
+## 定期体检
+
+每隔一段时间、或者觉得不对劲时，让 AI 检查一下服务器。把下面这段发给 AI（`bwg` 换成你的名字）：
+
+<Copy id="check" title="复制给 AI 的话" code={`请按「Claude 网络指南」方案检查我的服务器：ssh bwg
+
+方案地址：https://github.com/clm031102-source/claude-network-guide
+请下载项目，阅读 modules/vps/skills/claude-network-guide/SKILL.md 的"以后的复核和维护"部分，
+先只做检查，把没通过的项目和原因告诉我，我同意后再修。
+不要在聊天里显示密码、订阅地址或 Key。`} />
+
+不用 AI 的话，在方案目录里运行：
+
+<Copy id="check-manual" lang="bash" title="手动体检" code={`cd claude-network-guide/modules/vps/skills/claude-network-guide
+git pull
+bash scripts/local/remote.sh bwg upload
+bash scripts/local/remote.sh bwg verify --full`} />
+
+<Callout type="ok">
+显示 `验收：34/34 通过`。
+</Callout>
+
+更多见 [让 AI 给服务器体检](/howto/ai-health-check/)。
+
+## 出了问题，按这个顺序查
+
+1. **换个网络试**：手机流量、别的 Wi-Fi。只有某个网络连不上，问题在那个网络。
+2. **换个节点试**：在客户端里手动选另一个节点。
+3. **体检服务器**：用上面的方法，看哪一项没通过。
+4. **都正常但就是连不上**：多半是这个 IP 在国内被墙了。搬瓦工和 DMIT 都能换 IP，换完要重装系统、按方案重新配置，见 [IP 被墙了怎么办](/howto/ip-blocked/)。
+
+## 出差前
+
+按 [出差前检查清单](/howto/travel-checklist/) 过一遍，最晚出发前一天做完。
+
+## 流量和续费
+
+- **流量**：在商家后台能看到本月用了多少。客户端里也能看到（默认按每月 1T、开通日重置计算）。测速很费流量，别频繁测。
+- **续费**：在商家后台打开自动续费，或者把到期日记到日历里。到期不续费，商家会停机，过一段时间删除服务器、收回 IP。
+
+## 再配一台
+
+想要第二台服务器（比如备用，或者给另一个地区用），从第 1 步再走一遍。第二次会快很多。每台服务器的密码、密钥、订阅地址都是独立生成的，互不影响。
+
+## 卡住了？
+
+<Q q="换了电脑，怎么继续管理服务器？">
+密钥在旧电脑的 `~/.ssh/xxd-vps/名字/` 文件夹里。最简单的是把这个文件夹和 `~/.ssh/config` 里对应的那一段拷到新电脑上。旧电脑没了的话，用商家后台的救援控制台登录服务器，再找 AI 帮你加一把新电脑的密钥。
+</Q>
+<Q q="服务器还能装别的东西吗？">
+可以，但要避开方案用到的<Term k="端口" />（22、80、443、2443、2096、8318、53998），并在防火墙里放行新服务的端口。装之前最好先问问 AI 会不会冲突。
+</Q>
+<Q q="不想用了，怎么停掉？">
+在商家后台取消续费或删除服务器即可，电脑和手机上的客户端删掉订阅就行。
+</Q>
+
+<Checkpoint id="step7" items={[
+  "我在商家后台改掉了 root 密码",
+  "我知道怎么让 AI 给服务器体检",
+  "我打开了自动续费，或者记下了到期日",
+]} done="全部做完了。以后需要时回来看这一页。" />

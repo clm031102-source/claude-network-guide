@@ -1,0 +1,86 @@
+---
+layout: ../../layouts/Guide.astro
+step: 5
+need: 已经连上的客户端
+description: 确认流量真的走了你的服务器，并且没有 DNS 泄露和 WebRTC 泄露。
+---
+import Callout from "../../components/Callout.astro";
+import Term from "../../components/Term.astro";
+import Checkpoint from "../../components/Checkpoint.astro";
+import Q from "../../components/Q.astro";
+import Shot from "../../components/Shot.astro";
+
+## 这一步做什么
+
+用两个检测网页确认三件事：
+
+1. 网站看到的是你服务器的 IP；
+2. 没有 <Term k="DNS 泄露" />；
+3. 没有 <Term k="WebRTC" /> 泄露。
+
+手机和电脑都要测一遍。
+
+## 1. 看出口 IP 和泄露情况
+
+在已经连上客户端的设备上，用浏览器打开 [ip.net.coffee/claude/](https://ip.net.coffee/claude/)。
+
+| 看哪里 | 应该是什么 |
+|---|---|
+| Claude AI 出口 IP | 你服务器的 IP（登录信息文件里的「服务器 IP」） |
+| 地区 | 服务器所在的国家和城市 |
+| DNS 泄露检测 | DNS 出口不在中国 |
+| WebRTC UDP 泄露检测（电脑上看） | UDP 出口是你服务器的 IP |
+
+<Shot src="ip-net-coffee.webp" w={982} h={832} alt="ip.net.coffee/claude 检测结果示例" caption="检测结果示例：红框依次是 Claude 看到的出口 IP、DNS 泄露状态、WebRTC 的 UDP 出口。图中的 IP 已换成示例地址 203.0.113.10，个人信息已隐藏。" />
+
+<Callout type="ok">
+出口 IP 是你的服务器 IP，DNS 出口和 WebRTC 出口都不在中国。
+</Callout>
+
+**重点是上面的泄露检测**，其次看「Claude AI 信任评分」。低于 70 分的话，可以发邮件给服务商（比如搬瓦工）退掉这台，重新买一台（邮件模板见 [退掉服务器、重新买一台](/howto/refund-rebuy/)），部署好再测一次，到 70 分以上就行。
+
+## 2. 再确认一次 WebRTC（电脑）
+
+打开 [browserleaks.com/webrtc](https://browserleaks.com/webrtc)，看两处：
+
+- 「RTCPeerConnection」后面是 ✔（说明 WebRTC 正常可用）；
+- 「Public IP Address」是你服务器的 IP。
+
+<Shot src="browserleaks-webrtc.webp" w={931} h={139} alt="browserleaks WebRTC 检测结果示例" caption="browserleaks 的两处：RTCPeerConnection 是 ✔，Public IP Address 是服务器 IP（图中换成了示例地址）。" />
+
+<Callout type="no" title="不要用禁用 WebRTC 来「修复」">
+如果这里显示国内 IP，正确的修法是打开 Clash Verge 的「虚拟网卡模式」。不要装禁用 WebRTC 的浏览器扩展，那样网页的视频和语音会坏掉。详细步骤见 [查 WebRTC 泄露](/howto/webrtc-leak/)。
+</Callout>
+
+## 3. 手机上也测一遍
+
+手机上用 Safari 或 Chrome 打开 [ip.net.coffee/claude/](https://ip.net.coffee/claude/)，出口 IP 同样应该是你服务器的 IP。
+
+<Callout type="warn" title="出差前一定要做">
+出发前在手机和电脑上都测一遍，两个节点（Reality 和 TLS）都切换着试一下。到了网络受限的地方再发现问题，就很难处理了。
+</Callout>
+
+## 卡住了？
+
+<Q q="出口 IP 显示的是我家的 IP？">
+说明流量没走代理。电脑：确认 Clash Verge 选中了订阅、模式是「规则」、虚拟网卡模式已打开。手机：确认 Shadowrocket 的连接开关是开的。
+</Q>
+<Q q="出口 IP 是别的国外 IP，不是我的服务器？">
+你的设备可能同时开着别的代理或 VPN，或者家里的路由器也装了代理。先关掉其他代理再测。
+</Q>
+<Q q="DNS 检测里有中国的 DNS？">
+先在客户端里「更新」一次订阅，拿到最新规则（方案已经修过这个问题）。还有的话，看 [查 DNS 泄露](/howto/dns-leak/)。
+</Q>
+<Q q="WebRTC 显示国内 IP？">
+多半是只开了系统代理、没开虚拟网卡模式。按 [打开虚拟网卡模式（TUN）](/howto/clash-verge-tun/) 打开，再完全退出浏览器重新打开测试。
+</Q>
+
+<Q q="信任评分低于 70？">
+泄露都没问题、只是评分低，说明这个 IP 本身的口碑一般。可以发邮件给服务商（比如搬瓦工）退掉这台，重新买一台（邮件模板见 [退掉服务器、重新买一台](/howto/refund-rebuy/)），部署好再测一次，到 70 分以上就行。
+</Q>
+
+<Checkpoint id="step5" items={[
+  "电脑上，ip.net.coffee/claude 显示的出口 IP 是我的服务器",
+  "电脑上，DNS 出口和 WebRTC 出口都不在中国，RTCPeerConnection 是 ✔",
+  "手机上，出口 IP 也是我的服务器",
+]} />

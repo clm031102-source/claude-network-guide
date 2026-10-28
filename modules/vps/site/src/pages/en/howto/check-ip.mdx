@@ -1,0 +1,41 @@
+---
+layout: ../../../layouts/HowTo.astro
+slug: check-ip
+time: 2 minutes
+for: Everyone
+step: 5
+description: See yourself as websites do with ip.net.coffee/claude — exit IP, region, IP type and Claude’s trust score.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+import Tabs from "../../../components/Tabs.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Shot from "../../../components/Shot.astro";
+
+## How
+
+On a device with the app connected, open [ip.net.coffee/claude/](https://ip.net.coffee/claude/) in the browser.
+
+| Item on the page | Meaning | It should be |
+|---|---|---|
+| Claude AI exit IP | The IP Claude sees for you | Your server's IP |
+| Region, city | Where that IP is | The server's location |
+| IP type | Residential, data center or native | Your own server usually shows data center — normal |
+| Trust score | Claude's rating of the IP | 70 or above is fine |
+| DNS leak test | Where your DNS lookups exit | Not in China |
+| WebRTC UDP leak test | The IP the browser's WebRTC reports | Your server's IP (computers only) |
+
+<Shot src="ip-net-coffee.webp" w={982} h={832} alt="Example ip.net.coffee/claude result" caption="Example result (the page is in Chinese): the red boxes are the exit IP Claude sees, the DNS leak status and WebRTC's UDP exit. IPs are replaced with the example 203.0.113.10; personal details are hidden." />
+
+<Callout type="ok">
+The exit IP is your server, and neither the DNS nor the WebRTC exit is in China.
+</Callout>
+
+## If it looks wrong
+
+- **The exit IP is your home IP**: traffic isn't going through the proxy — check the app is connected with the profile selected.
+- **The exit IP is some other foreign IP**: another proxy or VPN may be running, or your home router has one.
+- **DNS or WebRTC in China**: see [Check for DNS leaks](/en/howto/dns-leak/) and [Check for WebRTC leaks](/en/howto/webrtc-leak/). This matters most — fix it first.
+- **Trust score below 70**: if there are no leaks, you can email your provider (for example BandwagonHost) to cancel this server, buy a new one (email templates: [Refund a server and buy a new one](/en/howto/refund-rebuy/)), deploy it and test again. Once it's 70 or above, you're set.

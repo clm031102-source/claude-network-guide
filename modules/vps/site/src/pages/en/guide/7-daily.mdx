@@ -1,0 +1,91 @@
+---
+layout: ../../../layouts/Guide.astro
+step: 7
+need: Nothing — come back when you need it
+description: Everyday use, what to check when something breaks, before you travel, traffic and renewals.
+---
+import Callout from "../../../components/Callout.astro";
+import Term from "../../../components/Term.astro";
+import Checkpoint from "../../../components/Checkpoint.astro";
+import Q from "../../../components/Q.astro";
+import Copy from "../../../components/Copy.astro";
+
+## Congratulations — the main guide is done
+
+Once configured, the server basically runs itself: the certificate is checked every 6 hours and renewed before it expires, routing rules update daily, the AI API updates itself, and the configuration is backed up daily (7 copies kept).
+
+This page covers everyday habits and what to do when something goes wrong.
+
+## One small security task first
+
+Change the root password in the provider's dashboard (see [Change the root password](/en/howto/root-password-vnc/)). The server no longer accepts passwords for remote login, but the provider's rescue console may still accept it — and it appeared in the server-ready email.
+
+## Everyday use
+
+- **Computer**: keep Clash Verge running, in Rule mode with Tun Mode on.
+- **Phone**: turn on Shadowrocket's switch when needed.
+- **Nodes**: normally use `name-Reality`; if it fails, the app's "auto switch" moves to `name-TLS`, or pick it yourself.
+- **Updating the subscription**: apps refresh it automatically. If you hear the setup's rules were updated, tap "Update" once.
+- **Switch less**: stick to the same server rather than hopping between countries — friendlier for AI accounts.
+
+## Regular health checks
+
+Every so often, or whenever something feels off, have AI check the server. Send this to the AI (replace `bwg` with your name):
+
+<Copy id="check" title="Message for the AI" code={`Please check my server with the "Claude Network Guide" setup: ssh bwg
+
+Setup: https://github.com/clm031102-source/claude-network-guide
+Download the project and read the "以后的复核和维护" (later checks and maintenance) part of modules/vps/skills/claude-network-guide/SKILL.md.
+Only check first, tell me which items failed and why, and fix them only after I agree.
+Don't show passwords, subscription URLs or keys in the chat. Please reply in English.`} />
+
+Without AI, run this in the setup folder:
+
+<Copy id="check-manual" lang="bash" title="Manual health check" code={`cd claude-network-guide/modules/vps/skills/claude-network-guide
+git pull
+bash scripts/local/remote.sh bwg upload
+bash scripts/local/remote.sh bwg verify --full`} />
+
+<Callout type="ok">
+It shows `验收：34/34 通过` (34/34 passed).
+</Callout>
+
+More: [Have AI health-check your server](/en/howto/ai-health-check/).
+
+## When something breaks, check in this order
+
+1. **Try another network**: mobile data, other Wi-Fi. If only one network fails, the problem is that network.
+2. **Try the other node**: pick it manually in the app.
+3. **Health-check the server** as above and see which item fails.
+4. **Everything passes but it still won't connect**: the IP is probably blocked in mainland China. BandwagonHost and DMIT can both give you a new one; afterwards, reinstall the OS and set the server up again. See [IP blocked in China](/en/howto/ip-blocked/).
+
+## Before you travel
+
+Go through the [before-you-travel checklist](/en/howto/travel-checklist/), at the latest the day before you leave.
+
+## Traffic and renewals
+
+- **Traffic**: see this month's usage in the provider's dashboard. The apps show it too (against 1 TB a month, resetting on the provisioning day, by default). Speed tests eat traffic — don't run them often.
+- **Renewal**: turn on auto-renew in the provider's dashboard or put the expiry date in your calendar. An expired server is suspended, then deleted, and its IP reclaimed.
+
+## Setting up another server
+
+Want a second server (a backup, or for another region)? Go through the guide again from step 1 — much faster the second time. Every server gets its own passwords, keys and subscription URLs.
+
+## Stuck?
+
+<Q q="New computer — how do I keep managing the server?">
+The key lives in `~/.ssh/xxd-vps/your-name/` on the old computer. The simplest way is to copy that folder and the matching block in `~/.ssh/config` to the new one. Old computer gone? Log in through the provider's rescue console and ask AI to help add the new computer's key.
+</Q>
+<Q q="Can I install other things on the server?">
+Yes, but avoid the <Term k="端口" text="ports" /> this setup uses (22, 80, 443, 2443, 2096, 8318, 53998) and allow the new service's port in the firewall. Ask AI first whether it might conflict.
+</Q>
+<Q q="How do I stop using it?">
+Cancel renewal or delete the server in the provider's dashboard, and remove the subscription from your apps.
+</Q>
+
+<Checkpoint id="step7" items={[
+  "I changed the root password in the provider's dashboard",
+  "I know how to have AI health-check the server",
+  "I turned on auto-renew, or noted the expiry date",
+]} done="All done. Come back to this page whenever you need it." />
