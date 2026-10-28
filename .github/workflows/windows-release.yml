@@ -1,0 +1,39 @@
+name: Build Windows desktop release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    env:
+      PYTHONUTF8: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          architecture: x64
+      - name: Verify source and guide
+        run: |
+          python -m unittest discover -s tests -v
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python scripts/check-project.py
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Build portable app and test packaged resources
+        run: ./scripts/build-windows.ps1 -PythonPath (Get-Command python).Source
+      - name: Publish package and matching Word guide
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $word = (Get-ChildItem -LiteralPath docs/downloads -Filter *.docx).FullName
+          gh release view $env:GITHUB_REF_NAME --json tagName *> $null
+          if ($LASTEXITCODE -eq 0) {
+            gh release upload $env:GITHUB_REF_NAME dist/ClaudeNetworkGuide-Windows-x64.zip dist/SHA256SUMS.txt $word --clobber
+          } else {
+            gh release create $env:GITHUB_REF_NAME dist/ClaudeNetworkGuide-Windows-x64.zip dist/SHA256SUMS.txt $word --verify-tag --draft --title "Claude 本机体检 $env:GITHUB_REF_NAME" --notes-file docs/releases/desktop.md
+          }
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          gh release edit $env:GITHUB_REF_NAME --draft=false --latest
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

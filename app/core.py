@@ -1,8 +1,9 @@
 """Read-only probes. Missing observations never count as successful checks.
 
-Only explicit scan/launch actions call the network. No account files, browser
-profiles, credentials, proxy control APIs or operating-system settings are read
-or changed. Each scan has a wall-clock deadline, including DNS resolution.
+Scan/launch actions call the network and read relevant local network settings.
+No account files, browser profiles or operating-system settings are changed.
+Local controller authentication stays in memory and is never reported.
+Each scan has a wall-clock deadline, including discovery and DNS resolution.
 """
 from __future__ import annotations
 
@@ -25,12 +26,14 @@ import time
 from datetime import datetime, timezone
 from urllib.parse import urlsplit
 
+from . import discovery
+
 DEFAULT_CONFIG = {
-    "expected_ip": "", "proxy_url": "http://127.0.0.1:7897", "claude_path": "",
+    "expected_ip": "", "proxy_url": "", "claude_path": "",
     "residential_ip_confirmed": False, "require_tun": True, "require_udp": False,
 }
 PROBE_TIMEOUT = 4.0
-SCAN_DEADLINE = 12.0
+SCAN_DEADLINE = 25.0
 MAX_RESPONSE = 16384
 TARGETS = ("claude.ai", "api.anthropic.com", "s-cdn.anthropic.com")
 IP_SERVICES = ("https://www.cloudflare.com/cdn-cgi/trace", "https://api.ipify.org/")
@@ -222,7 +225,7 @@ def probe_dns() -> list[str]:
     return sorted({record[4][0] for record in socket.getaddrinfo("claude.ai", 443, socket.AF_INET)})[:8]
 
 
-def probe_asn(proxy_url: str) -> dict:
+def probe_asn(proxy_url: str | None) -> dict:
     data = json.loads(fetch_text("https://ipinfo.io/json", proxy_url))
     return {"ip": str(ipaddress.ip_address(data["ip"])), "org": clean_text(data.get("org", "未知"), 160),
             "country": clean_text(data.get("country", "未知"), 12)}
@@ -230,7 +233,7 @@ def probe_asn(proxy_url: str) -> dict:
 
 def validate_claude_path(value: str) -> Path:
     if not value:
-        raise ValueError("请填写已安装的 Claude 客户端完整路径。")
+        raise ValueError("尚未发现已安装的 Claude 客户端。")
     supplied = Path(value).expanduser()
     if not supplied.is_absolute() or str(supplied).startswith(("\\\\", "//")):
         raise ValueError("只能使用本机绝对路径，不能使用网络路径或命令。")
@@ -245,6 +248,7 @@ def validate_claude_path(value: str) -> Path:
         env = os.environ.copy()
         env["NETWORK_GUIDE_CLAUDE_PATH"] = str(path)
         script = ("$ErrorActionPreference='Stop'; [Console]::OutputEncoding=[Text.Encoding]::UTF8; "
+                  "Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Security/Microsoft.PowerShell.Security.psd1'); "
                   "$s=Get-AuthenticodeSignature -LiteralPath $env:NETWORK_GUIDE_CLAUDE_PATH; "
                   "@{status=[string]$s.Status;subject=[string]$s.SignerCertificate.Subject}|ConvertTo-Json -Compress")
         signature = json.loads(_run(["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", script], env=env))
@@ -279,6 +283,8 @@ def run_probes(tasks: dict, deadline: float = SCAN_DEADLINE) -> dict:
     Workers are daemon threads so they cannot keep application exit blocked.
     Their results are never added to an already returned report.
     """
+    if deadline <= 0:
+        return {name: {"ok": False, "error": "Timeout"} for name in tasks}
     results: queue.Queue = queue.Queue()
     def worker(name, function):
         try:
@@ -309,13 +315,34 @@ def run_probes(tasks: dict, deadline: float = SCAN_DEADLINE) -> dict:
     return observed
 
 
-def scan(config: dict, *, deadline: float = SCAN_DEADLINE) -> dict:
+def _resolve_claude(candidates: list[str]) -> str:
+    for candidate in list(dict.fromkeys(candidates))[:4]:
+        try:
+            return str(validate_claude_path(candidate))
+        except (ValueError, OSError, subprocess.SubprocessError):
+            continue
+    raise ValueError("No discovered Claude installation passed signature verification")
+
+
+def scan(config: dict | None = None, *, deadline: float = SCAN_DEADLINE) -> dict:
     started = time.monotonic()
-    config = validate_config(config)
-    proxy, expected = config["proxy_url"], config["expected_ip"]
-    tasks = {"tun": probe_tun, "dns": probe_dns,
-             "ipv6": lambda: probe_ip("https://api6.ipify.org/"),
-             "claude_path": lambda: str(validate_claude_path(config["claude_path"]))}
+    config = validate_config(config or {})
+    try:
+        found = discovery.discover(config, deadline=min(discovery.DISCOVERY_BUDGET, max(0.0, deadline)))
+    except Exception:
+        found = {"detected": discovery.empty_detected(), "runtime": {}, "errors": ["discovery"]}
+    detected = found.get("detected") or discovery.empty_detected()
+    runtime = found.get("runtime", {})
+    resolved = dict(config)
+    resolved["proxy_url"] = config["proxy_url"] or detected.get("proxy_url", "")
+    resolved["claude_path"] = config["claude_path"] or detected.get("claude_path", "")
+    proxy, expected = resolved["proxy_url"], config["expected_ip"]
+    paths = [resolved["claude_path"]] if resolved["claude_path"] else []
+    if not config["claude_path"]:
+        paths += found.get("claude_candidates", [])
+    tasks = {"tun": lambda: {"processes": detected.get("clients", []), "adapters": detected.get("tun_adapters", [])},
+             "dns": probe_dns, "ipv6": lambda: probe_ip("https://api6.ipify.org/"),
+             "claude_path": lambda: _resolve_claude(paths)}
     for index, url in enumerate(IP_SERVICES):
         tasks[f"default_{index}"] = lambda url=url: probe_ip(url)
         if proxy:
@@ -326,106 +353,164 @@ def scan(config: dict, *, deadline: float = SCAN_DEADLINE) -> dict:
             tasks[f"target_proxy_{host}"] = lambda host=host: probe_tls(host, proxy)
     for index, (host, port) in enumerate(STUN_SERVERS):
         tasks[f"stun_{index}"] = lambda host=host, port=port: probe_stun(host, port)
-    if proxy:
-        tasks["asn"] = lambda: probe_asn(proxy)
-    results = run_probes(tasks, deadline)
+    tasks["asn"] = lambda: probe_asn(proxy or None)
+    remaining = max(0.0, deadline-(time.monotonic()-started))
+    results = run_probes(tasks, remaining)
     checks = []
     def add(name, title, status, detail, action="", blocking=False):
         checks.append({"id": name, "title": title, "status": status,
                        "detail": clean_text(detail), "action": clean_text(action), "blocking": blocking})
-    add("expected_ip", "固定出口基准", "pass" if expected else "fail",
-        f"已配置预期公网 IPv4：{expected}" if expected else "尚未配置购买后核对的固定出口 IPv4。",
-        "从服务商订单与独立查询中核对实际住宅出口，再填写。", True)
-    add("residential_purchase", "自行购买住宅 IP 的声明", "warning" if config["residential_ip_confirmed"] else "fail",
-        "你已声明自行购买；程序无法证明住宅属性、独享性、滥用历史或平台许可。" if config["residential_ip_confirmed"] else "尚未确认自行购买固定住宅 IP。",
-        "保留订单，核实固定、独享、住宅/ISP、换 IP 条款及合法用途。", not config["residential_ip_confirmed"])
+    errors = found.get("errors", [])
+    add("discovery", "本机环境自动发现", "warning" if errors else "pass",
+        f"已检查系统代理、网络接口、DNS、路由、运行进程及 Claude 安装信息；识别到 {len(detected.get('clients', []))} 个代理进程、{len(detected.get('tun_adapters', []))} 个活动 TUN/VPN 接口。"
+        + (" 部分系统读取未完成；相关证据将保持未验证。" if errors else ""),
+        "默认无需填写参数。只有自动识别不符合实际时，再使用高级覆盖。")
+    samples = {name: [results.get(f"{name}_{index}", {"ok": False}) for index in range(len(IP_SERVICES))]
+               for name in ("proxy", "default")}
+    sample_ips = {name: [item["value"] for item in values if item["ok"]] for name, values in samples.items()}
+    all_ips = sample_ips["proxy"] + sample_ips["default"]
+    observed_ip = all_ips[0] if all_ips and len(set(all_ips)) == 1 else ""
+    detected["observed_ip"] = observed_ip
+    baseline = expected or observed_ip
+    add("expected_ip", "出口比较基准", "pass" if expected else "warning",
+        f"按高级设置指定的出口 {expected} 比较。" if expected else
+        "未指定固定 IP，使用本轮实际出口做跨通道比较；空设置不是检测失败。单次一致不证明长期固定、住宅或独享。")
+    explicit_failure = {"ConnectionRefusedError", "ConnectionResetError", "SSLCertVerificationError"}
     for name, title in (("proxy", "显式 HTTP 代理出口"), ("default", "系统 TCP 默认通道出口")):
-        observed = [results.get(f"{name}_{index}", {"ok": False}) for index in range(len(IP_SERVICES))]
-        ips = [item["value"] for item in observed if item["ok"]]
-        if any(ip != expected for ip in ips) and expected:
-            status, detail = "fail", f"观测到 {', '.join(sorted(set(ips)))}，与预期 {expected} 不一致。"
-        elif not expected or (name == "proxy" and not proxy):
-            status, detail = "fail", "缺少预期出口或显式代理配置，不能验证出口。"
+        ips = sample_ips[name]
+        if len(set(ips)) > 1 or (expected and any(ip != expected for ip in ips)):
+            status, detail = "fail", f"观测到 {', '.join(sorted(set(ips)))}；服务间结果不一致或与指定基准不符。"
         elif len(ips) < len(IP_SERVICES):
-            status, detail = "unknown", f"仅获得 {len(ips)}/{len(IP_SERVICES)} 个有效出口样本；失败或超时不能视为通过。"
+            status = "fail" if any(item.get("error") in explicit_failure for item in samples[name]) else "unknown"
+            detail = f"仅获得 {len(ips)}/{len(IP_SERVICES)} 个有效出口样本；实际失败或缺证据不能视为通过。"
+            if name == "proxy" and not proxy:
+                detail = "尚未发现可用的 HTTP/mixed 代理监听；已继续检测系统默认通道，不要求先填表。"
         else:
-            status, detail = "pass", f"两个独立 HTTPS 查询均返回预期出口 {expected}。"
+            status, detail = "pass", f"两个独立 HTTPS 服务均观测到 {ips[0]}。"
         if name == "default":
-            detail += " 本样本不读取 HTTP_PROXY/系统应用代理，依赖操作系统路由；并非 Claude 进程流量证明。"
-        add(name + "_egress", title, status, detail, "核对本地代理端口、TUN、规则及住宅出口。", True)
-    tun = results["tun"]
-    if not tun["ok"]:
-        status, detail = "unknown", "无法取得完整的进程和活动网卡证据。"
-    elif tun["value"]["processes"] and tun["value"]["adapters"]:
-        status, detail = "pass", "运行进程：" + ", ".join(tun["value"]["processes"][:5]) + "；活动虚拟网卡：" + ", ".join(tun["value"]["adapters"][:4]) + "。名称匹配仅为证据，实际路由仍须结合出口比较。"
+            detail += " 该通道不读取 HTTP 代理环境变量，依赖操作系统路由；并非 Claude 进程全流量证明。"
+        else:
+            detail += " 入口来源：" + (detected.get("proxy_source") or ("高级设置指定" if config["proxy_url"] else "未发现")) + "。"
+        add(name+"_egress", title, status, detail, "核对正在使用的代理客户端、监听端口和实际路由。", True)
+    complete = all(len(values) == len(IP_SERVICES) for values in sample_ips.values())
+    if len(set(all_ips)) > 1:
+        status, detail = "fail", "显式代理与系统默认通道观测到不同出口，当前路径不一致。"
+    elif complete:
+        status, detail = "pass", "本轮两个通道的四个 HTTPS 样本出口一致；这不认证住宅属性或所有应用的路由。"
     else:
-        status, detail = "unknown", "未同时找到已知代理进程及活动 TUN/VPN 网卡；自定义客户端或名称可能无法识别。"
-    add("tun", "TUN 进程与网卡证据", status, detail, "开启所用代理客户端的 TUN，核对活动网卡和路由。", config["require_tun"])
+        status, detail = "unknown", "跨通道样本不足，不能确认两条路径一致。"
+    add("route_consistency", "跨通道出口一致性", status, detail, "检查 TUN、系统代理和客户端的运行时分流规则。", True)
+    tun = results["tun"]
+    controller = detected.get("controller", {})
+    tun_enabled = controller.get("tun_enabled")
+    if tun_enabled is False:
+        status, detail = "fail", "已读到 Mihomo 当前运行配置：TUN 未启用。"
+    elif not tun["ok"]:
+        status, detail = "unknown", "无法取得完整的进程和活动网卡证据。"
+    elif (tun_enabled is True and tun["value"]["adapters"] and runtime.get("tun_device")
+          and any(name.casefold() == runtime["tun_device"].casefold()
+                  or name.casefold().startswith(runtime["tun_device"].casefold()+" ")
+                  for name in tun["value"]["adapters"])):
+        status, detail = "pass", "已将所选代理监听与当前内核运行配置对应，TUN 已启用且存在对应的活动网卡证据；实际路径仍须结合出口与连接记录。"
+    else:
+        status, detail = "unknown", "尚未把所选代理、TUN 运行配置和活动网卡对应起来；其他 VPN 进程或网卡不能代替当前线路的证据。"
+    add("tun", "TUN 当前运行状态", status, detail, "查看当前客户端的 TUN 状态及活动网卡。", config["require_tun"])
     target_keys = [key for key in tasks if key.startswith("target_")]
     success = sum(results[key]["ok"] for key in target_keys)
-    target_status = "pass" if proxy and success == len(TARGETS) * 2 else "unknown"
+    target_status = "pass" if proxy and success == len(TARGETS)*2 else "unknown"
+    if any(results[key].get("error") in explicit_failure for key in target_keys):
+        target_status = "fail"
     add("target_tls", "Claude 相关域名的 TLS 可达性", target_status,
-        f"{success}/{len(TARGETS) * 2} 项证书与主机名校验成功（显式代理及系统通道）。目标：{', '.join(TARGETS)}。仅证明 TLS 连通，不代表登录、账号资格或服务功能可用。",
-        "检查目标域名的代理规则、DNS 解析和网络连通性。", True)
+        f"{success}/{len(TARGETS)*2} 项证书与主机名校验成功（显式代理及系统通道）。目标：{', '.join(TARGETS)}。仅证明 TLS 连通，不代表登录、账号资格或服务功能可用。",
+        "检查目标域名的实际代理规则、DNS 和网络。", True)
+    if controller.get("status") == "connected":
+        detail = f"已通过本机 {controller.get('transport', '')} 只读控制接口读取运行配置；当前模式 {controller.get('mode') or '未知'}。"
+        status = "pass"
+    else:
+        detail, status = "未取得可用的本机 Mihomo 控制接口；其他网络取样继续执行。", "unknown"
+    add("controller", "代理内核运行时配置", status, detail, "只读读取 /configs 与 /connections，不修改内核配置。")
+    connections = runtime.get("claude_connections", [])
+    if connections:
+        direct = sum(item.get("direct") is True for item in connections)
+        status, detail = ("warning" if direct else "pass"), f"当前内核观测到 {len(connections)} 条 Claude 相关连接，其中 {direct} 条记录为 DIRECT。仅描述现有连接，不代表已验证每条连接的最终公网出口。"
+    else:
+        status, detail = "unknown", "当前没有取得 Claude 实际连接记录；应用未运行或当前无连接均可能导致此结果，不会为检测而启动它。"
+    add("claude_connections", "Claude 实际连接样本", status, detail, "应用正常使用时，可重新检测并核对内核记录。")
     dns = results["dns"]
-    detail = "本地解析无有效响应，尚未验证。"
+    detail = f"自动发现 {len(detected.get('dns_servers', []))} 个系统 DNS 地址。"
     if dns["ok"] and dns["value"]:
         fake = any(ipaddress.ip_address(ip) in ipaddress.ip_network("198.18.0.0/15") for ip in dns["value"])
-        detail = f"本地解析样本：{', '.join(dns['value'])}。" + ("包含 fake-IP。" if fake else "未观察到 fake-IP。")
-    add("dns", "DNS 路径证据边界", "unknown", detail + " 本地 A 记录或 fake-IP 均不能证明上游 DNS 经由代理；上游 DNS 泄漏未验证。",
-        "结合代理运行配置、DNS 连接记录或独立受控域名测试核对上游。")
-    udp_ips = [results[f"stun_{i}"]["value"] for i in range(len(STUN_SERVERS)) if results[f"stun_{i}"]["ok"]]
-    udp_mismatch = bool(expected and any(ip != expected for ip in udp_ips))
-    if udp_mismatch:
-        status, detail = "fail", f"UDP 样本出口 {', '.join(sorted(set(udp_ips)))} 与预期不一致。"
-    elif len(udp_ips) == len(STUN_SERVERS) and expected:
-        status, detail = "pass", f"收到 {len(udp_ips)}/{len(STUN_SERVERS)} 个有效样本，已响应样本均匹配预期出口。"
-    elif udp_ips and expected:
-        status, detail = "unknown", f"仅收到 {len(udp_ips)}/{len(STUN_SERVERS)} 个有效样本，已响应样本匹配预期出口；其余目标未验证，不能整体判为通过。"
+        detail += "本地解析样本：" + ", ".join(dns["value"]) + "。" + ("包含 fake-IP。" if fake else "未观察到 fake-IP。")
     else:
-        status, detail = "unknown", "没有取得可比较的 UDP/STUN 出口；无响应不等于 UDP 已封禁或没有泄漏。"
-    add("udp", "UDP / STUN 出口样本", status, detail + " 这不是浏览器 WebRTC 全面测试。",
-        "核对 UDP 路由，并按实际使用场景另行测试浏览器 WebRTC。", config["require_udp"] or udp_mismatch)
+        detail += "本地 A 记录取样未完成。"
+    dns_runtime = runtime.get("dns", {})
+    if dns_runtime:
+        detail += f"运行时 DNS 模式：{dns_runtime.get('enhanced_mode') or '未提供'}；respect-rules：{dns_runtime.get('respect_rules')}。"
+    add("dns", "DNS 配置与证据边界", "unknown", detail+" 本地 A 记录、fake-IP 或配置声明均不能证明上游 DNS 没有旁路；完整上游路径未验证。",
+        "结合当前运行配置、上游连接记录与受控查询证据判断。")
+    udp_ips = [results[f"stun_{i}"]["value"] for i in range(len(STUN_SERVERS)) if results[f"stun_{i}"]["ok"]]
+    udp_mismatch = len(set(udp_ips)) > 1 or bool(baseline and any(ip != baseline for ip in udp_ips))
+    if udp_mismatch:
+        status, detail = "fail", "UDP 样本之间或与本轮 TCP/指定基准出口不一致。"
+    elif len(udp_ips) == len(STUN_SERVERS) and baseline:
+        status, detail = "pass", f"两个 STUN 目标均返回与本轮比较基准一致的出口。"
+    else:
+        status, detail = "unknown", f"仅获得 {len(udp_ips)}/{len(STUN_SERVERS)} 个可比较 UDP/STUN 样本；部分响应或无响应均不能证明没有泄漏。"
+    add("udp", "UDP / STUN 出口样本", status, detail+" 这不是浏览器 WebRTC 全面测试。",
+        "按实际用途核对 UDP 路由及浏览器 WebRTC。", config["require_udp"] or udp_mismatch)
     v6 = results["ipv6"]
     if v6["ok"]:
-        status, detail, blocking = "fail", f"IPv6 专用查询返回 {v6['value']}；当前只配置 IPv4 基准，不能确认此额外通道的出口策略。", True
+        address = ipaddress.ip_address(v6["value"])
+        if address.version == 4 and baseline == str(address):
+            status, detail, blocking = "unknown", "IPv6 专用查询返回了相同 IPv4 出口，可能涉及代理或地址转换；尚不能证明本机原生 IPv6 路径。", False
+        elif address.version == 4 and baseline:
+            status, detail, blocking = "fail", "IPv6 专用目标返回了与当前 TCP 基准不同的 IPv4 出口。", True
+        else:
+            status, detail, blocking = "unknown", "已取得额外 IPv6 出口，但尚无可验证的 IPv6 路由基准；未确认该额外通道，启动暂被阻断。", True
     else:
-        status, detail, blocking = "unknown", "IPv6 专用查询未取得有效出口；无法区分不可用、被阻断、DNS 或服务超时，未验证 IPv6。", False
-    add("ipv6", "IPv6 额外出口", status, detail, "按需核查 IPv6 路由与代理支持；程序不会修改 IPv6 设置。", blocking)
-    asn = results.get("asn", {"ok": False})
-    asn_mismatch = bool(asn["ok"] and expected and asn["value"]["ip"] != expected)
+        status, detail, blocking = "unknown", "IPv6 专用查询没有取得有效出口；可能是不可用、阻断、DNS 或服务超时，不能写成无泄漏。", False
+    add("ipv6", "IPv6 配置与实际取样", status, detail, "结合系统 IPv6 路由和客户端支持情况核对；不会修改 IPv6 设置。", blocking)
+    asn = results["asn"]
+    asn_mismatch = bool(asn["ok"] and baseline and asn["value"]["ip"] != baseline)
     if asn["ok"]:
-        detail = f"查询返回 {asn['value']['ip']} / {asn['value']['org']} / {asn['value']['country']}。"
-        if asn_mismatch:
-            detail += "已观察到该查询出口与预期不一致，已阻止启动；不能用于认证预期 IP。"
+        detail = f"查询得到 {asn['value']['org']} / {asn['value']['country']}。"
+        if asn_mismatch: detail += "该查询的实际出口与比较基准不一致。"
     else:
-        detail = "ASN 服务无有效结果。"
-    add("asn", "ASN / 网络归属参考", "fail" if asn_mismatch else "warning" if asn["ok"] else "unknown",
-        detail + " ASN 名称不证明住宅、独享、信誉或平台许可。",
-        "核对 ipinfo.io 的路由规则和代理出口。" if asn_mismatch else "", asn_mismatch)
-    try:
-        language = locale.getlocale()[0] or "未知"
-    except ValueError:
-        language = "未知"
-    add("locale", "时区与语言提示", "warning", f"系统时区标签：{', '.join(time.tzname)}；区域语言：{language}。仅用于解释环境，不是账号安全评分或准入条件。")
-    path = results["claude_path"]
-    add("claude_path", "Claude 本地客户端校验", "pass" if path["ok"] else "unknown",
-        "本地安装路径与 Anthropic 发布者签名校验通过。" if path["ok"] else "未确认有效的 Claude 安装路径和 Anthropic 发布者签名；路径缺失、不支持的平台、签名失败或超时均不能通过。Windows 商店版可能采用包签名，本工具未确认其文件签名时会保守阻断，不表示软件有问题。",
-        "填写官方安装的 Claude 客户端完整路径。只接受本地文件路径，不接受 file://、ms-appx:、启动 URI 或命令。", True)
+        detail = "网络归属服务未返回有效结果。"
+    add("asn", "网络归属与住宅属性边界", "fail" if asn_mismatch else "warning" if asn["ok"] else "unknown",
+        detail+" 不要求勾选采购声明；ASN 名称与单次取样都不能证明住宅、独享、长期固定或平台资格。",
+        "已观察到出口差异时，检查该目标的路由规则。" if asn_mismatch else "", asn_mismatch)
+    add("locale", "系统时区与语言", "warning", f"已读取系统时区 {detected.get('timezone') or '未知'}；语言 {detected.get('language') or '未知'}。仅为环境信息，不改变系统设置，也不作为账号安全评分。")
+    client = results["claude_path"]
+    if client["ok"]:
+        resolved["claude_path"] = client["value"]
+        detected["claude_path"] = client["value"]
+    else:
+        detected["claude_path"] = ""
+    add("claude_path", "Claude 安装与发布者签名", "pass" if client["ok"] else "unknown",
+        "已自动定位/核对本地 Claude，并验证 Anthropic 发布者签名。" if client["ok"] else
+        "已检查运行进程、标准安装位置及商店安装信息，但尚未确认可启动且签名有效的客户端。未安装、读取受限、商店包签名差异或超时均会保持未验证；不因路径输入框为空判失败。",
+        "若已安装但未识别，可在高级设置覆盖路径；不接受启动 URI、快捷方式或任意命令。", True)
     summary = {status: sum(check["status"] == status for check in checks) for status in ("pass", "warning", "fail", "unknown")}
     return {"timestamp": datetime.now(timezone.utc).isoformat(), "summary": summary,
             "can_launch": not any(check["blocking"] and check["status"] != "pass" for check in checks),
-            "checks": checks, "duration_ms": round((time.monotonic() - started) * 1000)}
+            "checks": checks, "detected": detected, "resolved_config": resolved,
+            "duration_ms": round((time.monotonic()-started)*1000)}
 
 
 def redact_export(report: dict | None) -> dict:
     """Exclude configuration and hide all IP literals from shared reports."""
     if report is None:
         return {"report": None, "notice": "尚无检测报告。"}
-    result = json.loads(json.dumps(report, ensure_ascii=False))
+    # Never export resolved configuration, detected paths, controller data or
+    # a future raw inventory field. Export the public report schema only.
+    result = json.loads(json.dumps({key: report[key] for key in
+                                   ("timestamp", "summary", "can_launch", "checks", "duration_ms") if key in report}, ensure_ascii=False))
     for check in result["checks"]:
         for field in ("detail", "action"):
             text = clean_text(check[field])
+            text = re.sub(r"(?i)\b[A-Z]:[\\/][^\n,;，；]+", "[本地路径已隐藏]", text)
+            text = re.sub(r"/(?:Users|home)/[^\s,;，；]+", "[本地路径已隐藏]", text)
             # Candidate matching plus ipaddress validation avoids masking prose.
             def mask_v6(match):
                 candidate = match.group().rstrip(".")

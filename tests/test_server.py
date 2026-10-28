@@ -129,6 +129,15 @@ class HTTPTests(unittest.TestCase):
             self.assertEqual(self.request("POST", "/api/launch", {})[0], 409)
             launch.assert_not_called()
 
+    def test_launch_uses_the_installation_discovered_by_the_fresh_scan(self):
+        self.server.state.config['claude_path'] = '/old/Claude.app'
+        report = server.failed_report()
+        report.update(can_launch=True, resolved_config={**core.DEFAULT_CONFIG, 'claude_path': '/Applications/Claude.app'})
+        with patch('app.core.scan', return_value=report) as scan, patch('app.core.launch_claude') as launch:
+            self.assertEqual(self.request('POST', '/api/launch', {})[0], 200)
+            scan.assert_called_once()
+            launch.assert_called_once_with('/Applications/Claude.app')
+
     def test_launch_success_and_launch_failure_gate(self):
         def good_report():
             report = server.failed_report()

@@ -106,6 +106,15 @@ def successful_observations(tasks, deadline):
     return result
 
 
+def discovered_environment(*args, **kwargs):
+    detected = core.discovery.empty_detected()
+    detected.update(proxy_url="http://127.0.0.1:7897", proxy_source="Windows 系统代理（WinINET）",
+                    claude_path="C:/Discovered/Claude.exe", clients=["mihomo"], tun_adapters=["Mihomo Wintun"])
+    detected["controller"].update(status="connected", transport="named_pipe", tun_enabled=True)
+    return {"detected": detected, "runtime": {"tun_device": "Wintun"}, "errors": [],
+            "claude_candidates": ["C:/Discovered/Claude.exe"]}
+
+
 class ReportTests(unittest.TestCase):
     def setUp(self):
         self.config = core.validate_config({"expected_ip": "1.1.1.1", "residential_ip_confirmed": True,
@@ -116,8 +125,8 @@ class ReportTests(unittest.TestCase):
             result = successful_observations(tasks, deadline)
             result.update(changes or {})
             return result
-        with patch("app.core.run_probes", side_effect=observations):
-            return core.scan(config or self.config)
+        with patch("app.core.run_probes", side_effect=observations), patch("app.core.discovery.discover", side_effect=discovered_environment):
+            return core.scan(self.config if config is None else config)
 
     def test_launch_gate_and_unknowns_are_visible(self):
         report = self.report()
@@ -125,7 +134,7 @@ class ReportTests(unittest.TestCase):
         checks = {item["id"]: item for item in report["checks"]}
         self.assertEqual(checks["dns"]["status"], "unknown")
         self.assertEqual(checks["ipv6"]["status"], "unknown")
-        self.assertEqual(checks["residential_purchase"]["status"], "warning")
+        self.assertNotIn("residential_purchase", checks)
         self.assertIn("不能证明", checks["dns"]["detail"])
         self.assertEqual(sum(report["summary"].values()), len(report["checks"]))
 
@@ -162,8 +171,69 @@ class ReportTests(unittest.TestCase):
             with self.subTest(key=key):
                 self.assertFalse(self.report({key: {"ok": False, "error": "Timeout"}})["can_launch"])
 
-    def test_purchase_declaration_required(self):
-        self.assertFalse(self.report(config={**self.config, "residential_ip_confirmed": False})["can_launch"])
+    def test_purchase_declaration_not_required(self):
+        self.assertTrue(self.report(config={**self.config, "residential_ip_confirmed": False})["can_launch"])
+
+    def test_empty_configuration_uses_discovered_paths_and_observed_exit(self):
+        report = self.report(config={})
+        self.assertTrue(report["can_launch"])
+        self.assertEqual(report["detected"]["observed_ip"], "1.1.1.1")
+        self.assertEqual(report["resolved_config"]["proxy_url"], "http://127.0.0.1:7897")
+        self.assertEqual(report["resolved_config"]["claude_path"], "/verified/Claude.exe")
+        self.assertEqual(next(c for c in report["checks"] if c["id"] == "expected_ip")["status"], "warning")
+
+    def test_no_expected_ip_still_detects_cross_channel_mismatch(self):
+        report = self.report({"proxy_0": {"ok": True, "value": "8.8.8.8"}}, config={})
+        self.assertFalse(report["can_launch"])
+        self.assertEqual(report["detected"]["observed_ip"], "")
+        self.assertEqual(next(c for c in report["checks"] if c["id"] == "route_consistency")["status"], "fail")
+
+    def test_missing_discovery_never_turns_empty_inputs_into_failures(self):
+        found = {"detected": core.discovery.empty_detected(), "runtime": {}, "errors": ["inventory"]}
+        with patch("app.core.discovery.discover", return_value=found), patch("app.core.run_probes", side_effect=lambda tasks, deadline: {key: {"ok": False, "error": "Timeout"} for key in tasks}):
+            report = core.scan({})
+        self.assertFalse(report["can_launch"])
+        self.assertEqual(report["summary"]["fail"], 0)
+        self.assertEqual(report["detected"]["claude_path"], "")
+
+    def test_unassociated_controller_does_not_prove_tun(self):
+        for enabled, expected_status in ((None, "unknown"), (False, "fail")):
+            found = discovered_environment()
+            found["detected"]["controller"]["tun_enabled"] = enabled
+            with patch("app.core.discovery.discover", return_value=found), patch("app.core.run_probes", side_effect=successful_observations):
+                report = core.scan({})
+            self.assertFalse(report["can_launch"])
+            self.assertEqual(next(c for c in report["checks"] if c["id"] == "tun")["status"], expected_status)
+
+    def test_unverified_path_is_not_displayed_as_found(self):
+        report = self.report({"claude_path": {"ok": False, "error": "ValueError"}})
+        self.assertEqual(report["detected"]["claude_path"], "")
+
+    def test_tun_enable_without_device_identity_remains_unknown(self):
+        found = discovered_environment()
+        found["runtime"]["tun_device"] = ""
+        with patch("app.core.discovery.discover", return_value=found), patch("app.core.run_probes", side_effect=successful_observations):
+            report = core.scan({})
+        self.assertFalse(report["can_launch"])
+        self.assertEqual(next(c for c in report["checks"] if c["id"] == "tun")["status"], "unknown")
+
+    def test_discovery_consumes_whole_scan_deadline(self):
+        def slow_discovery(*args, **kwargs):
+            time.sleep(0.03)
+            return discovered_environment()
+        with patch("app.core.discovery.discover", side_effect=slow_discovery), patch("app.core.run_probes", side_effect=successful_observations) as runner:
+            core.scan({}, deadline=0.1)
+        self.assertLess(runner.call_args.args[1], 0.08)
+
+    def test_export_excludes_discovery_and_future_inventory(self):
+        import json
+        report = self.report()
+        report.update(inventory={"secret": "PRIVATE_VALUE"})
+        report["detected"].update(controller={"secret": "PRIVATE_VALUE"}, claude_path="C:/Private/Claude.exe")
+        report["resolved_config"]["claude_path"] = "C:/Private/Claude.exe"
+        exported = json.dumps(core.redact_export(report), ensure_ascii=False)
+        for value in ("PRIVATE_VALUE", "resolved_config", "detected", "inventory", "C:/Private/Claude.exe"):
+            self.assertNotIn(value, exported)
 
     def test_export_hides_all_ip_literals_and_configuration(self):
         report = self.report({"ipv6": {"ok": True, "value": "2606:4700:4700::1111"}})
@@ -204,6 +274,9 @@ class LauncherTests(unittest.TestCase):
                     core.validate_claude_path(str(path))
             run.return_value = '{"status":"Valid","subject":"CN=Anthropic, PBC, O=Anthropic, PBC, C=US"}'
             self.assertEqual(core.validate_claude_path(str(path)), path.resolve())
+            script = run.call_args.args[0][-1]
+            self.assertIn("Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Security/Microsoft.PowerShell.Security.psd1'", script)
+            self.assertNotIn("PSModulePath", script)
 
     @patch("app.core.subprocess.Popen")
     @patch("app.core.validate_claude_path")

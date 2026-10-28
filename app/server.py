@@ -261,7 +261,10 @@ class Handler(BaseHTTPRequestHandler):
                 self._json(409, {"error": "关键检查未通过，已阻止启动。", "report": report})
                 return
             try:
-                core.launch_claude(config["claude_path"])
+                # Use this scan's freshly discovered installation, never a stale
+                # browser field or an installation path from a previous scan.
+                resolved = report.get("resolved_config", config)
+                core.launch_claude(resolved["claude_path"])
             except Exception:
                 for check in report["checks"]:
                     if check["id"] == "claude_path":
@@ -307,7 +310,7 @@ def main(argv=None):
             continue
     if server is None:
         parser.exit(1, "本机端口不可用，请用 --port 选择其他端口；已有面板不会被结束。\n")
-    print(f"本地面板：{server.base_url}\n按 Ctrl+C 关闭。只有点击检测或启动时才会访问外部检测服务。")
+    print(f"本地面板：{server.base_url}\n按 Ctrl+C 关闭。打开界面后自动体检一次；只读取本机配置并请求固定检测目标。")
     if not args.no_browser:
         webbrowser.open(server.base_url)
     try:

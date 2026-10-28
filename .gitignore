@@ -1,6 +1,9 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-desktop/
+build/
+*.spec
 node_modules/
 dist/
 .astro/

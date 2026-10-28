@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="session-token" content="__SESSION_TOKEN__">
   <meta name="color-scheme" content="light">
-  <title>Claude 网络指南 · 启动前检测</title>
+  <title>Claude 本机体检</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%231b3935'/%3E%3Cpath d='M11 27V13h5l8 14h5V13' fill='none' stroke='%23f5f1e8' stroke-width='3'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/style.css">
   <script src="/app.js" defer></script>
@@ -14,50 +14,53 @@
   <a class="skip-link" href="#main-content">跳转到主要内容</a>
   <div class="app-shell">
     <aside class="sidebar" aria-label="主导航">
-      <a class="brand" href="#check" aria-label="Claude 网络指南首页">
+      <a class="brand" href="#check" aria-label="Claude 本机体检首页">
         <span class="brand-mark" aria-hidden="true">N<span></span></span>
-        <span>Claude 网络指南<small>YOUR NETWORK, YOUR CONTROL</small></span>
+        <span>Claude 本机体检<small>LOCAL NETWORK DIAGNOSTICS</small></span>
       </a>
-      <div class="sidebar-heading">从准备到启动</div>
-      <nav class="flow-nav" aria-label="教程步骤">
-        <button class="nav-item" type="button" data-view="vps"><span class="step-number">01</span><span>购买 VPS<small>建立自己的服务器</small></span><span class="nav-arrow" aria-hidden="true">↗</span></button>
-        <button class="nav-item" type="button" data-view="residential"><span class="step-number">02</span><span>购买住宅 IP<small>独立购买 · 固定 · 独享</small></span><span class="nav-arrow" aria-hidden="true">↗</span></button>
-        <button class="nav-item" type="button" data-view="network"><span class="step-number">03</span><span>配置网络<small>连接与流量路由</small></span><span class="nav-arrow" aria-hidden="true">↗</span></button>
-        <button class="nav-item active" type="button" data-view="check" aria-current="page"><span class="step-number">04</span><span>启动前检测<small>先检查，再打开 Claude</small></span><span class="nav-arrow" aria-hidden="true">↗</span></button>
+      <div class="sidebar-heading">本机工作台</div>
+      <nav class="primary-nav" aria-label="工作台">
+        <button class="nav-item active" type="button" data-view="check" aria-current="page"><span class="nav-icon" aria-hidden="true">◎</span><span>本机体检<small>自动识别 · 查看真实结果</small></span><span class="nav-arrow" aria-hidden="true">↗</span></button>
+        <button class="nav-item settings-nav" type="button" data-view="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span>高级设置<small>可选覆盖，无需预先填写</small></span><span class="config-dot" id="config-dot" title="配置状态"></span></button>
       </nav>
       <div class="sidebar-separator"></div>
-      <button class="nav-item settings-nav" type="button" data-view="settings"><span class="nav-icon" aria-hidden="true">⚙</span><span>连接设置</span><span class="config-dot" id="config-dot" title="配置状态"></span></button>
-      <div class="sidebar-note"><span class="small-label">一个关键区别</span><p>VPS 是服务器。<br>住宅出口由你本人购买并控制。</p><span>把账户、续费和出口控制权留在自己手里。</span></div>
+      <div class="sidebar-heading guide-nav-heading">配置参考</div>
+      <nav class="flow-nav" aria-label="教程步骤">
+        <button class="nav-item" type="button" data-view="vps"><span class="step-number">01</span><span>购买 VPS<small>建立自己的服务器</small></span></button>
+        <button class="nav-item" type="button" data-view="residential"><span class="step-number">02</span><span>购买住宅 IP<small>自己购买 · 固定 · 独享</small></span></button>
+        <button class="nav-item" type="button" data-view="network"><span class="step-number">03</span><span>配置网络<small>连接与流量路由</small></span></button>
+      </nav>
+      <div class="sidebar-note"><span class="small-label">自动读取，事实先行</span><p>打开后检测本机环境。<br>缺少证据的项目保留为未知。</p><span>程序不会更改你的代理或系统网络配置。</span></div>
       <div class="sidebar-footer"><span class="local-dot" aria-hidden="true"></span>在本机运行<span class="footer-version">OPEN SOURCE</span></div>
     </aside>
 
     <div class="workspace">
-      <header class="topbar"><div class="breadcrumb"><span>工作台</span><span aria-hidden="true">/</span><strong id="breadcrumb-current">启动前检测</strong></div><a class="repository-link" href="https://github.com/clm031102-source/claude-network-guide" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.23 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .94-.3 3.08 1.15A10.7 10.7 0 0 1 12 6.13c.95 0 1.9.13 2.8.38 2.14-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.03.76 2.08v3.09c0 .3.21.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>项目教程</span><span aria-hidden="true">↗</span></a></header>
+      <header class="topbar"><div class="breadcrumb"><span>工作台</span><span aria-hidden="true">/</span><strong id="breadcrumb-current">本机体检</strong></div><a class="repository-link" href="https://github.com/clm031102-source/claude-network-guide" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.1c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.64-1.25-1.64-1.02-.7.08-.68.08-.68 1.13.08 1.72 1.16 1.72 1.16 1 1.72 2.63 1.23 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.56 0-1.23.44-2.23 1.16-3.02-.12-.28-.5-1.43.11-2.98 0 0 .94-.3 3.08 1.15A10.7 10.7 0 0 1 12 6.13c.95 0 1.9.13 2.8.38 2.14-1.45 3.08-1.15 3.08-1.15.61 1.55.23 2.7.11 2.98.72.79 1.16 1.79 1.16 3.02 0 4.32-2.63 5.27-5.14 5.55.4.35.76 1.03.76 2.08v3.09c0 .3.21.65.77.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>项目教程</span><span aria-hidden="true">↗</span></a></header>
 
       <main id="main-content" tabindex="-1">
         <div id="connection-alert" class="banner banner-error" role="alert" hidden></div>
         <div id="notice" class="notice" role="status" aria-live="polite" aria-atomic="true" hidden></div>
 
         <section class="view" id="view-check" aria-labelledby="check-title">
-          <div class="page-heading"><div><div class="eyebrow"><span></span> STEP 04 / PREFLIGHT</div><h1 id="check-title">先确认网络，再启动 Claude<span class="title-period">.</span></h1><p>检查当前连接、出口与本机环境，让每一次启动都有据可查。</p></div><span class="edition-badge">本地检测台</span></div>
-
-          <section class="panel comparison-panel" aria-labelledby="beginner-links-title">
-            <h2 id="beginner-links-title">第一次配置？从这里开始</h2>
-            <p class="check-detail">还没买 VPS 或住宅 IP，也可以从第一步跟着做。下面的资料都在本项目 GitHub 仓库中。</p>
-            <div class="guide-bottom">
-              <a class="text-button" data-public-link="beginner" target="_blank" rel="noopener noreferrer">零基础从这里开始 <span aria-hidden="true">↗</span></a>
-              <a class="text-button" data-public-link="word" target="_blank" rel="noopener noreferrer">下载 Word 保姆指南 <span aria-hidden="true">↓</span></a>
-              <a class="text-button" data-public-link="handoff" target="_blank" rel="noopener noreferrer">复制给 AI 的完整提示词 <span aria-hidden="true">↗</span></a>
-            </div>
-            <p class="check-detail">Word 是当前版本的离线读物，文中链接可返回对应章节；步骤更新以仓库在线原文为准。需要直接复制文字，可打开<a class="text-button" data-public-link="prompt" target="_blank" rel="noopener noreferrer">纯文本提示词</a>。</p>
-          </section>
+          <div class="page-heading diagnostic-heading"><div><div class="eyebrow"><span></span> LOCAL DEVICE / LIVE CHECK</div><h1 id="check-title">Claude 本机体检<span class="title-period">.</span></h1><p>自动识别电脑、代理和 Claude。打开即检测，无需先填配置表。</p></div><span class="edition-badge">本机只读检测</span></div>
 
           <section class="status-hero" aria-labelledby="overall-title" id="status-hero" data-state="idle">
-            <div class="hero-main"><div class="hero-status-icon" id="hero-status-icon" aria-hidden="true"><span class="radar-ring"></span><span class="radar-center"></span></div><div class="hero-copy"><div class="hero-kicker" id="hero-kicker">尚未运行检测</div><h2 id="overall-title">你的网络，现在是什么状态？</h2><p id="overall-detail">点击运行检测，读取本机的真实结果。未验证的项目会保持灰色。</p><div class="last-scan" id="last-scan">检测在本机执行 · 不收集账户密码</div></div></div>
-            <div class="hero-actions"><button class="button button-primary" id="scan-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 11h6l-1 7 9-12h-6l1-6Z"/></svg><span>运行启动前检测</span></button><span id="scan-hint">点击后开始，不会自动启动应用</span></div>
+            <div class="hero-main"><div class="hero-status-icon" id="hero-status-icon" aria-hidden="true"><span class="radar-ring"></span><span class="radar-center"></span></div><div class="hero-copy"><div class="hero-kicker" id="hero-kicker">正在连接本机服务</div><h2 id="overall-title">准备读取本机配置</h2><p id="overall-detail">连接后自动检测；未识别或未验证的项目会如实显示。</p><div class="last-scan" id="last-scan">检测在本机执行 · 不收集账户密码</div></div></div>
+            <div class="hero-actions"><button class="button button-primary" id="scan-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 11h6l-1 7 9-12h-6l1-6Z"/></svg><span>开始检测</span></button><span id="scan-hint">首次自动检测，Claude 由你手动启动</span></div>
           </section>
 
-          <div id="stale-banner" class="banner banner-warning" hidden><strong>连接设置已更改。</strong> 保存设置并重新检测后，才能启动 Claude。</div>
+          <section class="device-section" aria-labelledby="device-title">
+            <div class="device-section-heading"><h2 id="device-title">识别到的本机环境</h2><span id="detected-caption">等待本机读取结果</span></div>
+            <div class="device-grid">
+              <article class="device-card"><span class="device-icon" aria-hidden="true">▣</span><h3>这台电脑</h3><strong id="detected-os">等待识别</strong><p id="detected-locale">时区与语言尚未读取</p></article>
+              <article class="device-card"><span class="device-icon" aria-hidden="true">⇄</span><h3>代理连接</h3><strong id="detected-proxy">等待识别</strong><p id="detected-proxy-source">自动读取本机代理设置</p></article>
+              <article class="device-card"><span class="device-icon" aria-hidden="true">⌁</span><h3>TUN 状态</h3><strong id="detected-tun">等待识别</strong><p id="detected-tun-detail">以本机证据判断</p></article>
+              <article class="device-card"><span class="device-icon" aria-hidden="true">✳</span><h3>Claude 程序</h3><strong id="detected-claude">等待识别</strong><p id="detected-claude-path">自动查找本机安装位置</p></article>
+            </div>
+            <details class="environment-details"><summary>查看出口、DNS 与路由信息 <span id="detected-ip-preview">出口尚未检测</span></summary><dl id="detected-details" class="detected-details"></dl></details>
+          </section>
+
+          <div id="stale-banner" class="banner banner-warning" hidden><strong>高级设置已更改。</strong> 保存并重新检测后更新结果。</div>
           <div class="summary-grid" aria-label="检测结果统计">
             <button class="summary-card" type="button" data-filter="pass"><span class="summary-label"><i class="status-dot pass"></i>已通过</span><strong id="count-pass">—</strong><span class="summary-foot">符合当前检测条件 <span>↗</span></span></button>
             <button class="summary-card" type="button" data-filter="warning"><span class="summary-label"><i class="status-dot warning"></i>需留意</span><strong id="count-warning">—</strong><span class="summary-foot">查看原因与处理建议 <span>↗</span></span></button>
@@ -66,8 +69,9 @@
           </div>
 
           <div class="report-layout">
-            <section class="panel checks-panel" aria-labelledby="checks-title"><div class="panel-heading"><div><span class="section-kicker">THE CHECKLIST</span><h2 id="checks-title">逐项查看连接状态</h2></div><button class="text-button" id="export-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5"/></svg>导出报告</button></div><div class="filter-bar" role="group" aria-label="筛选检测项目"><button class="filter active" type="button" data-filter="all" aria-pressed="true">全部</button><button class="filter" type="button" data-filter="fail" aria-pressed="false">未通过</button><button class="filter" type="button" data-filter="warning" aria-pressed="false">需留意</button><button class="filter" type="button" data-filter="unknown" aria-pressed="false">未验证</button><button class="filter" type="button" data-filter="pass" aria-pressed="false">已通过</button></div><div id="checks-list" class="checks-list" aria-live="polite" aria-busy="false"></div></section>
-            <aside class="right-column"><section class="panel launch-panel" aria-labelledby="launch-title"><div class="launch-app-mark" aria-hidden="true">✳</div><span class="section-kicker">READY WHEN YOU ARE</span><h2 id="launch-title">准备打开 Claude</h2><p id="launch-description">先完成检测。只有满足启动条件，按钮才会可用。</p><button class="button button-dark" id="launch-button" type="button" disabled><span>启动 Claude</span><span aria-hidden="true">↗</span></button><span class="launch-footnote">点击启动时会再次检查当前环境。</span></section><section class="small-note"><span class="note-symbol" aria-hidden="true">i</span><div><h3>知道什么，也知道不知道什么</h3><p>检测通过仅代表本次可验证项目符合条件，不代表官方认可，也不保证账号不会受限。</p></div></section><div class="quick-config"><span>当前代理</span><code id="current-proxy">读取配置中…</code><button class="text-button" type="button" data-view="settings">修改连接设置 <span aria-hidden="true">↗</span></button></div></aside>
+            <section class="panel checks-panel" aria-labelledby="checks-title"><div class="panel-heading"><div><span class="section-kicker">THE CHECKLIST</span><h2 id="checks-title">本次检测结果</h2></div><button class="text-button" id="export-button" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v5h14v-5"/></svg>导出报告</button></div><div class="filter-bar" role="group" aria-label="筛选检测项目"><button class="filter active" type="button" data-filter="all" aria-pressed="true">全部</button><button class="filter" type="button" data-filter="fail" aria-pressed="false">未通过</button><button class="filter" type="button" data-filter="warning" aria-pressed="false">需留意</button><button class="filter" type="button" data-filter="unknown" aria-pressed="false">未验证</button><button class="filter" type="button" data-filter="pass" aria-pressed="false">已通过</button></div><div id="checks-list" class="checks-list" aria-live="polite" aria-busy="false"></div></section>
+            <aside class="right-column"><section class="panel launch-panel" aria-labelledby="launch-title"><div class="launch-app-mark" aria-hidden="true">✳</div><span class="section-kicker">READY WHEN YOU ARE</span><h2 id="launch-title">准备打开 Claude</h2><p id="launch-description">先完成检测。只有满足启动条件，按钮才会可用。</p><button class="button button-dark" id="launch-button" type="button" disabled><span>启动 Claude</span><span aria-hidden="true">↗</span></button><span class="launch-footnote">点击启动时会再次检查当前环境。</span></section><section class="small-note"><span class="note-symbol" aria-hidden="true">i</span><div><h3>知道什么，也知道不知道什么</h3><p>检测通过仅代表本次可验证项目符合条件，不代表官方认可，也不保证账号不会受限。</p></div></section><div class="quick-config"><span>当前代理</span><code id="current-proxy">自动识别中…</code><button class="text-button" type="button" data-view="settings">可选高级设置 <span aria-hidden="true">↗</span></button></div>
+              <section class="guide-resources" aria-labelledby="guide-resources-title"><h3 id="guide-resources-title">需要配置帮助？</h3><a class="text-button" data-public-link="beginner" target="_blank" rel="noopener noreferrer">零基础从这里开始 <span aria-hidden="true">↗</span></a><a class="text-button" data-public-link="word" target="_blank" rel="noopener noreferrer">下载 Word 保姆指南 <span aria-hidden="true">↓</span></a><a class="text-button" data-public-link="handoff" target="_blank" rel="noopener noreferrer">复制给 AI 的完整提示词 <span aria-hidden="true">↗</span></a><p>Word 为当前版本离线读物，更新以在线章节为准。也可打开<a data-public-link="prompt" target="_blank" rel="noopener noreferrer">纯文本提示词</a>。</p></section></aside>
           </div>
           <footer class="page-footer"><span>Claude 网络指南</span><span>独立开源项目 · 非 Anthropic 官方产品</span></footer>
         </section>
@@ -83,24 +87,32 @@
           <div class="page-heading"><div><div class="eyebrow"><span></span> STEP 02 / YOUR EXIT IP</div><h1 id="residential-title">住宅 IP，一定要自己购买<span class="title-period">.</span></h1><p>在商家开自己的账户，控制购买、续费和出口的使用权限。</p></div><span class="edition-badge">准备阶段 · 02 / 04</span></div>
           <div class="guide-feature residential-feature"><span class="guide-large-number" aria-hidden="true">02</span><div><span class="section-kicker">本项目的采购要求</span><h2>固定、独享，<br>住宅或 ISP 类型。</h2><p>向商家核实是否长期固定、是否仅供你使用、所属 ASN 与网络类型，以及不符描述时的更换或退款政策。</p></div></div>
           <div class="panel comparison-panel"><h2>付款前，问清这四件事</h2><ol class="purchase-list"><li><span>01</span><div><h3>固定性</h3><p>续费后能否保留同一 IP？是否会自动轮换？</p></div></li><li><span>02</span><div><h3>独享性</h3><p>该出口是否只有你在使用？“专属端口”并不等于独享 IP。</p></div></li><li><span>03</span><div><h3>网络归属</h3><p>是住宅或 ISP 网络，还是普通数据中心？第三方标签只作为参考。</p></div></li><li><span>04</span><div><h3>售后与控制权</h3><p>能否自行改密码、续费和换 IP？售后规则是否有明确书面说明？</p></div></li></ol></div>
-          <div class="banner banner-neutral"><strong>采购声明与技术证据分开记录。</strong> 勾选“已自行购买”只记录你的确认，检测程序无法单独证明一个 IP 的独享性、历史或账号适用性。</div>
+          <div class="banner banner-neutral"><strong>采购归属由你核实。</strong> 程序无法自动证明 IP 的独享性、购买归属或账号适用性。这些采购事项只作教程参考，不作为本机体检的填写前提。</div>
           <div class="guide-bottom"><a class="text-button" href="https://github.com/clm031102-source/claude-network-guide/blob/main/docs/02-buy-residential-ip.md" target="_blank" rel="noopener noreferrer">阅读完整住宅 IP 教程 ↗</a><button class="button button-primary" type="button" data-view="network">下一步：配置网络 <span aria-hidden="true">→</span></button></div>
         </section>
 
         <section class="view guide-view" id="view-network" aria-labelledby="network-title" hidden>
           <div class="page-heading"><div><div class="eyebrow"><span></span> STEP 03 / CONNECTION</div><h1 id="network-title">让应用走你确认的出口<span class="title-period">.</span></h1><p>先连接，再核实路由。浏览器能打开网页只是其中一项证据。</p></div><span class="edition-badge">准备阶段 · 03 / 04</span></div>
           <section class="panel route-panel" aria-label="连接路径示意"><span class="section-kicker">你的连接路径</span><div class="route-flow"><div><span class="route-node" aria-hidden="true">▣</span><strong>本机应用</strong><small>Claude 与检测程序</small></div><span class="route-connector" aria-hidden="true">→</span><div><span class="route-node" aria-hidden="true">⇄</span><strong>本地代理 / TUN</strong><small>按实际方案连接 VPS</small></div><span class="route-connector" aria-hidden="true">→</span><div><span class="route-node" aria-hidden="true">⌂</span><strong>自购住宅出口</strong><small>固定、独享的目标 IP</small></div><span class="route-connector" aria-hidden="true">→</span><div><span class="route-node" aria-hidden="true">✳</span><strong>目标服务</strong><small>遵守服务地区及条款</small></div></div><p>此图是目标路径。检测结果只能证明实际取得的证据，不能自动证明整条链路。</p></section>
-          <div class="guide-grid"><article class="panel guide-card"><span class="guide-index">01</span><h3>配置本地代理</h3><p>填写正在使用的 HTTP 代理地址，将预期出口 IPv4 设置为自己购买的住宅 IP。请使用实际端口。</p></article><article class="panel guide-card"><span class="guide-index">02</span><h3>核实 TUN 与 DNS</h3><p>按方案启用 TUN，确认 DNS、IPv6 与需要的 UDP 流量如何转发。检测不到的能力会保留为“未验证”。</p></article><article class="panel guide-card"><span class="guide-index">03</span><h3>再检查应用路径</h3><p>配置 Claude 程序位置。启动前检查环境，启动后仍应通过代理的实际连接记录确认应用使用的出口。</p></article></div>
-          <div class="guide-bottom"><a class="text-button" href="https://github.com/clm031102-source/claude-network-guide/blob/main/docs/03-network-setup.md" target="_blank" rel="noopener noreferrer">阅读完整网络配置教程 ↗</a><button class="button button-primary" type="button" data-view="settings">填写连接设置 <span aria-hidden="true">→</span></button></div>
+          <div class="guide-grid"><article class="panel guide-card"><span class="guide-index">01</span><h3>配置本地代理</h3><p>本机体检会自动识别代理地址。只有自动识别不符合实际时，才在高级设置中指定本地 HTTP 代理。</p></article><article class="panel guide-card"><span class="guide-index">02</span><h3>核实 TUN 与 DNS</h3><p>按方案启用 TUN，确认 DNS、IPv6 与需要的 UDP 流量如何转发。检测不到的能力会保留为“未验证”。</p></article><article class="panel guide-card"><span class="guide-index">03</span><h3>再检查应用路径</h3><p>本机体检会自动查找 Claude 安装位置。启动后仍应通过代理的实际连接记录确认应用使用的出口。</p></article></div>
+          <div class="guide-bottom"><a class="text-button" href="https://github.com/clm031102-source/claude-network-guide/blob/main/docs/03-network-setup.md" target="_blank" rel="noopener noreferrer">阅读完整网络配置教程 ↗</a><button class="button button-primary" type="button" data-view="check">返回本机体检 <span aria-hidden="true">→</span></button></div>
         </section>
 
         <section class="view settings-view" id="view-settings" aria-labelledby="settings-title" hidden>
-          <div class="page-heading"><div><div class="eyebrow"><span></span> LOCAL CONFIGURATION</div><h1 id="settings-title">连接设置<span class="title-period">.</span></h1><p>提供明确的预期值，检测才能判断当前连接是否符合你的配置。</p></div><span class="edition-badge">仅保存到本机</span></div>
-          <form id="settings-form" class="panel settings-panel"><div class="form-section"><div class="form-section-heading"><span class="form-section-number">01</span><div><h2>代理与目标出口</h2><p>在网络客户端中确认地址与端口，再填写到这里。</p></div></div><div class="form-fields"><label class="field" for="proxy-url"><span>本地 HTTP 代理地址 <span class="required-mark">*</span></span><input id="proxy-url" name="proxy_url" type="url" placeholder="http://127.0.0.1:7897" required spellcheck="false" autocomplete="off" aria-describedby="proxy-help"><small id="proxy-help">例如 http://127.0.0.1:7897。此处填写本地代理监听地址。</small></label><label class="field" for="expected-ip"><span>预期住宅出口 IPv4 <span class="optional-label">检测前填写</span></span><input id="expected-ip" name="expected_ip" type="text" inputmode="decimal" placeholder="填写你自己购买的公网 IPv4" spellcheck="false" autocomplete="off" aria-describedby="ip-help"><small id="ip-help">程序会将实测出口与此地址比较。填写地址不代表已验证其住宅属性。</small></label><label class="checkbox-field residential-confirm" for="residential-confirmed"><input id="residential-confirmed" name="residential_ip_confirmed" type="checkbox"><span><strong>我已自行购买固定、独享的住宅或 ISP IP</strong><small>我能独立管理商家账户和续费，并已核对固定性、独享性与售后规则。这是一项采购声明。</small></span></label></div></div>
-          <div class="form-section"><div class="form-section-heading"><span class="form-section-number">02</span><div><h2>检测要求</h2><p>启用后，相关要求将参与后端启动判断。</p></div></div><div class="form-fields toggle-fields"><label class="toggle-field" for="require-tun"><span><strong>要求 TUN 已开启</strong><small>默认开启。具体可验证程度取决于本机提供的证据。</small></span><input id="require-tun" name="require_tun" type="checkbox" role="switch" checked></label><label class="toggle-field" for="require-udp"><span><strong>要求验证 UDP 路径</strong><small>默认关闭。无法验证时保留“未验证”，不会用 TCP 成功代替。</small></span><input id="require-udp" name="require_udp" type="checkbox" role="switch"></label></div></div>
-          <div class="form-section"><div class="form-section-heading"><span class="form-section-number">03</span><div><h2>Claude 程序</h2><p>指定本机可执行程序，检测后由你手动启动。</p></div></div><div class="form-fields"><label class="field" for="claude-path"><span>Claude 可执行文件路径</span><input id="claude-path" name="claude_path" type="text" placeholder="例如 C:\…\Claude.exe" spellcheck="false" autocomplete="off" aria-describedby="path-help"><small id="path-help">Windows 填写 Claude.exe 完整路径；macOS 填写 /Applications/Claude.app。留空时不能启动。不要填写快捷方式或命令参数。</small></label></div></div>
-          <div class="form-footer"><div id="save-state" role="status">读取配置中…</div><div class="form-buttons"><button class="button button-quiet" id="reset-settings" type="button" disabled>撤销修改</button><button class="button button-primary" id="save-settings" type="submit" disabled>保存设置</button></div></div></form>
-          <div class="settings-next"><span>修改配置后，需要重新运行一次检测。</span><button class="text-button" type="button" data-view="check">返回启动前检测 <span aria-hidden="true">→</span></button></div>
+          <div class="page-heading"><div><div class="eyebrow"><span></span> OPTIONAL OVERRIDES</div><h1 id="settings-title">高级设置<span class="title-period">.</span></h1><p>默认自动识别。只有需要指定其他代理、出口或程序时才填写；留空不影响检测。</p></div><span class="edition-badge">仅保存到本机</span></div>
+          <form id="settings-form" class="panel settings-panel">
+            <div class="form-section"><div class="form-section-heading"><span class="form-section-number">01</span><div><h2>可选覆盖</h2><p>填写值会覆盖对应的自动识别结果；清空可恢复自动识别。</p></div></div><div class="form-fields">
+              <label class="field" for="proxy-url"><span>本地 HTTP 代理地址 <span class="optional-label">可选</span></span><input id="proxy-url" name="proxy_url" type="url" placeholder="留空自动识别，例如 http://127.0.0.1:7897" spellcheck="false" autocomplete="off" aria-describedby="proxy-help"><small id="proxy-help">仅需在自动识别不正确时指定。此处填写本地监听地址，不填写上游用户名或密码。</small></label>
+              <label class="field" for="expected-ip"><span>预期出口 IPv4 <span class="optional-label">可选</span></span><input id="expected-ip" name="expected_ip" type="text" inputmode="decimal" placeholder="留空只报告实测出口" spellcheck="false" autocomplete="off" aria-describedby="ip-help"><small id="ip-help">填写公网 IPv4 后额外比较实测出口；不填仍会检测，IP 类型不由填写内容认证。</small></label>
+              <label class="field" for="claude-path"><span>Claude 可执行文件路径 <span class="optional-label">可选</span></span><input id="claude-path" name="claude_path" type="text" placeholder="留空自动查找 Claude" spellcheck="false" autocomplete="off" aria-describedby="path-help"><small id="path-help">只在自动识别位置不正确时填写完整程序路径，不填写命令参数。实际识别与验证结果在体检页显示。</small></label>
+            </div></div>
+            <div class="form-section"><div class="form-section-heading"><span class="form-section-number">02</span><div><h2>启动检查偏好</h2><p>可选条件。没有取得证据时如实保留未知，不会显示为已通过。</p></div></div><div class="form-fields toggle-fields">
+              <label class="toggle-field" for="require-tun"><span><strong>启动前要求确认 TUN</strong><small>只影响启动判断，不阻止读取配置和运行体检。</small></span><input id="require-tun" name="require_tun" type="checkbox" role="switch" checked></label>
+              <label class="toggle-field" for="require-udp"><span><strong>启动前要求验证 UDP</strong><small>需要单独的 UDP 证据，不能用 TCP 成功代替。</small></span><input id="require-udp" name="require_udp" type="checkbox" role="switch"></label>
+            </div></div>
+            <div class="form-footer"><div id="save-state" role="status">读取配置中…</div><div class="form-buttons"><button class="button button-quiet" id="reset-settings" type="button" disabled>撤销修改</button><button class="button button-primary" id="save-settings" type="submit" disabled>保存并重新检测</button></div></div>
+          </form>
+          <div class="settings-next"><span>无需填写表单，也能运行本机体检。</span><button class="text-button" type="button" data-view="check">返回本机体检 <span aria-hidden="true">→</span></button></div>
         </section>
         <noscript><div class="banner banner-error">此检测界面需要启用 JavaScript。当前没有执行任何检测，也不会启动应用。</div></noscript>
       </main>

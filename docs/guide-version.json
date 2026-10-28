@@ -1,13 +1,13 @@
 {
-  "edition": "2026.10.28-r2",
+  "edition": "2026.10.28-r3",
   "updated": "2026-10-28",
   "repository": "https://github.com/clm031102-source/claude-network-guide",
   "source": "docs/beginner-guide.md",
   "prompt": "prompts/带我完成配置.txt",
   "word": "docs/downloads/防封指南_保姆联动版.docx",
   "sha256": {
-    "docs/beginner-guide.md": "24391fb77445c77c3264d1f3f139511814bf6582e7ce55b1df2e6c2df9b56570",
-    "prompts/带我完成配置.txt": "bb4afc04a1075f0e6c157b98b94029c7e72f378350274266f5a27948ee46d53b",
-    "docs/downloads/防封指南_保姆联动版.docx": "7a965cdf7688c4e91ae73fcddbfd204ae2a62edbe2410415a62d0fdd9073fe5f"
+    "docs/beginner-guide.md": "8328616275c26e5ecca25cea2e41114bf3038d993a84685f205a0b645cbf5ee3",
+    "prompts/带我完成配置.txt": "c04cf02e207a0a78b5503c1ab0643d1a532212f3f0e443508e206c0552ba0715",
+    "docs/downloads/防封指南_保姆联动版.docx": "12bb2340daca8530e5e3d3071008c809c4ff9c391512f96c1d201dd4af08acdb"
   }
 }

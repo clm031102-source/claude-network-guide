@@ -22,7 +22,7 @@ PROMPT = ROOT / 'prompts/带我完成配置.txt'
 OUTPUT = ROOT / 'docs/downloads/防封指南_保姆联动版.docx'
 MANIFEST = ROOT / 'docs/guide-version.json'
 REPO = 'https://github.com/clm031102-source/claude-network-guide'
-EDITION = '2026.10.28-r2'
+EDITION = '2026.10.28-r3'
 BEGIN = '<!-- AGENT_PROMPT_START -->'
 END = '<!-- AGENT_PROMPT_END -->'
 
