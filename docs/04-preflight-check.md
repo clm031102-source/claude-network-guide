@@ -52,7 +52,7 @@ Linux 可以使用检测界面，本版本不提供绕过客户端校验的 Linu
 | 显式代理出口 | Cloudflare trace 与 ipify 两个 HTTPS 服务，明确走填写的 HTTP CONNECT 代理 | 两个结果都须等于预期住宅 IPv4；缺失、冲突会阻止 |
 | 系统默认 TCP 出口 | 不读取 HTTP 代理环境变量，用系统默认路由访问两个 HTTPS 服务 | 同样须等于预期住宅 IPv4；缺失、冲突会阻止 |
 | TUN 进程与网卡 | 本机进程和活动接口的启发式证据 | 默认要求；自定义客户端可能识别不到，显示未验证 |
-| Claude 生态传输 | 对 `claude.ai`、`api.anthropic.com`、`s-cdn.anthropic.com`，经显式代理和默认通道验证 TLS 并读取 HTTP 响应 | 关键传输证据不完整会阻止；HTTP 状态不证明登录 / 账号可用 |
+| Claude 生态传输 | 对 `claude.ai`、`api.anthropic.com`、`s-cdn.anthropic.com`，经显式代理和默认通道建立 TLS 连接并验证证书与主机名 | 关键传输证据不完整会阻止；不读取 HTTP 响应，不证明登录 / 账号可用 |
 | DNS | 本地 A 记录样本与 fake-IP 观察 | 上游 DNS 路径始终明确标为未验证，不据此放行或判安全 |
 | UDP / STUN | Cloudflare / Google 两个 STUN 目标均返回匹配样本才通过；仍只是有限 UDP 样本 | 观察到不同出口始终阻止；只有部分或没有样本默认未验证，启用要求 UDP 后阻止 |
 | IPv6 | 通过默认通道访问独立 IPv6 查询目标 | 观察到额外 IPv6 出口会阻止；超时保持未验证，默认不阻止 |

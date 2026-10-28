@@ -4,6 +4,24 @@
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => [...document.querySelectorAll(selector)];
   const token = $('meta[name="session-token"]').content;
+  const PUBLIC_REPOSITORY = "https://github.com/clm031102-source/claude-network-guide";
+  const PUBLIC_RESOURCES = Object.freeze({
+    beginner: { path: "docs/beginner-guide.md" },
+    word: { path: "docs/downloads/防封指南_保姆联动版.docx", download: true },
+    handoff: { path: "docs/agent-handoff.md" },
+    prompt: { path: "prompts/带我完成配置.txt" },
+  });
+
+  function connectPublicLinks() {
+    $$("[data-public-link]").forEach((link) => {
+      const resource = PUBLIC_RESOURCES[link.dataset.publicLink];
+      if (!resource) return;
+      const path = resource.path.split("/").map(encodeURIComponent).join("/");
+      const route = resource.download ? "raw/refs/heads/main" : "blob/main";
+      link.href = `${PUBLIC_REPOSITORY}/${route}/${path}`;
+    });
+  }
+
   const statusNames = { pass: "已通过", warning: "需留意", fail: "未通过", unknown: "未验证" };
   const statusSymbols = { pass: "✓", warning: "!", fail: "×", unknown: "·" };
   const viewNames = { check: "启动前检测", vps: "购买 VPS", residential: "购买住宅 IP", network: "配置网络", settings: "连接设置" };
@@ -353,5 +371,6 @@
   $("#launch-button").addEventListener("click", launchClaude);
   $("#export-button").addEventListener("click", exportReport);
   window.addEventListener("beforeunload", (event) => { if (state.dirty) { event.preventDefault(); event.returnValue = ""; } });
+  connectPublicLinks();
   initialize();
 })();

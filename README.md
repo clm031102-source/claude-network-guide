@@ -2,9 +2,19 @@
 
 从自己购买 VPS、购买固定独享住宅 IP，到配置网络、检查实际出口，再启动 Claude 的中文教程和本地检测工作台。
 
+## 第一次配置，从这里开始
+
+不需要先认识下面所有工具。按[零基础完整流程][beginner-guide]逐步操作，完成一步再继续下一步。
+
+- **[零基础从这里开始][beginner-guide]**：从准备资料、购买，到配置、检测和以后维护，按顺序带你完成。
+- **[下载 Word 保姆指南][word-guide]**：保存当前版本，方便离线阅读；文中的链接可返回本仓库对应章节。
+- **[复制给 AI 的完整提示词][agent-handoff]**：把完整提示词交给能操作本机的 AI，按你的实际进度带着做；也可打开[纯文本提示词][agent-prompt]。
+
+Word 是当前版本的离线读物。**最新步骤与修订以本仓库的在线原文为准**；不确定某一步是否更新时，点击 Word 内对应的章节链接查看。
+
 **本教程要求：住宅 IP 由你本人购买并独享，长期固定使用。** 这是本项目的线路选择要求，不是 Anthropic 的官方采购要求，也不是账号不被限制的保证。普通 VPS 的机房 IP 不会因为“独享”自动变成住宅 IP。
 
-## 按这个顺序开始
+## 流程总览与详细章节
 
 | 步骤 | 要做的事 | 完成标准 |
 |---|---|---|
@@ -17,7 +27,9 @@
 
 [完整目录](docs/tutorial.md) · [两套上游项目的核心逻辑与能力映射](docs/core-logic.md) · [高级功能](docs/advanced.md) · [官方参考资料](docs/sources.md)
 
-## 启动本地工作台
+## 已有配置：启动本地工作台
+
+还没购买或配置网络，请先看[零基础完整流程][beginner-guide]。以下命令只启动检测工作台，不会替你购买、部署或自动安装其他组件。
 
 需要 Python 3.10 或更新版本。新工作台只使用 Python 标准库，没有额外 Python 依赖。
 
@@ -39,7 +51,7 @@ python3 -m app.server
 
 新界面把采购确认、网络配置、检查证据和启动操作放在同一个流程里。每次通过工作台启动 Claude 都会重新检测，旧的绿色结果不会直接成为启动许可。
 
-![本地检测工作台](docs/images/workbench.jpg)
+![本地检测工作台](docs/images/workbench-newcomer.png)
 
 > 检测默认只读：不改系统时区、地区、语言、IPv6、DNS 或防火墙，不读取 Claude 的 Cookie、密码和登录态。页面打开后不自动进行网络探测；点击检测或检测后启动才会发起固定目标的网络请求。它没有后台断线保护，不能代替网络层阻断。具体检测范围见[检测说明](docs/04-preflight-check.md)。
 
@@ -71,3 +83,8 @@ tests/               新工作台的隔离测试
 本项目新增部分见 [LICENSE](LICENSE)。第三方代码保留各自许可证和来源声明：[VPS MIT 许可证](modules/vps/LICENSE)、[切换器 MIT 许可证](modules/switcher/LICENSE)。品牌改写不改变原作者署名与授权义务；固定来源、原始文件清单见 [NOTICE.md](NOTICE.md) 和 [UPSTREAM.json](UPSTREAM.json)，能力及适配关系见[核心逻辑](docs/core-logic.md)。
 
 普通问题请提交[本项目 Issue](https://github.com/clm031102-source/claude-network-guide/issues)。提交前移除 IP、订阅地址、UUID、密码、密钥、Cookie 和账号资料。安全问题见 [SECURITY.md](SECURITY.md)。
+
+[beginner-guide]: docs/beginner-guide.md
+[word-guide]: https://github.com/clm031102-source/claude-network-guide/raw/refs/heads/main/docs/downloads/%E9%98%B2%E5%B0%81%E6%8C%87%E5%8D%97_%E4%BF%9D%E5%A7%86%E8%81%94%E5%8A%A8%E7%89%88.docx
+[agent-handoff]: docs/agent-handoff.md
+[agent-prompt]: prompts/带我完成配置.txt

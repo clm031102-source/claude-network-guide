@@ -41,6 +41,17 @@
         <section class="view" id="view-check" aria-labelledby="check-title">
           <div class="page-heading"><div><div class="eyebrow"><span></span> STEP 04 / PREFLIGHT</div><h1 id="check-title">先确认网络，再启动 Claude<span class="title-period">.</span></h1><p>检查当前连接、出口与本机环境，让每一次启动都有据可查。</p></div><span class="edition-badge">本地检测台</span></div>
 
+          <section class="panel comparison-panel" aria-labelledby="beginner-links-title">
+            <h2 id="beginner-links-title">第一次配置？从这里开始</h2>
+            <p class="check-detail">还没买 VPS 或住宅 IP，也可以从第一步跟着做。下面的资料都在本项目 GitHub 仓库中。</p>
+            <div class="guide-bottom">
+              <a class="text-button" data-public-link="beginner" target="_blank" rel="noopener noreferrer">零基础从这里开始 <span aria-hidden="true">↗</span></a>
+              <a class="text-button" data-public-link="word" target="_blank" rel="noopener noreferrer">下载 Word 保姆指南 <span aria-hidden="true">↓</span></a>
+              <a class="text-button" data-public-link="handoff" target="_blank" rel="noopener noreferrer">复制给 AI 的完整提示词 <span aria-hidden="true">↗</span></a>
+            </div>
+            <p class="check-detail">Word 是当前版本的离线读物，文中链接可返回对应章节；步骤更新以仓库在线原文为准。需要直接复制文字，可打开<a class="text-button" data-public-link="prompt" target="_blank" rel="noopener noreferrer">纯文本提示词</a>。</p>
+          </section>
+
           <section class="status-hero" aria-labelledby="overall-title" id="status-hero" data-state="idle">
             <div class="hero-main"><div class="hero-status-icon" id="hero-status-icon" aria-hidden="true"><span class="radar-ring"></span><span class="radar-center"></span></div><div class="hero-copy"><div class="hero-kicker" id="hero-kicker">尚未运行检测</div><h2 id="overall-title">你的网络，现在是什么状态？</h2><p id="overall-detail">点击运行检测，读取本机的真实结果。未验证的项目会保持灰色。</p><div class="last-scan" id="last-scan">检测在本机执行 · 不收集账户密码</div></div></div>
             <div class="hero-actions"><button class="button button-primary" id="scan-button" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 3-8 11h6l-1 7 9-12h-6l1-6Z"/></svg><span>运行启动前检测</span></button><span id="scan-hint">点击后开始，不会自动启动应用</span></div>
